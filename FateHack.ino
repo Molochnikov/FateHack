@@ -367,6 +367,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
       c->atPut(Class::Directive::Hidden, c); //reveal npc
       c = (c->atPut(Class::Directive::Next, Class::exemplar.make(adventurer))); //npc is adventurer
       c = (c->atPut(Class::Directive::Next, Class::exemplar.make(mnr))); //adventurer has class (miner)
+      c = (c->atPut(Class::Directive::Next, Class::exemplar.make(lfe))); //alive
     }
     return 0;
   },
