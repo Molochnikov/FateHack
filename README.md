@@ -18,3 +18,5 @@ Controls:
 * Up,Down,Left,Right - move cursor
 * A + Up,Down,Left,Right - move player
 * B - toggle menu at cursor position
+
+[Arduboy emulator](https://github.com/felipemanga/ProjectABE/releases/latest)
