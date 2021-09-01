@@ -13,9 +13,9 @@ constexpr char enCreateAnAdvantage[] PROGMEM = "create an advantage";
 constexpr const char *enMenuItems[] PROGMEM = {
   enWait,
   enInfo,
-//  enForceInto,
+  //  enForceInto,
   enUseOn
-//  enMix
+  //  enMix
 };
 
 constexpr char enPissedWater[] PROGMEM = " pissed in waters ";

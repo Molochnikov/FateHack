@@ -53,8 +53,6 @@ Class *Coordinate::make(const char* s) {
   if (Class::errFlag) {
     delete retval;
     retval = 0;
-  } else {
-    //Serial.println(F("coord"));
   }
   return retval;
 }
@@ -79,13 +77,6 @@ Class *Coordinate::atPut(Directive key, Class *arg) {
         return 0;
       }
       break;
-    //        case Class::Directive::Hidden: //hide or reveal
-    //          if (arg) {
-    //            _is_hidden = 0;
-    //          } else {
-    //            _is_hidden = 1;
-    //          }
-    //          break;
     default:
       return Class::atPut(key, arg);
       break;
@@ -105,7 +96,6 @@ Class *Coordinate::atGet(Directive key) {
       }
       break;
     case Class::Directive::Draw: //draw coord in one char
-      //Class::arduboy.print(Coordinate::numChar(value));
       Class::arduboy.print(_symbol);
       return this;
       break;

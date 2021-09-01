@@ -2,11 +2,6 @@
 
 #include "Class.h"
 
-//#include "Scenes.h"
-//#include "Zones.h"
-
-//#include <Arduino.h>
-
 class Scene : public Class {
     friend Class *Class::make(const char* s);
   public:
@@ -31,8 +26,6 @@ class Scene : public Class {
     int _ysize = 0;
     Class** _characters = 0;
     const char* _scene = 0;
-    //const char* _zone = 0;
-    //int _curpos = 0;
     Class *_path_proto = 0;
     Class *_block_proto = 0;
     Class *addClassToScene(Class *arg, int pos, int newpos, Scene::AddClassAction action, Class *clone);

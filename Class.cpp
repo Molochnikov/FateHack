@@ -38,11 +38,6 @@ Class *Class::make(const char* s) {
       }
     }
   }
-  //Class::arduboy.print(pgm_read_byte(error_no_such_class));
-  //Class::arduboy.print('\n');
-  //Class::arduboy.print(s);
-  //Class::die();
-  //return retval;
 }
 
 Class::Class() {
@@ -88,11 +83,11 @@ const char* Class::toStr() {
 //}
 
 byte Class::getBits(byte x, byte p, byte n) {
-  return (x >> (p+1-n)) & (~((~0) << n));
+  return (x >> (p + 1 - n)) & (~((~0) << n));
 }
 
 byte Class::setBits(byte x, byte pos_new_bits, byte new_bits, byte num_new_bits) {
-  return (x & (~(((byte)(pow(2,num_new_bits)) - 1) << (pos_new_bits + 1 - num_new_bits)))) | (new_bits << (pos_new_bits + 1 - num_new_bits));
+  return (x & (~(((byte)(pow(2, num_new_bits)) - 1) << (pos_new_bits + 1 - num_new_bits)))) | (new_bits << (pos_new_bits + 1 - num_new_bits));
 }
 
 const int Class::toInt() {

@@ -1,6 +1,3 @@
-//PrintDebug(readFlashStringPointer(&waters[i]));
-//PrintDebug(asFlashStringHelper(target_of->toStr()));
-
 #include "Players.h"
 #include "Scenes.h"
 
@@ -366,8 +363,8 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
       scene->atPut(Class::Directive::Map, cls); //create paths to this
       scene->atPut(Class::Directive::Close, c); //set npc close to this
       c->atPut(Class::Directive::Hidden, c); //reveal npc
-      c = (c->atPut(Class::Directive::Next, Class::exemplar.make(adventurer))); //npc is townsman
-      c = (c->atPut(Class::Directive::Next, Class::exemplar.make(mnr))); //townsman has class (miner)
+      c = (c->atPut(Class::Directive::Next, Class::exemplar.make(adventurer))); //npc is adventurer
+      c = (c->atPut(Class::Directive::Next, Class::exemplar.make(mnr))); //adventurer has class (miner)
     }
     return 0;
   },
@@ -401,7 +398,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     }
     for (int i = 0; i < size(potions); i++) { //find target in potions
       if ((target_of->_init) == potions[i]) { //found
-        if ((scene->atPut(Class::Directive::Owner, target_of)) == owner) {//if owner of target
+        if ((scene->atPut(Class::Directive::Owner, target_of)) == owner) { //if owner of target
           (*scripts[target_of->toInt()]) (target_of, owner, scene, cls); //run potion script
           owner->atPut(Class::Directive::Delete, cls); //delete this
           Rip(cls); //print message
