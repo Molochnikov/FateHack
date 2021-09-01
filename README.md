@@ -7,4 +7,9 @@ Some features:
 * dynamic memory allocation for every object
 * full power of parametric polymorphism
 * master design pattern at the core - prototype (exemplar)
-* easy scripting for object iteractions
+* easy scripting for objects interactions
+
+Controls:
+* Up,Down,Left,Right - move cursor
+* A + Up,Down,Left,Right - move player
+* B - toggle menu at cursor position
