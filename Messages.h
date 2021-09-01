@@ -19,6 +19,7 @@ constexpr const char *enMenuItems[] PROGMEM = {
 };
 
 constexpr char enPissedWater[] PROGMEM = " pissed in waters ";
+constexpr char enBug[] PROGMEM = "bug!";
 constexpr char enHungry[] PROGMEM = " hungry ";
 constexpr char enToilet[] PROGMEM = " needs toilet ";
 constexpr char enThirst[] PROGMEM = " thirsty ";
@@ -28,7 +29,7 @@ constexpr char enFar[] PROGMEM = " away from ";
 constexpr char enOwner[] PROGMEM = " not owner ";
 
 constexpr const char *enMessages[] PROGMEM = {
-  enPissedWater,//0
+  enBug,//0
   enHungry,//1
   enToilet,//2
   enThirst,//3

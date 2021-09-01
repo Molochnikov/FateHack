@@ -155,7 +155,7 @@ Class *Player::atGet(Directive key) {
     case Class::Directive::Next: //get next player in player
       return this->_next;
       break;
-    case Class::Directive::Turn: //has script
+    case Class::Directive::Turn: //has turn
       if (Class::getBits(_bit_mask, 1, 1)) {
         return this;
       } else {

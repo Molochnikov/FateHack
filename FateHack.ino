@@ -59,21 +59,13 @@ byte up = 0;
 enum State {
   Wait = 0,
   Info,
-  //  ForceInto,
   UseOn,
-  //  Mix,
-  Overcome,
-  Attack,
-  CreateAnAdvantage,
-  Begin,
-  ChangeZone,
-  Action,
   Menu,
   Turn,
   OtherTurn,
   Dead,
-  MenuMAX = UseOn,
-  MenuMIN = Wait
+  MenuMIN = Wait,
+  MenuMAX = UseOn
 };
 
 size_t currentState = State::OtherTurn;
@@ -111,7 +103,9 @@ void Rip(Class* c, size_t reason = 0) {
     death_reason = reason;
     Class::arduboy.clear();
     Class::arduboy.setCursor(0, 0);
-    Class::arduboy.print(readFlashStringPointer(&enMessages[5]));
+    c->atGet(Class::Directive::Draw);
+    Class::arduboy.println(readFlashStringPointer(&enMessages[5]));
+    Class::arduboy.print(readFlashStringPointer(&enMessages[6]));
     Class::arduboy.print(readFlashStringPointer(&enMessages[reason]));
     Class::arduboy.display();
   } else {
@@ -214,6 +208,7 @@ void NextScene(int portal, byte make_blocks = 0, byte make_soil = 1) {
     }
     asc = Class::exemplar.make(ascend);
     asc->atPut(Class::Directive::Place, asc);
+    //asc->atPut(Class::Directive::Next, Class::exemplar.make(outside));
 
     do {
       scene->atPut(Class::Directive::Next, player); //clear the scene and go next scene
@@ -298,20 +293,20 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
   },
   [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //2
     Class * hgr = Class::exemplar.make(hunger);
-    if (((hour % 5) == 0) && (minute == 0) && ((owner->atPut(Class::Directive::Character, hgr)) == 0))  {
+    if ((hour == 5) && (minute == 0) && ((owner->atPut(Class::Directive::Character, hgr)) == 0))  {
       owner->atPut(Class::Directive::Add, hgr);
       PrintMessage(owner, 1);
-    } else if (((hour % 5) == 0) && (minute == 0) && ((owner->atPut(Class::Directive::Character, hgr))))  {
+    } else if ((hour == 5) && (minute == 0)  && ((owner->atPut(Class::Directive::Character, hgr))))  {
       Rip(owner, 1);
       scene->atPut(Class::Directive::Delete, owner); //dissapear
     } else {
       delete hgr;
     }
     Class * thrst = Class::exemplar.make(thirst);
-    if (((hour % 3) == 0) && (minute == 0) && ((owner->atPut(Class::Directive::Character, thrst)) == 0)) {
+    if ((hour == 3) && (minute == 0) && ((owner->atPut(Class::Directive::Character, thrst)) == 0)) {
       owner->atPut(Class::Directive::Add, thrst);
       PrintMessage(owner, 3);
-    } else if (((hour % 3) == 0) && (minute == 0) && ((owner->atPut(Class::Directive::Character, thrst)))) {
+    } else if ((hour == 3) && (minute == 0) && ((owner->atPut(Class::Directive::Character, thrst)))) {
       Rip(owner, 3);
       scene->atPut(Class::Directive::Delete, owner); //dissapear
     } else {
@@ -328,10 +323,10 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
       delete drws;
     }
     Class * tlt = Class::exemplar.make(toilet);
-    if (((hour % 4) == 0) && (minute == 0) && ((owner->atPut(Class::Directive::Character, tlt)) == 0)) {
+    if ((hour == 4) && (minute == 0) && ((owner->atPut(Class::Directive::Character, tlt)) == 0)) {
       owner->atPut(Class::Directive::Add, tlt);
       PrintMessage(owner, 2);
-    } else if (((hour % 4) == 0) && (minute == 0) && ((owner->atPut(Class::Directive::Character, tlt)))) {
+    } else if ((hour == 4) && (minute == 0) && ((owner->atPut(Class::Directive::Character, tlt)))) {
       Rip(owner, 2);
       scene->atPut(Class::Directive::Delete, owner); //dissapear
     } else {
@@ -340,25 +335,32 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     return 0;
   },
   [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //3
-    if (target_of && cls && (target_of == cls)) {
-      target = 0; //remove it to debug descend
+    if (target_of == player) {
       NextScene(1, 1);
       return 1;
+    } else if (target_of) { //dissapear to next scene
+      Rip(target_of);
+      scene->atPut(Class::Directive::Delete, target_of);
     }
     return 0;
   },
   [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //4
-    if (target_of && cls && (target_of == cls)) {
-      target = 0;
+    if (target_of == player) {
       NextScene(-1, 1);
       return 1;
+    } else if (target_of) { //dissapear to next scene
+      Rip(target_of);
+      scene->atPut(Class::Directive::Delete, target_of);
     }
     return 0;
   },
   [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //5
-    int r = random(5);
+    if (scene_num == 255) {
+      return 0;
+    }
+    int r = random(scene_num + 1);
     scene->atPut(Class::Directive::Clear, path);  //clear pathes from scene
-    if ((r == 0) && (SetCursor(adventurer) == 0) && SetCursor(mnng) && ((scene->atPut(Class::Directive::Near, 0)) == 0)) {  //if scene without adventurer and near space is not blocked
+    if ((r == 0) && (SetCursor(adventurer) == 0) && SetCursor(outside) && ((scene->atPut(Class::Directive::Near, 0)) == 0)) {  //if scene without adventurer and near space is not blocked
       Class * c  = Class::exemplar.make(npc); //create npc
       scene->atPut(Class::Directive::Map, cls); //create paths to this
       scene->atPut(Class::Directive::Close, c); //set npc close to this
@@ -372,9 +374,9 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     Class * c = SetCursor(descend); //find descend in scene
     if (c) {
       if ((scene->atPut(Class::Directive::Near, owner)) == owner) { //if descend in cursor near this
-        //Serial.println("diss");
-        Rip(owner);
-        scene->atPut(Class::Directive::Delete, owner); //dissapear to next scene
+        (*scripts[c->toInt()]) (c, c, scene, owner);
+        //Rip(owner);
+        //scene->atPut(Class::Directive::Delete, owner); //dissapear to next scene
         return 2;
       }
       scene->atPut(Class::Directive::Clear, path);
@@ -384,26 +386,28 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     return 0;
   },
   [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //7
-    for (int i = 0; i < size(waters); i++) { //find target in waters
-      if ((target_of->_init) == waters[i]) { //found
-        scene->atPut(Class::Directive::Cursor, owner); //set cursor on owner
-        if ((scene->atPut(Class::Directive::Near, target_of)) == target_of) { //if near target
-          PrintMessage(owner, 0); //print message
-          owner->atPut(Class::Directive::Delete, cls); //delete this
-          Rip(cls); //print message
-        } else {
-          PrintMessage(owner, 6, target_of);
+    if (target_of) {
+      for (int i = 0; i < size(waters); i++) { //find target in waters
+        if ((target_of->_init) == waters[i]) { //found
+          scene->atPut(Class::Directive::Cursor, owner); //set cursor on owner
+          if ((scene->atPut(Class::Directive::Near, target_of)) == target_of) { //if near target
+            PrintMessage(owner, 0); //print message
+            owner->atPut(Class::Directive::Delete, cls); //delete this
+            Rip(cls); //print message
+          } else {
+            PrintMessage(owner, 6, target_of);
+          }
         }
       }
-    }
-    for (int i = 0; i < size(potions); i++) { //find target in potions
-      if ((target_of->_init) == potions[i]) { //found
-        if ((scene->atPut(Class::Directive::Owner, target_of)) == owner) { //if owner of target
-          (*scripts[target_of->toInt()]) (target_of, owner, scene, cls); //run potion script
-          owner->atPut(Class::Directive::Delete, cls); //delete this
-          Rip(cls); //print message
-        } else {
-          PrintMessage(owner, 7, target_of);
+      for (int i = 0; i < size(potions); i++) { //find target in potions
+        if ((target_of->_init) == potions[i]) { //found
+          if ((scene->atPut(Class::Directive::Owner, target_of)) == owner) { //if owner of target
+            (*scripts[target_of->toInt()]) (target_of, owner, scene, cls); //run potion script
+            owner->atPut(Class::Directive::Delete, cls); //delete this
+            Rip(cls); //print message
+          } else {
+            PrintMessage(owner, 7, target_of);
+          }
         }
       }
     }
@@ -633,10 +637,7 @@ void loop() {
             //DropItem();
           }
         } else {
-          //PrintDebug(asFlashStringHelper(use->toStr()));
-          //PrintDebug(asFlashStringHelper(on->toStr()));
           (*scripts[use->toInt()]) (use, player, scene, on);
-          //use->atPut(Class::Directive::Turn, 0);
           use = 0;
           on = 0;
           SaveCursor();
@@ -687,9 +688,11 @@ void loop() {
     case State::Turn:
       {
         target = 0;
+        Class* c = 0;
         if (Class::arduboy.justPressed(UP_BUTTON)) {
           if (Class::arduboy.anyPressed(A_BUTTON)) {
-            target = scene->atPut(Class::Directive::Up, player);
+            //target =
+            c = scene->atPut(Class::Directive::Up, player);
             EndTurn(player);
             SaveCursor();
           } else {
@@ -698,7 +701,8 @@ void loop() {
         }
         if (Class::arduboy.justPressed(DOWN_BUTTON)) {
           if (Class::arduboy.anyPressed(A_BUTTON)) {
-            target = scene->atPut(Class::Directive::Down, player);
+            //target =
+            c = scene->atPut(Class::Directive::Down, player);
             EndTurn(player);
             SaveCursor();
           } else {
@@ -707,7 +711,8 @@ void loop() {
         }
         if (Class::arduboy.justPressed(LEFT_BUTTON)) {
           if (Class::arduboy.anyPressed(A_BUTTON)) {
-            target = scene->atPut(Class::Directive::Left, player);
+            //target =
+            c = scene->atPut(Class::Directive::Left, player);
             EndTurn(player);
             SaveCursor();
           } else {
@@ -716,7 +721,8 @@ void loop() {
         }
         if (Class::arduboy.justPressed(RIGHT_BUTTON)) {
           if (Class::arduboy.anyPressed(A_BUTTON)) {
-            target = scene->atPut(Class::Directive::Right, player);
+            //target =
+            c = scene->atPut(Class::Directive::Right, player);
             EndTurn(player);
             SaveCursor();
           } else {
@@ -726,6 +732,8 @@ void loop() {
         if (Class::arduboy.justPressed(B_BUTTON)) {
           currentState = State::Menu;
         }
+        if (c)
+          (*scripts[c->toInt()]) (c, c, scene, player);
       }
       break;
     case State::OtherTurn:
@@ -745,7 +753,6 @@ void loop() {
           Class *owner = pcur;
           Class *scene_owner = (scene->atPut(Class::Directive::Owner, pcur));
           is_next_scene = (*scripts[owner->toInt()]) (owner, scene_owner, scene, target);
-          //Serial.println(is_next_scene);Class::arduboy.clear(); Class::arduboy.clear(); Class::arduboy.clear(); Class::arduboy.clear();
           if (is_next_scene != 0)
             break;
           scene->atPut(Class::Directive::Clear, path);

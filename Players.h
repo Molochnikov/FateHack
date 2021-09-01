@@ -34,7 +34,7 @@ const char filler[] PROGMEM = "PFB0filler";
 const char hitter[] PROGMEM = "PHB0hitter";
 const char dog[] PROGMEM = "PdB0dog\nA dog is a four-legged, \nfurry pet animal which \noccurs in manifold \nvarieties of sizes, \ncolours and degrees \nof friendliness.";
 const char collar[] PROGMEM = "P b0collar\nJust a spiked leather \ncollar for the best \nfriends...";
-const char mnng[] PROGMEM = "P9B5mining house";
+const char outside[] PROGMEM = "P9B5outside";
 const char house1[] PROGMEM = "P1B0house";
 const char house2[] PROGMEM = "P2B0house";
 const char house3[] PROGMEM = "P3B0house";
@@ -98,7 +98,7 @@ const char * const players[] PROGMEM = {
   hitter,
   dog,
   collar,
-  mnng,
+  outside,
   mnr,
   adventurer,
   npc,

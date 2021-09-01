@@ -237,7 +237,7 @@ Class *Scene::buildPath(Class *path_proto, Class *block_proto, int is_scene_alre
   int has_free = 1;
   int max_instances = 11;
   int min_instances = 10;
-  //int chance = 2;
+  int chance = 3;
   int last_pos;
   int count_visited;
   int count_created;
@@ -252,25 +252,25 @@ Class *Scene::buildPath(Class *path_proto, Class *block_proto, int is_scene_alre
       if (_characters[pos] && (_characters[pos]->getTypeChar() == path_proto->getTypeChar())) {
         count_visited++;
         last_pos = pos;
-        if ((((count_created + count_visited) < max_instances) && random(2)) || is_scene_already) {
+        if ((((count_created + count_visited) < max_instances) && random(chance)) || is_scene_already) {
           if (Scene::getUpThingFrom(_characters[pos], Scene::AddClassAction::CloneIfEmpty, _characters[pos]) == 0)
             count_created++;
         } else {
           Scene::getUpThingFrom(_characters[pos], Scene::AddClassAction::CopyIfEmpty, block_proto);
         }
-        if ((((count_created + count_visited) < max_instances) && random(2)) || is_scene_already) {
+        if ((((count_created + count_visited) < max_instances) && random(chance)) || is_scene_already) {
           if (Scene::getDownThingFrom(_characters[pos], Scene::AddClassAction::CloneIfEmpty, _characters[pos]) == 0)
             count_created++;
         } else {
           Scene::getDownThingFrom(_characters[pos], Scene::AddClassAction::CopyIfEmpty, block_proto);
         }
-        if ((((count_created + count_visited) < max_instances) && random(2)) || is_scene_already) {
+        if ((((count_created + count_visited) < max_instances) && random(chance)) || is_scene_already) {
           if (Scene::getLeftThingFrom(_characters[pos], Scene::AddClassAction::CloneIfEmpty, _characters[pos]) == 0)
             count_created++;
         } else {
           Scene::getLeftThingFrom(_characters[pos], Scene::AddClassAction::CopyIfEmpty, block_proto);
         }
-        if ((((count_created + count_visited) < max_instances) && random(2)) || is_scene_already) {
+        if ((((count_created + count_visited) < max_instances) && random(chance)) || is_scene_already) {
           if (Scene::getRightThingFrom(_characters[pos], Scene::AddClassAction::CloneIfEmpty, _characters[pos]) == 0)
             count_created++;
         } else {
