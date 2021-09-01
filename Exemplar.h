@@ -1,0 +1,6 @@
+class Exemplar {
+  public:
+    Exemplar() {
+
+    }
+};
