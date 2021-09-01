@@ -358,7 +358,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     if (scene_num == 255) {
       return 0;
     }
-    int r = random(scene_num + 1);
+    int r = random(scene_num + 5);
     scene->atPut(Class::Directive::Clear, path);  //clear pathes from scene
     if ((r == 0) && (SetCursor(adventurer) == 0) && SetCursor(outside) && ((scene->atPut(Class::Directive::Near, 0)) == 0)) {  //if scene without adventurer and near space is not blocked
       Class * c  = Class::exemplar.make(npc); //create npc
@@ -367,7 +367,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
       c->atPut(Class::Directive::Hidden, c); //reveal npc
       c = (c->atPut(Class::Directive::Next, Class::exemplar.make(adventurer))); //npc is adventurer
       c = (c->atPut(Class::Directive::Next, Class::exemplar.make(mnr))); //adventurer has class (miner)
-      c = (c->atPut(Class::Directive::Next, Class::exemplar.make(lfe))); //alive
+      //c = (c->atPut(Class::Directive::Next, Class::exemplar.make(life))); //alive
     }
     return 0;
   },
@@ -485,7 +485,7 @@ void setup() {
   player->atPut(Class::Directive::Place, player);
   //player->atPut(Class::Directive::Block, player);
   pcur = player;
-  pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(lfe)));
+  pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(life)));
   pcur->atPut(Class::Directive::Block, pcur);
   pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(mnd)));
   pcur->atPut(Class::Directive::Block, pcur);

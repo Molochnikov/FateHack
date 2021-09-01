@@ -37,4 +37,5 @@ class Scene : public Class {
     Class *buildPath(Class *path_proto, Class *block_proto, int is_scene_already = 0);
     void clearClasses(Class *arg);
     Class *closest(Class *arg, byte farest = 0, byte is_block = 0, byte is_not_block = 0);
+    Class *recursiveDeleteClass(Class* arg);
 };

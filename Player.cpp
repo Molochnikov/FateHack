@@ -60,23 +60,36 @@ Class *Player::make(const char* s) {
 
 Class *Player::atPut(Directive key, Class *arg) {
   switch (key) {
-    case Class::Directive::Delete: //delete aspect from this
+    case Class::Directive::Delete: //delete arg from this class chain by pointer
       {
-        Class * c = (this->atGet(Class::Directive::Next));
-        Class * prev = this;
-        while (c && ((c->atGet(Class::Directive::Place)) == 0)) {
-          if (c == arg)  {
-            prev->atPut(Class::Directive::Next, (c->atGet(Class::Directive::Next)));
-            return arg;
-          } else {
-            prev = c;
-            c = (c->atGet(Class::Directive::Next));
-          }
+        Class * cl = 0;
+        Class * before = 0;
+        Class * after = 0;
+        before = 0;
+        after = 0;
+        cl = this;
+        while (cl) {
+          if ((cl->atGet(Class::Directive::Next)) == arg)
+            before = cl;
+          cl = (cl->atGet(Class::Directive::Next)); //go next even if found
+          if (before)
+            break;
         }
+        if (before) { //if found then join before and after
+          while (cl) { //if arg is "need to be placed" class then ignore full chain until next "need to be placed" class
+            if (((arg->atGet(Class::Directive::Place)) && (cl->atGet(Class::Directive::Place))) || ((arg->atGet(Class::Directive::Place)) == 0)) {
+              after = cl;
+              break;
+            }
+            cl = (cl->atGet(Class::Directive::Next));
+          }
+          before->atPut(Class::Directive::Next, after); //finally join
+        }
+        return arg;
       }
       return 0;
       break;
-    case Class::Directive::Block: //set block path or aspect removal
+    case Class::Directive::Block: //set block path or bind
       if (arg) {
         _bit_mask = Class::setBits(_bit_mask, 3, 1, 1);
       } else {
@@ -84,7 +97,7 @@ Class *Player::atPut(Directive key, Class *arg) {
       }
       return this;
       break;
-    case Class::Directive::Character: //find aspect in this
+    case Class::Directive::Character: //find clone in this
       {
         Class * c = (this->atGet(Class::Directive::Next));
         while (c && ((c->atGet(Class::Directive::Place)) == 0)) {
@@ -123,7 +136,7 @@ Class *Player::atPut(Directive key, Class *arg) {
         _bit_mask = Class::setBits(_bit_mask, 2, 0, 1);
       }
       break;
-    case Class::Directive::Turn: //has script
+    case Class::Directive::Turn: //has turn
       if (arg) {
         _bit_mask = Class::setBits(_bit_mask, 1, 1, 1);
       } else {

@@ -1,5 +1,5 @@
 # FateHack
-Roguelike game for Arduboy influenced by NetHack and WildTangent's FATE.
+Roguelike game for [Arduboy](https://arduboy.com/) or [emulator](https://github.com/felipemanga/ProjectABE/releases/latest) influenced by NetHack and WildTangent's FATE.
 
 Game features:
 * pet
@@ -19,4 +19,3 @@ Controls:
 * A + Up,Down,Left,Right - move player
 * B - toggle menu at cursor position
 
-[Arduboy emulator](https://github.com/felipemanga/ProjectABE/releases/latest)

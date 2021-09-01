@@ -299,6 +299,23 @@ Class *Scene::buildPath(Class *path_proto, Class *block_proto, int is_scene_alre
   return this;
 }
 
+Class *Scene::recursiveDeleteClass(Class* arg) {
+  if (arg) {
+    byte is_delete = 1;
+    for (int pos = 0; pos < (_xsize * _ysize); pos++) { //don't delete shared classes
+      Class* cl = _characters[pos];
+      while (cl) {
+        if (arg == cl)
+          is_delete = 0;
+        cl = (cl->atGet(Class::Directive::Next));
+      }
+    }
+    Scene::recursiveDeleteClass(arg->atGet(Class::Directive::Next));
+    if (is_delete)
+      delete arg;
+  }
+}
+
 Class *Scene::atPut(Directive key, Class *arg) {
   switch (key) {
     case Class::Directive::Cursor: //set cursor on owner of arg
@@ -356,17 +373,21 @@ Class *Scene::atPut(Directive key, Class *arg) {
         return 0;
       }
       break;
-    case Class::Directive::Delete: //delete class from scene recursively
+    case Class::Directive::Delete: //delete arg from every other class on the scene
       {
-        for (int pos = 0; pos < (_xsize * _ysize); pos++) {
-          if ((_characters[pos]) && (_characters[pos] == arg)) {
-            _characters[pos] = 0;
+        Class * cl = 0;
+        Class * before = 0;
+        Class * after = 0;
+        for (int pos = 0; pos < (_xsize * _ysize); pos++) { //we need to remove arg from class chains of every other class
+          if (_characters[pos]) {
+            _characters[pos]->atPut(Class::Directive::Delete, arg);
+            if (_characters[pos] == arg) { //now check for the arg itself
+              _characters[pos] = 0;
+            }
           }
         }
-        if (arg) {
-          this->atPut(Class::Directive::Delete, (arg->atGet(Class::Directive::Next)));
-          delete arg;
-        }
+        //after all chains has freed from arg we can finally free memory
+        Scene::recursiveDeleteClass(arg);
       }
       break;
     case Class::Directive::Move: //move arg by shortest path
@@ -444,7 +465,7 @@ Class *Scene::atPut(Directive key, Class *arg) {
               cl = (cl->atGet(Class::Directive::Next));
             }
             if (to_delete)
-              delete _characters[pos];
+              this->atPut(Class::Directive::Delete, _characters[pos]);
           }
           _characters[pos] = 0;
         }
