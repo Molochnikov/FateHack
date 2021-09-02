@@ -10,9 +10,10 @@ Game features:
 * priority of things relations over the soulless loot
 * randomness only in generating scenes, no need to know game formulas and equations
 
-Programming features for using as engine for other roguelikes:
+Programming features for using as engine for other Arduboy roguelikes:
 * pathfinding algorithm for generating caves
 * scene builder
+* object builder
 * dynamic memory allocation for every object (yes, you can run out of memory)
 * full power of parametric polymorphism
 * master design pattern at the core - prototype (exemplar)
