@@ -19,5 +19,5 @@ Programming features for using as engine for other roguelikes:
 
 Controls:
 * <kbd>Up</kbd> , <kbd>Down</kbd> , <kbd>Left</kbd> , <kbd>Right</kbd> - move cursor
-* <kbd>A</kbd> + <kbd>Up</kbd> , <kbd>Down</kbd> , <kbd>Left</kbd> , <kbd>Right</kbd> - move player
-* <kbd>B</kbd> - toggle menu at cursor position
+* <kbd>A</kbd> or <kbd>Ctrl</kbd> + <kbd>Up</kbd> , <kbd>Down</kbd> , <kbd>Left</kbd> , <kbd>Right</kbd> - move player
+* <kbd>B</kbd> or <kbd>Alt</kbd> - toggle menu at cursor position
