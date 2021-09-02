@@ -1,12 +1,15 @@
 # FateHack
-Roguelike game for [Arduboy](https://arduboy.com/) or [emulator](https://github.com/felipemanga/ProjectABE/releases/latest) influenced by NetHack and WildTangent's FATE.
+Roguelike game for [Arduboy](https://arduboy.com/) or [its emulator](https://github.com/felipemanga/ProjectABE/releases/latest) influenced by NetHack and WildTangent's FATE.
 
 Game features:
 * pet
 * toilet
 * thirst
+* real-world logic
+* no stupid HP, MP, EXP, SP, LVL or other lazy math abstractions of reality complexity
+* priority of things relations over the soulless loot
 
-Programming features:
+Programming features for using as engine for other roguelikes:
 * pathfinding algorithm for generating caves
 * scene builder
 * dynamic memory allocation for every object (yes, you can run out of memory)

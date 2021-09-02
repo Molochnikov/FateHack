@@ -90,9 +90,9 @@ void PrintMessage(Class* src, size_t num, Class* trg = 0) {
   for (int i = 0; i < 500; i++) {
     Class::arduboy.setCursor(0, 0);
     src->atGet(Class::Directive::Draw);
-    Class::arduboy.print(readFlashStringPointer(&enMessages[num]));
+    Class::arduboy.println(readFlashStringPointer(&enMessages[num]));
     if (trg)
-      trg->atGet(Class::Directive::Draw);
+      Class::arduboy.print(asFlashStringHelper(trg->toStr()));
     Class::arduboy.display();
   }
 }
@@ -295,7 +295,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     Class * hgr = Class::exemplar.make(hunger);
     if ((hour == 5) && (minute == 0) && ((owner->atPut(Class::Directive::Character, hgr)) == 0))  {
       owner->atPut(Class::Directive::Add, hgr);
-      PrintMessage(owner, 1);
+      PrintMessage(owner, 8, hgr);
     } else if ((hour == 5) && (minute == 0)  && ((owner->atPut(Class::Directive::Character, hgr))))  {
       Rip(owner, 1);
       scene->atPut(Class::Directive::Delete, owner); //dissapear
@@ -305,7 +305,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     Class * thrst = Class::exemplar.make(thirst);
     if ((hour == 3) && (minute == 0) && ((owner->atPut(Class::Directive::Character, thrst)) == 0)) {
       owner->atPut(Class::Directive::Add, thrst);
-      PrintMessage(owner, 3);
+      PrintMessage(owner, 8, thrst);
     } else if ((hour == 3) && (minute == 0) && ((owner->atPut(Class::Directive::Character, thrst)))) {
       Rip(owner, 3);
       scene->atPut(Class::Directive::Delete, owner); //dissapear
@@ -315,7 +315,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     Class * drws = Class::exemplar.make(drowsy);
     if ((hour == 0) && (minute == 0) && ((owner->atPut(Class::Directive::Character, drws)) == 0)) { //new day
       owner->atPut(Class::Directive::Add, drws);
-      PrintMessage(owner, 4);
+      PrintMessage(owner, 8, drws);
     } else if ((hour == 0) && (minute == 0) && ((owner->atPut(Class::Directive::Character, drws)))) {
       Rip(owner, 4);
       scene->atPut(Class::Directive::Delete, owner); //dissapear
@@ -325,7 +325,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     Class * tlt = Class::exemplar.make(toilet);
     if ((hour == 4) && (minute == 0) && ((owner->atPut(Class::Directive::Character, tlt)) == 0)) {
       owner->atPut(Class::Directive::Add, tlt);
-      PrintMessage(owner, 2);
+      PrintMessage(owner, 8, tlt);
     } else if ((hour == 4) && (minute == 0) && ((owner->atPut(Class::Directive::Character, tlt)))) {
       Rip(owner, 2);
       scene->atPut(Class::Directive::Delete, owner); //dissapear
@@ -608,18 +608,17 @@ void loop() {
   scene->atPut(Class::Directive::Draw, player);
   Class::arduboy.print(freeMem);
   scene->atPut(Class::Directive::Clear, path);
-  Class::arduboy.print(' ');
-  Class::arduboy.print(scene_num);
-  Class::arduboy.print("LVL");
-  Class::arduboy.print(' ');
+  Class::arduboy.print(readFlashStringPointer(&enMessages[0]));
   Class::arduboy.print(age);
-  Class::arduboy.print('Y');
+  Class::arduboy.print(F("Y"));
   Class::arduboy.print(day);
-  Class::arduboy.print('D');
-  Class::arduboy.print(' ');
+  Class::arduboy.print(F("D"));
+  Class::arduboy.print(readFlashStringPointer(&enMessages[0]));
   Class::arduboy.print(hour);
-  Class::arduboy.print(':');
+  Class::arduboy.print(F(":"));
   Class::arduboy.print(minute);
+  Class::arduboy.print(readFlashStringPointer(&enMessages[0]));
+  Class::arduboy.print(scene_num);
   Class::arduboy.println();
 
   switch (currentState) {
