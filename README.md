@@ -18,7 +18,6 @@ Programming features for using as engine for other roguelikes:
 * easy scripting for objects interactions
 
 Controls:
-* Up,Down,Left,Right - move cursor
-* A + Up,Down,Left,Right - move player
-* B - toggle menu at cursor position
-
+* <kbd>Up</kbd> , <kbd>Down</kbd> , <kbd>Left</kbd> , <kbd>Right</kbd> - move cursor
+* <kbd>A</kbd> + <kbd>Up</kbd> , <kbd>Down</kbd> , <kbd>Left</kbd> , <kbd>Right</kbd> - move player
+* <kbd>B</kbd> - toggle menu at cursor position
