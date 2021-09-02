@@ -8,6 +8,7 @@ Game features:
 * real-world logic
 * no stupid HP, MP, EXP, SP, LVL or other lazy math abstractions of reality complexity
 * priority of things relations over the soulless loot
+* randomness only in generating scenes, no need to know game formulas and equations
 
 Programming features for using as engine for other roguelikes:
 * pathfinding algorithm for generating caves
