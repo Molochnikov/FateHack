@@ -86,10 +86,13 @@ void PrintDebug(FlashStringHelper msg) {
   }
 }
 
-void PrintMessage(Class* src, size_t num, Class* trg = 0) {
+void PrintMessage(Class* src = 0, size_t num = 0, Class* trg = 0) {
   for (int i = 0; i < 500; i++) {
     Class::arduboy.setCursor(0, 0);
-    src->atGet(Class::Directive::Draw);
+    if (src)
+      src->atGet(Class::Directive::Draw);
+    else
+      Class::arduboy.println(F("scene"));
     Class::arduboy.println(readFlashStringPointer(&enMessages[num]));
     if (trg)
       Class::arduboy.print(asFlashStringHelper(trg->toStr()));
@@ -208,7 +211,7 @@ void NextScene(int portal, byte make_blocks = 0, byte make_soil = 1) {
     }
     asc = Class::exemplar.make(ascend);
     asc->atPut(Class::Directive::Place, asc);
-    //asc->atPut(Class::Directive::Next, Class::exemplar.make(outside));
+    asc->atPut(Class::Directive::Next, Class::exemplar.make(outside));
 
     do {
       scene->atPut(Class::Directive::Next, player); //clear the scene and go next scene
@@ -362,7 +365,8 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     scene->atPut(Class::Directive::Clear, path);  //clear pathes from scene
     if ((r == 0) && (SetCursor(adventurer) == 0) && SetCursor(outside) && ((scene->atPut(Class::Directive::Near, 0)) == 0)) {  //if scene without adventurer and near space is not blocked
       Class * c  = Class::exemplar.make(npc); //create npc
-      scene->atPut(Class::Directive::Map, cls); //create paths to this
+      PrintMessage(0, 8, c);
+      scene->atPut(Class::Directive::Map, owner); //create paths to this
       scene->atPut(Class::Directive::Close, c); //set npc close to this
       c->atPut(Class::Directive::Hidden, c); //reveal npc
       c = (c->atPut(Class::Directive::Next, Class::exemplar.make(adventurer))); //npc is adventurer

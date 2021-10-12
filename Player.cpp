@@ -72,8 +72,10 @@ Class *Player::atPut(Directive key, Class *arg) {
           if ((cl->atGet(Class::Directive::Next)) == arg)
             before = cl;
           cl = (cl->atGet(Class::Directive::Next)); //go next even if found
-          if (before)
+          if (before) {
+            cl = (cl->atGet(Class::Directive::Next));
             break;
+          }
         }
         if (before) { //if found then join before and after
           while (cl) { //if arg is "need to be placed" class then ignore full chain until next "need to be placed" class

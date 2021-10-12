@@ -353,14 +353,14 @@ Class *Scene::atPut(Directive key, Class *arg) {
         return this->atGet(Class::Directive::Character);
       }
       break;
-    case Class::Directive::Owner: //get owner of player in the scene
+    case Class::Directive::Owner: //get owner of player in the scene if it exists
       {
         Class * cl = 0;
         Class * owner = 0;
         for (int pos = 0; pos < (_xsize * _ysize); pos++) {
           if (_characters[pos]) {
-            if (_characters[pos] == arg)
-              return arg;
+            //if (_characters[pos] == arg)
+            //  return arg;
             cl = _characters[pos]->atGet(Class::Directive::Next);
             owner = _characters[pos];
             while (cl) {
