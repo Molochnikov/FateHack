@@ -20,12 +20,11 @@ class Player : public Class {
     //static Player *_exemplar;
     byte _bit_mask = 0;
     /*7 6 5 4 3 2 1 0
-      +-+ + + | | | +- is hidden bit
-        | | | | | +--- has turn bit
-        | | | | +----- has to be placed bit
-        | | | +------- is block/bind bit
-        | | +--------- armor bonus bit
-        + +----------- weapon bonus bit
+      +-+-+-+ | | | +- is hidden bit
+            | | | +--- has turn bit
+            | | +----- has to be placed bit
+            | +------- is block/bind bit
+            +--------- counter bits
     */
     static const char _typeChar = 'P';
 };

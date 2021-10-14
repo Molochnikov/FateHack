@@ -371,7 +371,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
       c->atPut(Class::Directive::Hidden, c); //reveal npc
       c = (c->atPut(Class::Directive::Next, Class::exemplar.make(adventurer))); //npc is adventurer
       c = (c->atPut(Class::Directive::Next, Class::exemplar.make(mnr))); //adventurer has class (miner)
-      //c = (c->atPut(Class::Directive::Next, Class::exemplar.make(life))); //alive
+      c = (c->atPut(Class::Directive::Next, Class::exemplar.make(life))); //alive
     }
     return 0;
   },
@@ -418,10 +418,30 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     }
     return 0;
   },
-  [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte {
+  [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //8
     return 0;
   },
-  [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte {
+  [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //9
+    return 0;
+  },
+  [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //10
+    return 0;
+  },
+  [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //11
+    if (target_of) {
+      Class* thrst = Class::exemplar.make(thirst); //create thirst
+      Class* a = target_of->atPut(Class::Directive::Character, thrst); //find thirst
+      delete thrst; //free object
+      if (a) {
+        Rip(a);
+        scene->atPut(Class::Directive::Delete, a); //if has thirst then delete
+        Rip(cls); //print message
+        scene->atPut(Class::Directive::Delete, cls); //delete this
+        a = Class::exemplar.make(bottle);
+        PrintMessage(owner, 8, a);
+        owner->atPut(Class::Directive::Add, a);
+      }
+    }
     return 0;
   }
 };
@@ -493,6 +513,7 @@ void setup() {
   pcur->atPut(Class::Directive::Block, pcur);
   pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(mnd)));
   pcur->atPut(Class::Directive::Block, pcur);
+  pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(waterp)));
 
   pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(pet)));
   pcur->atPut(Class::Directive::Place, pcur);
@@ -756,6 +777,8 @@ void loop() {
           } //else {
           Class *owner = pcur;
           Class *scene_owner = (scene->atPut(Class::Directive::Owner, pcur));
+          if (scene_owner == 0)
+            scene_owner = owner;
           is_next_scene = (*scripts[owner->toInt()]) (owner, scene_owner, scene, target);
           if (is_next_scene != 0)
             break;

@@ -16,6 +16,7 @@ const int Player::toInt() {
   char* c  = _init;
   byte _script = 0;
   c += 3;
+  //return ::atoi((pgm_read_byte_near(c)));
   while (::isdigit(pgm_read_byte_near(c))) {
     _script = (_script * 10) + (pgm_read_byte_near(c) - '0');
     ++c;
@@ -99,12 +100,14 @@ Class *Player::atPut(Directive key, Class *arg) {
       }
       return this;
       break;
-    case Class::Directive::Character: //find clone in this
+    case Class::Directive::Character: //find clone of arg in this
       {
+        if ((this->_init) == (arg->_init))
+          return this;
         Class * c = (this->atGet(Class::Directive::Next));
         while (c && ((c->atGet(Class::Directive::Place)) == 0)) {
           if ((c->_init) == (arg->_init))  {
-            return arg;
+            return c;
           } else {
             c = (c->atGet(Class::Directive::Next));
           }
