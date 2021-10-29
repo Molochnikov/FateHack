@@ -4,7 +4,7 @@ constexpr char enDrop[] PROGMEM = "drop";
 constexpr char enWait[] PROGMEM = "wait";
 constexpr char enInfo[] PROGMEM = "info";
 constexpr char enUseOn[] PROGMEM = "use smth on this";
-constexpr char enDestroy[] PROGMEM = "destroy(if low memory)";
+constexpr char enDestroy[] PROGMEM = "destroy (if low mem)";
 
 constexpr const char *enMenuItems[] PROGMEM = {
   enWait,

@@ -577,7 +577,7 @@ Class * ShowInfo(Class * c, byte is_select = 0) { //you don't need to understand
     if (target->atGet(Class::Directive::Block))
       Class::arduboy.print(F("(bind) "));
     Class::arduboy.println(asFlashStringHelper(target->toStr()));
-  } else {
+  } else if (target) {
     Class::arduboy.println(asFlashStringHelper(target->toStr()));
   }
 
@@ -686,7 +686,8 @@ void loop() {
     case State::Destroy:
       {
         if (use == 0) {
-          use = ShowInfo(scene->atGet(Class::Directive::Character), 1);
+          if (scene->atGet(Class::Directive::Character))
+            use = ShowInfo(scene->atGet(Class::Directive::Character), 1);
         } else {
           Rip(use);
           scene->atPut(Class::Directive::Delete, use);

@@ -61,7 +61,7 @@ Class *Player::make(const char* s) {
 
 Class *Player::atPut(Directive key, Class *arg) {
   switch (key) {
-    case Class::Directive::Delete: //delete arg from this class chain by pointer
+    case Class::Directive::Delete: //delete arg from this class chain by pointer ignoring chain owner
       {
         Class * cl = 0;
         Class * before = 0;
