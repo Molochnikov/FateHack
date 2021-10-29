@@ -55,17 +55,19 @@ unsigned long turn = 1;
 byte age = 14;
 byte left = 0;
 byte up = 0;
+byte make_choice = 0;
 
 enum State {
   Wait = 0,
   Info,
   UseOn,
+  Destroy,
   Menu,
   Turn,
   OtherTurn,
   Dead,
   MenuMIN = Wait,
-  MenuMAX = UseOn
+  MenuMAX = Destroy
 };
 
 size_t currentState = State::OtherTurn;
@@ -173,6 +175,10 @@ Class * SetCursor(char * c) {
   } while (scene->atGet(Class::Directive::Down));
   return 0;
 }
+
+//void DropPlayer(Class* player, Class* owner, Class* scene) {
+
+//}
 
 void NextScene(int portal, byte make_blocks = 0, byte make_soil = 1) {
   int block_chance = 2;
@@ -571,6 +577,8 @@ Class * ShowInfo(Class * c, byte is_select = 0) { //you don't need to understand
     if (target->atGet(Class::Directive::Block))
       Class::arduboy.print(F("(bind) "));
     Class::arduboy.println(asFlashStringHelper(target->toStr()));
+  } else {
+    Class::arduboy.println(asFlashStringHelper(target->toStr()));
   }
 
   if (Class::arduboy.justPressed(DOWN_BUTTON)) {
@@ -657,16 +665,33 @@ void loop() {
         } else if (on == 0) {
           Class * c = (scene->atGet(Class::Directive::Character));
           if (c && ((c->atGet(Class::Directive::Hidden)) == 0) && (c != (scene->atGet(Class::Directive::Block)))) {
-            on = ShowInfo(scene->atGet(Class::Directive::Character), 1);
-          } else if (c == 0) {
-            //DropItem();
+            on = ShowInfo(c, 1);
           }
-        } else {
+          //else if (c == 0) {
+          //PrintMessage(player, 9, use);
+          //DropItem();
+          //}
+          make_choice = 1;
+        }
+        if (use && make_choice) {
           (*scripts[use->toInt()]) (use, player, scene, on);
           use = 0;
           on = 0;
+          make_choice = 0;
           SaveCursor();
           EndTurn(player);
+        }
+      }
+      break;
+    case State::Destroy:
+      {
+        if (use == 0) {
+          use = ShowInfo(scene->atGet(Class::Directive::Character), 1);
+        } else {
+          Rip(use);
+          scene->atPut(Class::Directive::Delete, use);
+          use = 0;
+          currentState = State::Menu;
         }
       }
       break;
