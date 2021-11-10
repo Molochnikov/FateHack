@@ -90,6 +90,7 @@ void exit( int ignored ) {
 
 void PrintDebug(FlashStringHelper msg) {
   for (int i = 0; i < 200; i++) {
+    Class::arduboy.clear();
     Class::arduboy.setCursor(0, 0);
     Class::arduboy.println(msg);
     Class::arduboy.display();
@@ -98,6 +99,7 @@ void PrintDebug(FlashStringHelper msg) {
 
 void PrintMessage(Class* src = 0, size_t num = 0, Class* trg = 0) {
   for (int i = 0; i < 500; i++) {
+    Class::arduboy.clear();
     Class::arduboy.setCursor(0, 0);
     if (src)
       src->atGet(Class::Directive::Draw);
@@ -637,6 +639,7 @@ Class * ShowInfo(Class * c, byte is_select = 0) { //you don't need to understand
     target = 0;
     use = 0;
     on = 0;
+    make_choice = 0;
     currentState = State::Menu;
   }
   return 0;
@@ -677,7 +680,7 @@ void loop() {
       Class::arduboy.println(F("man(1 food each)"));
       Class::arduboy.print(food_stock);
       Class::arduboy.print(readFlashStringPointer(&enMessages[0]));
-      Class::arduboy.println(F("food | A-take"));
+      Class::arduboy.println(F("food | A - take"));
       Class::arduboy.print(ore_stock);
       Class::arduboy.print(readFlashStringPointer(&enMessages[0]));
       Class::arduboy.print(F("coal | need"));
@@ -685,7 +688,7 @@ void loop() {
       Class::arduboy.println(ore_need);
       Class::arduboy.print(pick_stock);
       Class::arduboy.print(readFlashStringPointer(&enMessages[0]));
-      Class::arduboy.print(F("picks"));
+      Class::arduboy.print(F("picks | autopickup"));
       Class::arduboy.println(readFlashStringPointer(&enMessages[0]));
       Class::arduboy.display();
       if (Class::arduboy.justPressed(B_BUTTON)) {
@@ -721,9 +724,12 @@ void loop() {
           //PrintMessage(player, 9, use);
           //DropItem();
           //}
-          make_choice = 1;
+          if (c == 0)
+            make_choice = 1;
         }
-        if (use && make_choice) {
+        //else
+        if (use && make_choice)
+        {
           (*scripts[use->toInt()]) (use, player, scene, on);
           use = 0;
           on = 0;

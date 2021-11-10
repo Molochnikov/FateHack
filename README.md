@@ -6,9 +6,11 @@ Game features:
 * toilet
 * thirst
 * real-world logic
+* communist economy
 * no stupid HP, MP, EXP, SP, LVL or other lazy math abstractions of reality complexity
 * priority of things relations over the soulless loot
-* randomness only in generating scenes, no need to know game formulas and equations
+* simplicity in randomness, no need to know game formulas and equations
+* YASD is hard to do (except destroy feature)
 
 Programming features for using as engine for other Arduboy roguelikes:
 * pathfinding algorithm for generating caves
@@ -23,4 +25,6 @@ Controls:
 * <kbd>Up</kbd> , <kbd>Down</kbd> , <kbd>Left</kbd> , <kbd>Right</kbd> - move cursor
 * <kbd>A</kbd> or <kbd>Ctrl</kbd> + <kbd>Up</kbd> , <kbd>Down</kbd> , <kbd>Left</kbd> , <kbd>Right</kbd> - move player
 * <kbd>B</kbd> or <kbd>Alt</kbd> - toggle menu at cursor position
+
+Hints:
 * if you will see `LOW` memory then you better start destroying objects
