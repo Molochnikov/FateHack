@@ -60,6 +60,7 @@ byte make_choice = 0;
 byte population_stock = 10;
 byte pick_stock = 10;
 byte ore_stock = 0;
+byte ore_need = 10;
 byte food_stock = 100;
 
 enum State {
@@ -432,6 +433,9 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     return 0;
   },
   [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //8
+    if (target_of == player) {
+      currentState = State::Bookkeeper;
+    }
     return 0;
   },
   [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //9
@@ -665,6 +669,29 @@ void loop() {
   Class::arduboy.println();
 
   switch (currentState) {
+    case State::Bookkeeper:
+      Class::arduboy.setCursor(0, 0);
+      Class::arduboy.println(F("Bookkeeper:"));
+      Class::arduboy.print(population_stock);
+      Class::arduboy.print(readFlashStringPointer(&enMessages[0]));
+      Class::arduboy.println(F("man(1 food each)"));
+      Class::arduboy.print(food_stock);
+      Class::arduboy.print(readFlashStringPointer(&enMessages[0]));
+      Class::arduboy.println(F("food | A-take"));
+      Class::arduboy.print(ore_stock);
+      Class::arduboy.print(readFlashStringPointer(&enMessages[0]));
+      Class::arduboy.print(F("coal | need"));
+      Class::arduboy.print(readFlashStringPointer(&enMessages[0]));
+      Class::arduboy.println(ore_need);
+      Class::arduboy.print(pick_stock);
+      Class::arduboy.print(readFlashStringPointer(&enMessages[0]));
+      Class::arduboy.print(F("picks"));
+      Class::arduboy.println(readFlashStringPointer(&enMessages[0]));
+      Class::arduboy.display();
+      if (Class::arduboy.justPressed(B_BUTTON)) {
+        EndTurn(player);
+      }
+      break;
     case State::Intro:
       Class::arduboy.clear();
       Class::arduboy.print(readFlashStringPointer(&enIntro[make_choice]));
