@@ -724,7 +724,7 @@ void loop() {
           //PrintMessage(player, 9, use);
           //DropItem();
           //}
-          if (c == 0)
+          if ((c == 0) || (on != 0))
             make_choice = 1;
         }
         //else
