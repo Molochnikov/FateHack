@@ -10,7 +10,7 @@ Game features:
 * no stupid HP, MP, EXP, SP, LVL or other lazy math abstractions of reality complexity
 * priority of things relations over the soulless loot
 * simplicity in randomness, no need to know game formulas and equations
-* YASD is hard to do (except destroy feature)
+* YASD is hard to do (except with destroy feature)
 
 Programming features for using as engine for other Arduboy roguelikes:
 * pathfinding algorithm for generating caves

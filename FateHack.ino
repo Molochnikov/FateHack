@@ -435,8 +435,17 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     return 0;
   },
   [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //8
-    if (target_of == player) {
-      currentState = State::Bookkeeper;
+    if (target_of) {
+      Class * pck = Class::exemplar.make(pick);
+      if ((target_of->atPut(Class::Directive::Character, pck)) == 0) {
+        PrintMessage(owner, 8, pck);
+        target_of->atPut(Class::Directive::Add, pck);
+      } else {
+        delete pck;
+      }
+      if (target_of == player) {
+        currentState = State::Bookkeeper;
+      }
     }
     return 0;
   },
@@ -720,14 +729,9 @@ void loop() {
           if (c && ((c->atGet(Class::Directive::Hidden)) == 0) && (c != (scene->atGet(Class::Directive::Block)))) {
             on = ShowInfo(c, 1);
           }
-          //else if (c == 0) {
-          //PrintMessage(player, 9, use);
-          //DropItem();
-          //}
           if ((c == 0) || (on != 0))
             make_choice = 1;
         }
-        //else
         if (use && make_choice)
         {
           (*scripts[use->toInt()]) (use, player, scene, on);
@@ -740,7 +744,7 @@ void loop() {
       }
       Class::arduboy.display();
       break;
-    case State::Destroy:
+    case State::Destroy: //TODO destroying wall refs
       {
         if (use == 0) {
           if (scene->atGet(Class::Directive::Character))
@@ -748,7 +752,7 @@ void loop() {
           else
             currentState = State::Menu;
         } else {
-          Rip(use); //TODO destroying walls
+          Rip(use);
           scene->atPut(Class::Directive::Delete, use);
           use = 0;
           currentState = State::Menu;
