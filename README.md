@@ -23,4 +23,4 @@ Controls:
 * <kbd>Up</kbd> , <kbd>Down</kbd> , <kbd>Left</kbd> , <kbd>Right</kbd> - move cursor
 * <kbd>A</kbd> or <kbd>Ctrl</kbd> + <kbd>Up</kbd> , <kbd>Down</kbd> , <kbd>Left</kbd> , <kbd>Right</kbd> - move player
 * <kbd>B</kbd> or <kbd>Alt</kbd> - toggle menu at cursor position
-* to drop something `UseOn` the floor tile (<kbd>.</kbd>)
+* if you will see `LOW` memory then you better start destroying objects

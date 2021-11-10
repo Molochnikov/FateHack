@@ -302,7 +302,7 @@ Class *Scene::buildPath(Class *path_proto, Class *block_proto, int is_scene_alre
 Class *Scene::recursiveDeleteClass(Class* arg) {
   if (arg) {
     byte is_delete = 1;
-    for (int pos = 0; pos < (_xsize * _ysize); pos++) { //don't delete shared classes
+    for (int pos = 0; pos < (_xsize * _ysize); pos++) { //don't delete shared classes (for example _block_proto)
       Class* cl = _characters[pos];
       while (cl) {
         if (arg == cl)
@@ -373,7 +373,7 @@ Class *Scene::atPut(Directive key, Class *arg) {
         return 0;
       }
       break;
-    case Class::Directive::Delete: //delete arg from every other class on the scene
+    case Class::Directive::Delete: //delete arg from every other class on the scene but not _block_proto
       {
         if (arg) {
           Class * cl = 0;
@@ -382,7 +382,7 @@ Class *Scene::atPut(Directive key, Class *arg) {
           for (int pos = 0; pos < (_xsize * _ysize); pos++) { //we need to remove arg from class chains of every other class
             if (_characters[pos]) {
               _characters[pos]->atPut(Class::Directive::Delete, arg);
-              if (_characters[pos] == arg) { //now check for the arg itself
+              if ((_characters[pos] == arg) && (_characters[pos] != _block_proto)) {//&& ((_characters[pos] != _block_proto) || ((_characters[pos] == _block_proto) && (_characters[pos] == this->atGet(Class::Directive::Character))))) { //now check for the arg itself
                 _characters[pos] = 0;
               }
             }

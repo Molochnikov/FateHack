@@ -57,6 +57,11 @@ byte left = 0;
 byte up = 0;
 byte make_choice = 0;
 
+byte population_stock = 10;
+byte pick_stock = 10;
+byte ore_stock = 0;
+byte food_stock = 100;
+
 enum State {
   Wait = 0,
   Info,
@@ -66,11 +71,13 @@ enum State {
   Turn,
   OtherTurn,
   Dead,
+  Intro,
+  Bookkeeper,
   MenuMIN = Wait,
   MenuMAX = Destroy
 };
 
-size_t currentState = State::OtherTurn;
+size_t currentState = State::Intro;
 size_t currentSelection = State::MenuMIN;
 size_t freeMem = 0;
 size_t death_reason = 0;
@@ -639,7 +646,10 @@ void loop() {
 
   scene->atPut(Class::Directive::Map, player);
   scene->atPut(Class::Directive::Draw, player);
-  Class::arduboy.print(freeMem);
+  if (freeMem < 300)
+    Class::arduboy.print(F("LOW"));
+  else
+    Class::arduboy.print(freeMem);
   scene->atPut(Class::Directive::Clear, path);
   Class::arduboy.print(readFlashStringPointer(&enMessages[0]));
   Class::arduboy.print(age);
@@ -655,8 +665,21 @@ void loop() {
   Class::arduboy.println();
 
   switch (currentState) {
+    case State::Intro:
+      Class::arduboy.clear();
+      Class::arduboy.print(readFlashStringPointer(&enIntro[make_choice]));
+      Class::arduboy.display();
+      if (Class::arduboy.justPressed(B_BUTTON) || Class::arduboy.justPressed(A_BUTTON)) {
+        make_choice++;
+      }
+      if (make_choice == size(enIntro)) {
+        make_choice = 0;
+        currentState = State::OtherTurn;
+      }
+      break;
     case State::Dead:
       Rip(player, death_reason);
+      Class::arduboy.display();
       break;
     case State::UseOn:
       {
@@ -682,23 +705,28 @@ void loop() {
           EndTurn(player);
         }
       }
+      Class::arduboy.display();
       break;
     case State::Destroy:
       {
         if (use == 0) {
           if (scene->atGet(Class::Directive::Character))
             use = ShowInfo(scene->atGet(Class::Directive::Character), 1);
+          else
+            currentState = State::Menu;
         } else {
-          Rip(use);
+          Rip(use); //TODO destroying walls
           scene->atPut(Class::Directive::Delete, use);
           use = 0;
           currentState = State::Menu;
         }
       }
+      Class::arduboy.display();
       break;
     case State::Wait:
       SaveCursor();
       EndTurn(player);
+      Class::arduboy.display();
       break;
     case State::Menu:
       {
@@ -725,6 +753,7 @@ void loop() {
           currentState = currentSelection;
         }
       }
+      Class::arduboy.display();
       break;
     case State::Info:
       {
@@ -735,6 +764,7 @@ void loop() {
           currentState = State::Menu;
         }
       }
+      Class::arduboy.display();
       break;
     case State::Turn:
       {
@@ -786,6 +816,7 @@ void loop() {
         if (c)
           (*scripts[c->toInt()]) (c, c, scene, player);
       }
+      Class::arduboy.display();
       break;
     case State::OtherTurn:
       {
@@ -830,5 +861,5 @@ void loop() {
       }
       break;
   }
-  Class::arduboy.display();
+  //Class::arduboy.display();
 }

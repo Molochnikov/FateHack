@@ -1,5 +1,12 @@
 #pragma once
 
+constexpr char enIntro1[] PROGMEM = "You live in communist\nmining village.\n\n1 year equal 9 days.\n\nYour task to fulfill\nthe annual ore mining\nplan.";
+constexpr char enIntro2[] PROGMEM = "In reward you can\norder food and picks\nfrom other villages\nfor next year.\n\nGood luck!";
+
+constexpr const char *enIntro[] PROGMEM = {
+  enIntro1, enIntro2
+};
+
 constexpr char enDrop[] PROGMEM = "drop";
 constexpr char enWait[] PROGMEM = "wait";
 constexpr char enInfo[] PROGMEM = "info";
