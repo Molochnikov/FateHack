@@ -4,7 +4,7 @@ Roguelike game for [Arduboy](https://arduboy.com/) or [its emulator](https://git
 ![screen](/screen.png)
 
 Bottom panel from left to right:
-* memory left `556` (if `LOW` then you better start destroying objects)
+* memory left `556` (if `LOW` then you better start destroying most useless objects)
 * current year `14Y`
 * current day `1D`
 * current hour `1:`
@@ -12,6 +12,7 @@ Bottom panel from left to right:
 * current negative elevation `0`
 
 Game features:
+* cursor
 * pet
 * toilet
 * thirst
