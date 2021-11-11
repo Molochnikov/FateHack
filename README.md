@@ -2,8 +2,14 @@
 Roguelike game for [Arduboy](https://arduboy.com/) or [its emulator](https://github.com/felipemanga/ProjectABE/releases/latest) influenced by NetHack and WildTangent's FATE.
 
 ![screen](/screen.png)
-|
-+-Memory left (if `LOW` then you better start destroying objects)
+
+Bottom panel from left to right:
+* memory left (if `LOW` then you better start destroying objects)
+* current year `14Y`
+* current day `1D`
+* current hour `1:`
+* current minute `:1`
+* current negative elevation
 
 Game features:
 * pet
