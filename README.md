@@ -1,7 +1,9 @@
 # FateHack
 Roguelike game for [Arduboy](https://arduboy.com/) or [its emulator](https://github.com/felipemanga/ProjectABE/releases/latest) influenced by NetHack and WildTangent's FATE.
 
-![Screenshot](/1.png)
+![screen](/screen.png)
+|
++-Memory left (if `LOW` then you better start destroying objects)
 
 Game features:
 * pet
@@ -27,6 +29,3 @@ Controls:
 * <kbd>Up</kbd> , <kbd>Down</kbd> , <kbd>Left</kbd> , <kbd>Right</kbd> - move cursor
 * <kbd>A</kbd> or <kbd>Ctrl</kbd> + <kbd>Up</kbd> , <kbd>Down</kbd> , <kbd>Left</kbd> , <kbd>Right</kbd> - move player
 * <kbd>B</kbd> or <kbd>Alt</kbd> - toggle menu at cursor position
-
-Hints:
-* if you will see `LOW` memory then you better start destroying objects
