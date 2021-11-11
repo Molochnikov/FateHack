@@ -130,18 +130,20 @@ void Rip(Class* c, size_t reason = 0) {
 }
 
 void ExchangeOreStock() {
-  byte incr = 1;
+  byte incr_need = 1;
+  byte min_need = 10;
+  byte pick_rate = 3;
   if (ore_stock >= ore_need) {
     food_stock = food_stock + ore_need;
-    pick_stock = pick_stock + (ore_need / 2);
-    ore_need = ore_need + random(incr);
+    pick_stock = pick_stock + (ore_need / pick_rate);
+    ore_need = ore_need + random(incr_need);
     ore_stock = ore_stock - ore_need;
   } else {
     food_stock = food_stock + ore_stock;
-    pick_stock = pick_stock + ((ore_stock / ore_need) * (ore_need / 2));
-    ore_need = ore_need - incr;
-    if (ore_need < 10)
-      ore_need = ore_need + random(incr);
+    pick_stock = pick_stock + ((ore_stock / ore_need) * (ore_need / pick_rate));
+    ore_need = ore_need - incr_need;
+    if (ore_need < min_need)
+      ore_need = ore_need + random(incr_need);
     ore_stock = 0;
   }
 }
@@ -467,7 +469,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     if (target_of) {
       Class * pck = Class::exemplar.make(pick);
       if ((target_of->atPut(Class::Directive::Character, pck)) == 0) {
-        PrintMessage(owner, 8, pck);
+        PrintMessage(target_of, 8, pck);
         target_of->atPut(Class::Directive::Add, pck);
       } else {
         delete pck;
@@ -479,19 +481,34 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     return 0;
   },
   [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //9
+
     return 0;
   },
   [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //10
+    if (target_of) {
+      Class* hngr = Class::exemplar.make(hunger); //create thirst
+      Class* a = target_of->atPut(Class::Directive::Character, hngr); //find
+      delete hngr; //free object
+      if (a) {
+        Rip(a);
+        scene->atPut(Class::Directive::Delete, a); //if has then delete
+        Rip(cls); //print message
+        scene->atPut(Class::Directive::Delete, cls); //delete this
+        a = Class::exemplar.make(bottle);
+        PrintMessage(owner, 8, a);
+        owner->atPut(Class::Directive::Add, a);
+      }
+    }
     return 0;
   },
   [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //11
     if (target_of) {
       Class* thrst = Class::exemplar.make(thirst); //create thirst
-      Class* a = target_of->atPut(Class::Directive::Character, thrst); //find thirst
+      Class* a = target_of->atPut(Class::Directive::Character, thrst); //find
       delete thrst; //free object
       if (a) {
         Rip(a);
-        scene->atPut(Class::Directive::Delete, a); //if has thirst then delete
+        scene->atPut(Class::Directive::Delete, a); //if has then delete
         Rip(cls); //print message
         scene->atPut(Class::Directive::Delete, cls); //delete this
         a = Class::exemplar.make(bottle);
@@ -729,7 +746,14 @@ void loop() {
       Class::arduboy.print(F("picks | autopickup"));
       Class::arduboy.println(readFlashStringPointer(&enMessages[0]));
       Class::arduboy.display();
-      if (Class::arduboy.justPressed(B_BUTTON)) {
+      if (Class::arduboy.justPressed(A_BUTTON)) {
+        if (food_stock > 0) {
+          Class * fd = Class::exemplar.make(food);
+          PrintMessage(player, 8, fd);
+          player->atPut(Class::Directive::Add, fd);
+          food_stock--;
+        }
+      } else if (Class::arduboy.justPressed(B_BUTTON)) {
         EndTurn(player);
       }
       break;

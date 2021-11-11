@@ -63,6 +63,7 @@ const char cyanp[] PROGMEM = "P!B0cyan";
 const char waterp[] PROGMEM = "P!B11water";
 const char bottle[] PROGMEM = "P!B10empty bottle";
 const char pick[] PROGMEM = "PTB0pick";
+const char food[] PROGMEM = "PTB9food";
 
 const char * const grounds[] PROGMEM = {
   soil, sand
