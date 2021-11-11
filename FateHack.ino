@@ -367,8 +367,9 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
       owner->atPut(Class::Directive::Add, drws);
       PrintMessage(owner, 8, drws);
     } else if ((hour == 0) && (minute == 0) && ((owner->atPut(Class::Directive::Character, drws)))) {
-      owner->atPut(Class::Directive::Add, sleep);
-      PrintMessage(owner, 8, sleep);
+      Class * slp = Class::exemplar.make(sleep);
+      owner->atPut(Class::Directive::Add, slp);
+      PrintMessage(owner, 8, slp);
     } else {
       delete drws;
     }
