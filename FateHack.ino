@@ -367,8 +367,8 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
       owner->atPut(Class::Directive::Add, drws);
       PrintMessage(owner, 8, drws);
     } else if ((hour == 0) && (minute == 0) && ((owner->atPut(Class::Directive::Character, drws)))) {
-      Rip(owner, 4);
-      scene->atPut(Class::Directive::Delete, owner); //dissapear
+      owner->atPut(Class::Directive::Add, sleep);
+      PrintMessage(owner, 8, sleep);
     } else {
       delete drws;
     }
@@ -481,7 +481,6 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     return 0;
   },
   [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //9
-
     return 0;
   },
   [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //10
@@ -514,7 +513,10 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
       }
     }
     return 0;
-  }
+  },
+  [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //12
+    return 0;
+  },
 };
 
 byte RebuildScene(const char* s) {
@@ -860,7 +862,6 @@ void loop() {
         Class* c = 0;
         if (Class::arduboy.justPressed(UP_BUTTON)) {
           if (Class::arduboy.anyPressed(A_BUTTON)) {
-            //target =
             c = scene->atPut(Class::Directive::Up, player);
             EndTurn(player);
             SaveCursor();
@@ -870,7 +871,6 @@ void loop() {
         }
         if (Class::arduboy.justPressed(DOWN_BUTTON)) {
           if (Class::arduboy.anyPressed(A_BUTTON)) {
-            //target =
             c = scene->atPut(Class::Directive::Down, player);
             EndTurn(player);
             SaveCursor();
@@ -880,7 +880,6 @@ void loop() {
         }
         if (Class::arduboy.justPressed(LEFT_BUTTON)) {
           if (Class::arduboy.anyPressed(A_BUTTON)) {
-            //target =
             c = scene->atPut(Class::Directive::Left, player);
             EndTurn(player);
             SaveCursor();
@@ -890,7 +889,6 @@ void loop() {
         }
         if (Class::arduboy.justPressed(RIGHT_BUTTON)) {
           if (Class::arduboy.anyPressed(A_BUTTON)) {
-            //target =
             c = scene->atPut(Class::Directive::Right, player);
             EndTurn(player);
             SaveCursor();
@@ -913,13 +911,11 @@ void loop() {
         if (pcur == 0) {
           scene->atPut(Class::Directive::Turn, 0);
         } else {
-          //SetCursor(pcur);
           if (pcur == player) {
-            //pcur->atPut(Class::Directive::Turn, 0);
             freeMem = Class::getFreeMemory();
             currentState = State::Turn;
             RestoreCursor();
-          } //else {
+          }
           Class *owner = pcur;
           Class *scene_owner = (scene->atPut(Class::Directive::Owner, pcur));
           if (scene_owner == 0)
@@ -949,5 +945,4 @@ void loop() {
       }
       break;
   }
-  //Class::arduboy.display();
 }
