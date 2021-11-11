@@ -486,7 +486,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
   },
   [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //10
     if (target_of) {
-      Class* hngr = Class::exemplar.make(hunger); //create thirst
+      Class* hngr = Class::exemplar.make(hunger); //create
       Class* a = target_of->atPut(Class::Directive::Character, hngr); //find
       delete hngr; //free object
       if (a) {
@@ -494,16 +494,13 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
         scene->atPut(Class::Directive::Delete, a); //if has then delete
         Rip(cls); //print message
         scene->atPut(Class::Directive::Delete, cls); //delete this
-        a = Class::exemplar.make(bottle);
-        PrintMessage(owner, 8, a);
-        owner->atPut(Class::Directive::Add, a);
       }
     }
     return 0;
   },
   [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //11
     if (target_of) {
-      Class* thrst = Class::exemplar.make(thirst); //create thirst
+      Class* thrst = Class::exemplar.make(thirst); //create
       Class* a = target_of->atPut(Class::Directive::Character, thrst); //find
       delete thrst; //free object
       if (a) {
@@ -588,6 +585,7 @@ void setup() {
   pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(mnd)));
   pcur->atPut(Class::Directive::Block, pcur);
   pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(waterp)));
+  pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(filter)));
 
   pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(pet)));
   pcur->atPut(Class::Directive::Place, pcur);
