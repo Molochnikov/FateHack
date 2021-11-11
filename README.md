@@ -9,7 +9,7 @@ Bottom panel from left to right:
 * current day `1D`
 * current hour `1:`
 * current minute `:1`
-* current negative elevation
+* current negative elevation `0`
 
 Game features:
 * pet
