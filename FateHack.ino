@@ -104,7 +104,8 @@ void PrintMessage(Class* src = 0, size_t num = 0, Class* trg = 0) {
     if (src)
       src->atGet(Class::Directive::Draw);
     else
-      Class::arduboy.println(F("scene"));
+      Class::arduboy.print(F("scene"));
+    Class::arduboy.println();
     Class::arduboy.println(readFlashStringPointer(&enMessages[num]));
     if (trg)
       Class::arduboy.print(asFlashStringHelper(trg->toStr()));
@@ -128,6 +129,32 @@ void Rip(Class* c, size_t reason = 0) {
   }
 }
 
+void ExchangeOreStock() {
+  byte incr = 1;
+  if (ore_stock >= ore_need) {
+    food_stock = food_stock + ore_need;
+    pick_stock = pick_stock + (ore_need / 2);
+    ore_need = ore_need + random(incr);
+    ore_stock = ore_stock - ore_need;
+  } else {
+    food_stock = food_stock + ore_stock;
+    pick_stock = pick_stock + ((ore_stock / ore_need) * (ore_need / 2));
+    ore_need = ore_need - incr;
+    if (ore_need < 10)
+      ore_need = ore_need + random(incr);
+    ore_stock = 0;
+  }
+}
+
+void SpendFoodStock() {
+  if (food_stock < population_stock) {
+    population_stock = food_stock + 1;
+    food_stock = 0;
+  } else {
+    food_stock = food_stock - population_stock;
+  }
+}
+
 void EndTurn(Class* pl) {
   pl->atPut(Class::Directive::Turn, 0);
   currentState = State::OtherTurn;
@@ -143,6 +170,8 @@ void EndTurn(Class* pl) {
   if (day == 10) {
     day = 0;
     age++;
+    ExchangeOreStock();
+    SpendFoodStock();
   }
 }
 
