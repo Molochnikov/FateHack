@@ -2,8 +2,7 @@
 
 /*
    P - player mark
-   @ - player type and symbol
-   10 - initial stress
+   @ - player symbol
    B/b - block/not block
    19 - script number
    name - name and description
