@@ -202,6 +202,7 @@ Class *Player::atGet(Directive key) {
         if (Class::getBits(_bit_mask, 7, 4)) {
           return this;
         } else {
+          this->atPut(Class::Directive::Countdown, this);
           return 0;
         }
       }
