@@ -518,6 +518,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     return 0;
   },
   [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //12
+    owner->atPut(Class::Directive::Turn, 0);
     return 0;
   },
 };
@@ -923,10 +924,6 @@ void loop() {
           Class *scene_owner = (scene->atPut(Class::Directive::Owner, pcur));
           if (scene_owner == 0)
             scene_owner = owner;
-          is_next_scene = (*scripts[owner->toInt()]) (owner, scene_owner, scene, target);
-          if (is_next_scene != 0)
-            break;
-          scene->atPut(Class::Directive::Clear, path);
           if (pcur)
             pcur = (pcur->atGet(Class::Directive::Next));
           while (pcur && ((pcur->atGet(Class::Directive::Place)) == 0)) {
@@ -939,8 +936,10 @@ void loop() {
               pcur = (pcur->atGet(Class::Directive::Next));
             }
           }
+          is_next_scene = (*scripts[owner->toInt()]) (owner, scene_owner, scene, target);
           if (is_next_scene != 0)
             break;
+          scene->atPut(Class::Directive::Clear, path);
           if (owner)
             owner->atPut(Class::Directive::Turn, 0);
         }

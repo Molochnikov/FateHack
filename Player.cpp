@@ -92,6 +92,14 @@ Class *Player::atPut(Directive key, Class *arg) {
       }
       return 0;
       break;
+    case Class::Directive::Countdown: //reset sleep
+      if (arg) {
+        _bit_mask = Class::setBits(_bit_mask, 7, 15, 4);
+      } else {
+        _bit_mask = Class::setBits(_bit_mask, 7, 0, 4);
+      }
+      return this;
+      break;
     case Class::Directive::Block: //set block path or bind
       if (arg) {
         _bit_mask = Class::setBits(_bit_mask, 3, 1, 1);
@@ -185,6 +193,17 @@ Class *Player::atGet(Directive key) {
         return this;
       } else {
         return 0;
+      }
+      break;
+    case Class::Directive::Countdown: //iterate and return sleep
+      {
+        byte new_countdown = Class::getBits(_bit_mask, 7, 4) - 1;
+        _bit_mask = Class::setBits(_bit_mask, 7, new_countdown, 4);
+        if (Class::getBits(_bit_mask, 7, 4)) {
+          return this;
+        } else {
+          return 0;
+        }
       }
       break;
     case Class::Directive::Block: //is blocking paths or blocking aspect removal

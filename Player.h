@@ -24,7 +24,7 @@ class Player : public Class {
             | | | +--- has turn bit
             | | +----- has to be placed bit
             | +------- is block/bind bit
-            +--------- unused bits (maybe counter)
+            +--------- sleep duration
     */
     static const char _typeChar = 'P';
 };

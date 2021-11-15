@@ -29,7 +29,7 @@ Programming features for using as engine for other Arduboy roguelikes:
 * object builder
 * dynamic memory allocation for every object (yes, you can run out of memory)
 * full power of parametric polymorphism
-* master design pattern at the core - prototype (exemplar)
+* master OOP pattern at the core - prototype (exemplar)
 * easy scripting for objects interactions
 
 Controls:
