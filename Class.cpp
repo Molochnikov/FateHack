@@ -32,12 +32,13 @@ Class *Class::make(const char* s) {
   Class *retval = 0;
   for (Class *a = list; a; a = a->next) {
     if (a != (&Class::exemplar)) {
-      if (retval = a->make(s)) {
+      if ((retval = a->make(s))) {
         retval->_init = s;
         return retval;
       }
     }
   }
+  return 0;
 }
 
 Class::Class() {
@@ -58,11 +59,11 @@ void Class::die( void ) {
   }
 }
 
-Class *Class::atPut(Directive key, Class *arg) {
+Class *Class::atPut(Directive, Class *) {
   return 0;
 }
 
-Class *Class::atGet(Directive key) {
+Class *Class::atGet(Directive) {
   return 0;
 }
 
@@ -70,7 +71,7 @@ Class *Class::clone() const {
   return Class::exemplar.make(_init);
 }
 
-const char* Class::toStr() {
+char* Class::toStr() {
   return 0;
 }
 
@@ -83,17 +84,17 @@ const char* Class::toStr() {
 //}
 
 byte Class::getBits(byte x, byte p, byte n) {
-  return (x >> (p + 1 - n)) & (~((~0) << n));
+  return (x >> (p + 1 - n)) & (~((~0U) << n));
 }
 
 byte Class::setBits(byte x, byte pos_new_bits, byte new_bits, byte num_new_bits) {
   return (x & (~(((byte)(pow(2, num_new_bits)) - 1) << (pos_new_bits + 1 - num_new_bits)))) | (new_bits << (pos_new_bits + 1 - num_new_bits));
 }
 
-const int Class::toInt() {
+int Class::toInt() {
   return 0;
 }
 
-const char Class::getTypeChar() {
+char Class::getTypeChar() {
   return 0;
 }

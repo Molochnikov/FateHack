@@ -83,11 +83,6 @@ size_t currentSelection = State::MenuMIN;
 size_t freeMem = 0;
 size_t death_reason = 0;
 
-void exit( int ignored ) {
-  cli();
-  while (1);
-}
-
 void PrintDebug(FlashStringHelper msg) {
   for (int i = 0; i < 200; i++) {
     Class::arduboy.clear();
@@ -199,7 +194,7 @@ void RestoreCursor() {
   }
 }
 
-Class * SetCursor(char * c) {
+Class * SetCursor(const char * c) {
   Class * cls = 0;
   while (scene->atGet(Class::Directive::Left)) {};
   while (scene->atGet(Class::Directive::Up)) {};
@@ -222,9 +217,9 @@ Class * SetCursor(char * c) {
 //}
 
 void NextScene(int portal, byte make_blocks = 0, byte make_soil = 1) {
-  int block_chance = 2;
-  int soil_chance = 10;
-  int num = 4;
+  //int block_chance = 2;
+  //int soil_chance = 10;
+  //int num = 4;
   int is_down = 0;
   byte is_predefined = 0;
 
@@ -332,16 +327,16 @@ void NextScene(int portal, byte make_blocks = 0, byte make_soil = 1) {
 }
 
 byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
-  [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //0
+  [](Class *, Class *, Class *, Class *) -> byte { //0
     return 0;
   },
-  [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //1
+  [](Class * cls, Class * owner, Class * scene, Class *) -> byte { //1
     scene->atPut(Class::Directive::Clear, path);
     scene->atPut(Class::Directive::Map, owner);
     scene->atPut(Class::Directive::Move, cls);
     return 0;
   },
-  [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //2
+  [](Class *, Class * owner, Class * scene, Class *) -> byte { //2
     Class * hgr = Class::exemplar.make(hunger);
     if ((hour == 5) && (minute == 0) && ((owner->atPut(Class::Directive::Character, hgr)) == 0))  {
       owner->atPut(Class::Directive::Add, hgr);
@@ -387,7 +382,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     }
     return 0;
   },
-  [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //3
+  [](Class *, Class *, Class * scene, Class * target_of) -> byte { //3
     if (target_of == player) {
       NextScene(1, 1);
       return 1;
@@ -397,7 +392,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     }
     return 0;
   },
-  [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //4
+  [](Class *, Class *, Class * scene, Class * target_of) -> byte { //4
     if (target_of == player) {
       NextScene(-1, 1);
       return 1;
@@ -407,7 +402,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     }
     return 0;
   },
-  [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //5
+  [](Class *, Class * owner, Class * scene, Class *) -> byte { //5
     if (scene_num == 255) {
       return 0;
     }
@@ -425,7 +420,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     }
     return 0;
   },
-  [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //6
+  [](Class *, Class * owner, Class * scene, Class *) -> byte { //6
     Class * c = SetCursor(descend); //find descend in scene
     if (c) {
       if ((scene->atPut(Class::Directive::Near, owner)) == owner) { //if descend in cursor near this
@@ -442,7 +437,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
   },
   [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //7
     if (target_of) {
-      for (int i = 0; i < size(waters); i++) { //find target in waters
+      for (unsigned int i = 0; i < size(waters); i++) { //find target in waters
         if ((target_of->_init) == waters[i]) { //found
           scene->atPut(Class::Directive::Cursor, owner); //set cursor on owner
           if ((scene->atPut(Class::Directive::Near, target_of)) == target_of) { //if near target
@@ -454,7 +449,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
           }
         }
       }
-      for (int i = 0; i < size(potions); i++) { //find target in potions
+      for (unsigned int i = 0; i < size(potions); i++) { //find target in potions
         if ((target_of->_init) == potions[i]) { //found
           if ((scene->atPut(Class::Directive::Owner, target_of)) == owner) { //if owner of target
             (*scripts[target_of->toInt()]) (target_of, owner, scene, cls); //run potion script
@@ -468,7 +463,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     }
     return 0;
   },
-  [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //8
+  [](Class *, Class *, Class *, Class * target_of) -> byte { //8
     if (target_of) {
       Class * pck = Class::exemplar.make(pick);
       if ((target_of->atPut(Class::Directive::Character, pck)) == 0) {
@@ -483,10 +478,11 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     }
     return 0;
   },
-  [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //9
+  [](Class *, Class * owner, Class *, Class *) -> byte { //9
+    owner->atPut(Class::Directive::Turn, 0);
     return 0;
   },
-  [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //10
+  [](Class * cls, Class *, Class * scene, Class * target_of) -> byte { //10
     if (target_of) {
       Class* hngr = Class::exemplar.make(hunger); //create
       Class* a = target_of->atPut(Class::Directive::Character, hngr); //find
@@ -516,11 +512,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
       }
     }
     return 0;
-  },
-  [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //12
-    owner->atPut(Class::Directive::Turn, 0);
-    return 0;
-  },
+  }
 };
 
 byte RebuildScene(const char* s) {
@@ -557,7 +549,7 @@ byte RebuildScene(const char* s) {
         }
         scene->atPut(Class::Directive::Character, (scene->atGet(Class::Directive::Block)));
       } else {
-        for (int i = 0; i < size(players); i++) {
+        for (unsigned int i = 0; i < size(players); i++) {
           if (ch == pgm_read_byte_near(pgm_read_word(&(players[i])) + 1)) {
             w = Class::exemplar.make(pgm_read_word(&(players[i])));
             w->atPut(Class::Directive::Hidden, w);
@@ -825,7 +817,7 @@ void loop() {
     case State::Menu:
       {
         Class::arduboy.setCursor(0, 0);
-        for (int i = 0; i < size(enMenuItems); i++) {
+        for (unsigned int i = 0; i < size(enMenuItems); i++) {
           if (currentSelection == i) {
             Class::arduboy.print('\x1A');
           } else {

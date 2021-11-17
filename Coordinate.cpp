@@ -2,11 +2,11 @@
 
 //Coordinate *Coordinate::_exemplar = new Coordinate(Exemplar());
 
-const char* Coordinate::toStr() {
+char* Coordinate::toStr() {
   return 0;
 }
 
-const int Coordinate::toInt() {
+int Coordinate::toInt() {
   return value;
 }
 
@@ -18,7 +18,7 @@ char Coordinate::numChar(int number)
   return numberArray;
 }
 
-const char Coordinate::getTypeChar() {
+char Coordinate::getTypeChar() {
   return Coordinate::_typeChar;
 }
 

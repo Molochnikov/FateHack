@@ -1,15 +1,15 @@
 #include "Scene.h"
 //Scene *Scene::_exemplar = new Scene(Exemplar());
 
-const char* Scene::toStr() {
+char* Scene::toStr() {
   return 0;
 }
 
-const int Scene::toInt() {
+int Scene::toInt() {
   return 0;
 }
 
-const char Scene::getTypeChar() {
+char Scene::getTypeChar() {
   return Scene::_typeChar;
 }
 
@@ -91,6 +91,7 @@ Class *Scene::addClassToScene(Class *arg, int pos, int newpos, Scene::AddClassAc
       }
       break;
   }
+  return 0;
 }
 
 Class *Scene::getUpThingFrom(Class *arg, Scene::AddClassAction action, Class *clone) {
@@ -154,9 +155,9 @@ void Scene::clearClasses(Class *arg) {
   }
 }
 
-Class *Scene::buildScene(Class *player, Class *path_proto, Class *block_proto, int is_scene_already = 0) {
-  int plrpos;
-  Class * c;
+Class *Scene::buildScene(Class *player, Class *path_proto, Class *block_proto, int is_scene_already) {
+  int plrpos = 0;
+  Class * c = 0;
   if (is_scene_already) {
     for (int pos = 0; pos < (_xsize * _ysize); pos++) {
       if (_characters[pos] == player) {
@@ -176,7 +177,7 @@ Class *Scene::buildScene(Class *player, Class *path_proto, Class *block_proto, i
   return c;
 }
 
-Class *Scene::closest(Class *arg, byte farest = 0, byte is_block = 0, byte is_not_block = 0) {
+Class *Scene::closest(Class *arg, byte farest, byte is_block, byte is_not_block) {
   int closest_pos = -1;
   int num = 0;
   int max_path_length = 0;
@@ -233,25 +234,25 @@ Class *Scene::closest(Class *arg, byte farest = 0, byte is_block = 0, byte is_no
   return 0;
 }
 
-Class *Scene::buildPath(Class *path_proto, Class *block_proto, int is_scene_already = 0) {
+Class *Scene::buildPath(Class *path_proto, Class *block_proto, int is_scene_already) {
   int has_free = 1;
   int max_instances = 21;
   int min_instances = 20;
   int chance = 3;
-  int last_pos;
+  //int last_pos;
   int count_visited;
   int count_created;
 
   while (has_free) {
     count_created = 0;
     count_visited = 0;
-    last_pos = -1;
+    //last_pos = -1;
     for (int pos = 0; pos < (_xsize * _ysize); pos++) {
       //if ((count_created + count_visited) > max_instances)
       //break;
       if (_characters[pos] && (_characters[pos]->getTypeChar() == path_proto->getTypeChar())) {
         count_visited++;
-        last_pos = pos;
+        //last_pos = pos;
         if ((((count_created + count_visited) < max_instances) && random(chance)) || is_scene_already) {
           if (Scene::getUpThingFrom(_characters[pos], Scene::AddClassAction::CloneIfEmpty, _characters[pos]) == 0)
             count_created++;
@@ -299,7 +300,7 @@ Class *Scene::buildPath(Class *path_proto, Class *block_proto, int is_scene_alre
   return this;
 }
 
-Class *Scene::recursiveDeleteClass(Class* arg) {
+void Scene::recursiveDeleteClass(Class* arg) {
   if (arg) {
     byte is_delete = 1;
     for (int pos = 0; pos < (_xsize * _ysize); pos++) { //don't delete shared classes (for example _block_proto)
@@ -376,9 +377,9 @@ Class *Scene::atPut(Directive key, Class *arg) {
     case Class::Directive::Delete: //delete arg from every other class on the scene but not _block_proto
       {
         if (arg) {
-          Class * cl = 0;
-          Class * before = 0;
-          Class * after = 0;
+          //Class * cl = 0;
+          //Class * before = 0;
+          //Class * after = 0;
           for (int pos = 0; pos < (_xsize * _ysize); pos++) { //we need to remove arg from class chains of every other class
             if (_characters[pos]) {
               _characters[pos]->atPut(Class::Directive::Delete, arg);
@@ -711,6 +712,7 @@ Class *Scene::atGet(Directive key) {
       return Class::atGet(key);
       break;
   }
+  return 0;
 }
 
 Scene::~Scene() {

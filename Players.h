@@ -18,13 +18,13 @@ const char water[] PROGMEM = "P~B0raw water";
 const char vn[] PROGMEM = "P*B0vein";
 const char life[] PROGMEM = "P B2life\nLiving thing. \nLife causes hunger, \nthirst, sleep, waste, \nillness and breathe. \nYou can lost it.";
 const char mnd[] PROGMEM = "P B0mind\nIndividual that \nfeels, perceives, \nwills, and especially \nreasons and thinks.";
-const char hunger[] PROGMEM = "P B9hunger";
+const char hunger[] PROGMEM = "P B0hunger";
 const char thirst[] PROGMEM = "PtB0thirst";
-const char drowsy[] PROGMEM = "P B9drowsy";
+const char drowsy[] PROGMEM = "P B0drowsy";
 const char toilet[] PROGMEM = "P B7toilet";
-const char sand[] PROGMEM = "P.B9sand";
+const char sand[] PROGMEM = "P.B0sand";
 const char soil[] PROGMEM = "P,B0soil";
-const char farm[] PROGMEM = "P=B9farm";
+const char farm[] PROGMEM = "P=B0farm";
 const char gold[] PROGMEM = "P$b0gold";
 const char pet[] PROGMEM = "Ppb1friend";
 const char threat[] PROGMEM = "PTB0threat";
@@ -61,11 +61,11 @@ const char grayp[] PROGMEM = "P!B0gray";
 const char cyanp[] PROGMEM = "P!B0cyan";
 const char waterp[] PROGMEM = "P!B11water";
 const char rawwaterp[] PROGMEM = "P!B11raw water";
-const char bottle[] PROGMEM = "P!B9empty bottle";
+const char bottle[] PROGMEM = "P!B0empty bottle";
 const char pick[] PROGMEM = "PTB0pick";
 const char food[] PROGMEM = "P*B10food";
 const char filter[] PROGMEM = "PfB0coal filter";
-const char sleep[] PROGMEM = "PZB12sleep";
+const char sleep[] PROGMEM = "PZB9sleep";
 
 const char * const grounds[] PROGMEM = {
   soil, sand

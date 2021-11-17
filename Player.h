@@ -11,9 +11,9 @@ class Player : public Class {
     Class *atPut(Directive key, Class *arg);
     Class *atGet(Directive key);
     Class *make(const char* s);
-    const char* toStr();
-    const int toInt();
-    const char getTypeChar();
+    char* toStr();
+    int toInt();
+    char getTypeChar();
     virtual Class *clone() const;
   private:
     Class * _next = 0;

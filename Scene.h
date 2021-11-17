@@ -7,9 +7,9 @@ class Scene : public Class {
   public:
     Class *atPut(Directive key, Class *arg);
     Class *atGet(Directive key);
-    const char* toStr();
-    const int toInt();
-    const char getTypeChar();
+    char* toStr();
+    int toInt();
+    char getTypeChar();
     Scene(Exemplar a);
     Scene(const char *s);
     ~Scene();
@@ -37,5 +37,5 @@ class Scene : public Class {
     Class *buildPath(Class *path_proto, Class *block_proto, int is_scene_already = 0);
     void clearClasses(Class *arg);
     Class *closest(Class *arg, byte farest = 0, byte is_block = 0, byte is_not_block = 0);
-    Class *recursiveDeleteClass(Class* arg);
+    void recursiveDeleteClass(Class* arg);
 };

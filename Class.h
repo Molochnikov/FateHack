@@ -42,7 +42,7 @@ class Class {
       Character,
       Add,
       Owner,
-      Countdown,
+      Count,
       Near,
       Cursor
     };
@@ -54,8 +54,8 @@ class Class {
     virtual Class *atGet(Directive key);
     virtual Class *clone() const;
     virtual Class *make(const char* s);
-    virtual const char* toStr();
-    virtual const int toInt();
-    virtual const char getTypeChar();
+    virtual char* toStr();
+    virtual int toInt();
+    virtual char getTypeChar();
     //static byte DropDice(byte d = 2, byte n = 1);
 };

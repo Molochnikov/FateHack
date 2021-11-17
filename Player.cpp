@@ -2,7 +2,7 @@
 
 //Player *Player::_exemplar = new Player(Exemplar());
 
-const char* Player::toStr() {
+char* Player::toStr() {
   char* c  = _init;
   c += 3;
   while (::isdigit(pgm_read_byte_near(c))) {
@@ -12,7 +12,7 @@ const char* Player::toStr() {
   //return _name;
 }
 
-const int Player::toInt() {
+int Player::toInt() {
   char* c  = _init;
   byte _script = 0;
   c += 3;
@@ -25,7 +25,7 @@ const int Player::toInt() {
 }
 
 
-const char Player::getTypeChar() {
+char Player::getTypeChar() {
   return Player::_typeChar;
 }
 
@@ -92,7 +92,7 @@ Class *Player::atPut(Directive key, Class *arg) {
       }
       return 0;
       break;
-    case Class::Directive::Countdown: //reset sleep
+    case Class::Directive::Count: //reset sleep
       if (arg) {
         _bit_mask = Class::setBits(_bit_mask, 7, 15, 4);
       } else {
@@ -195,18 +195,18 @@ Class *Player::atGet(Directive key) {
         return 0;
       }
       break;
-    case Class::Directive::Countdown: //iterate and return sleep
-      {
-        byte new_countdown = Class::getBits(_bit_mask, 7, 4) - 1;
-        _bit_mask = Class::setBits(_bit_mask, 7, new_countdown, 4);
-        if (Class::getBits(_bit_mask, 7, 4)) {
-          return this;
-        } else {
-          this->atPut(Class::Directive::Countdown, this);
-          return 0;
-        }
-      }
-      break;
+    //    case Class::Directive::Countdown: //iterate and return sleep
+    //      {
+    //        byte new_countdown = Class::getBits(_bit_mask, 7, 4) - 1;
+    //        _bit_mask = Class::setBits(_bit_mask, 7, new_countdown, 4);
+    //        if (Class::getBits(_bit_mask, 7, 4)) {
+    //          return this;
+    //        } else {
+    //          this->atPut(Class::Directive::Countdown, this);
+    //          return 0;
+    //        }
+    //      }
+    //      break;
     case Class::Directive::Block: //is blocking paths or blocking aspect removal
       if (Class::getBits(_bit_mask, 3, 1)) {
         return this;

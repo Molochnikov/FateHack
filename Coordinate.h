@@ -8,9 +8,9 @@ class Coordinate : public Class {
   public:
     Class *atPut(Directive key, Class *arg);
     Class *atGet(Directive key);
-    const char* toStr();
-    const int toInt();
-    const char getTypeChar();
+    char* toStr();
+    int toInt();
+    char getTypeChar();
     ~Coordinate();
     Coordinate(Exemplar a);
     virtual Class *clone() const;
