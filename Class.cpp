@@ -88,7 +88,7 @@ byte Class::getBits(byte x, byte p, byte n) {
 }
 
 byte Class::setBits(byte x, byte pos_new_bits, byte new_bits, byte num_new_bits) {
-  return (x & (~(((byte)(pow(2, num_new_bits)) - 1) << (pos_new_bits + 1 - num_new_bits)))) | (new_bits << (pos_new_bits + 1 - num_new_bits));
+  return (x & (~(((byte)(1 << num_new_bits) - 1) << (pos_new_bits + 1 - num_new_bits)))) | (new_bits << (pos_new_bits + 1 - num_new_bits));
 }
 
 int Class::toInt() {
