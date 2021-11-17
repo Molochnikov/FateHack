@@ -9,13 +9,13 @@ constexpr const char *enIntro[] PROGMEM = {
 
 constexpr char enDrop[] PROGMEM = "drop";
 constexpr char enWait[] PROGMEM = "wait";
-constexpr char enInfo[] PROGMEM = "info";
-constexpr char enUseOn[] PROGMEM = "use smth on this";
-constexpr char enDestroy[] PROGMEM = "destroy (if low mem)";
+//constexpr char enInfo[] PROGMEM = "info";
+constexpr char enUseOn[] PROGMEM = "info/use 2nd on 1st";
+constexpr char enDestroy[] PROGMEM = "destroy (if LOW mem)";
 
 constexpr const char *enMenuItems[] PROGMEM = {
   enWait,
-  enInfo,
+//  enInfo,
   enUseOn,
   enDestroy
 };
@@ -30,6 +30,7 @@ constexpr char enDead[] PROGMEM = "disappeared";
 constexpr char enFar[] PROGMEM = "away from";
 constexpr char enOwner[] PROGMEM = "not owner";
 constexpr char enGot[] PROGMEM = "got";
+constexpr char enSleep[] PROGMEM = "Zzz";
 
 constexpr const char *enMessages[] PROGMEM = {
   enSpace,//0
@@ -41,5 +42,6 @@ constexpr const char *enMessages[] PROGMEM = {
   enFar,//6
   enOwner,//7
   enGot,//8
-  enDrop//9
+  enDrop,//9
+  enSleep//10
 };

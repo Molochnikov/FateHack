@@ -65,7 +65,7 @@ byte food_stock = 100;
 
 enum State {
   Wait = 0,
-  Info,
+  //  Info,
   UseOn,
   Destroy,
   Menu,
@@ -478,8 +478,18 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     }
     return 0;
   },
-  [](Class *, Class * owner, Class *, Class *) -> byte { //9
-    owner->atPut(Class::Directive::Turn, 0);
+  [](Class * cls, Class * owner, Class *, Class *) -> byte { //9
+    if (owner->atGet(Class::Directive::Count)) {
+      PrintMessage(owner, 10);
+      Class *c = 0;
+      while (c && ((c->atGet(Class::Directive::Place)) == 0)) {
+        c->atPut(Class::Directive::Turn, 0);
+        c = (c->atGet(Class::Directive::Next));
+      }
+    } else {
+      Rip(cls);
+      scene->atPut(Class::Directive::Delete, cls); //delete this
+    }
     return 0;
   },
   [](Class * cls, Class *, Class * scene, Class * target_of) -> byte { //10
@@ -510,6 +520,15 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
         PrintMessage(owner, 8, a);
         owner->atPut(Class::Directive::Add, a);
       }
+    }
+    return 0;
+  },
+  [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //12
+    if (target_of && (owner == player)) {
+      scene->atPut(Class::Directive::Delete, cls); // delete this
+      Rip(cls);
+      Class * slp = Class::exemplar.make(sleep);
+      owner->atPut(Class::Directive::Add, slp);
     }
     return 0;
   }
@@ -771,15 +790,15 @@ void loop() {
       break;
     case State::UseOn:
       {
-        if (use == 0) {
-          use = ShowInfo(player, 1);
-        } else if (on == 0) {
+        if (on == 0) {
           Class * c = (scene->atGet(Class::Directive::Character));
           if (c && ((c->atGet(Class::Directive::Hidden)) == 0) && (c != (scene->atGet(Class::Directive::Block)))) {
             on = ShowInfo(c, 1);
           }
           if ((c == 0) || (on != 0))
             make_choice = 1;
+        } else if (use == 0) {
+          use = ShowInfo(player, 1);
         }
         if (use && make_choice)
         {
@@ -841,17 +860,17 @@ void loop() {
       }
       Class::arduboy.display();
       break;
-    case State::Info:
-      {
-        Class * c = (scene->atGet(Class::Directive::Character));
-        if (c && ((c->atGet(Class::Directive::Hidden)) == 0) && (c != (scene->atGet(Class::Directive::Block)))) {
-          ShowInfo(scene->atGet(Class::Directive::Character));
-        } else {
-          currentState = State::Menu;
-        }
-      }
-      Class::arduboy.display();
-      break;
+    //    case State::Info:
+    //      {
+    //        Class * c = (scene->atGet(Class::Directive::Character));
+    //        if (c && ((c->atGet(Class::Directive::Hidden)) == 0) && (c != (scene->atGet(Class::Directive::Block)))) {
+    //          ShowInfo(scene->atGet(Class::Directive::Character));
+    //        } else {
+    //          currentState = State::Menu;
+    //        }
+    //      }
+    //      Class::arduboy.display();
+    //      break;
     case State::Turn:
       {
         target = 0;
@@ -916,6 +935,12 @@ void loop() {
           Class *scene_owner = (scene->atPut(Class::Directive::Owner, pcur));
           if (scene_owner == 0)
             scene_owner = owner;
+
+          is_next_scene = (*scripts[owner->toInt()]) (owner, scene_owner, scene, target);
+          if (is_next_scene != 0)
+            break;
+          scene->atPut(Class::Directive::Clear, path);
+
           if (pcur)
             pcur = (pcur->atGet(Class::Directive::Next));
           while (pcur && ((pcur->atGet(Class::Directive::Place)) == 0)) {
@@ -928,10 +953,14 @@ void loop() {
               pcur = (pcur->atGet(Class::Directive::Next));
             }
           }
-          is_next_scene = (*scripts[owner->toInt()]) (owner, scene_owner, scene, target);
+
+          //is_next_scene = (*scripts[owner->toInt()]) (owner, scene_owner, scene, target);
+
           if (is_next_scene != 0)
             break;
-          scene->atPut(Class::Directive::Clear, path);
+
+          //scene->atPut(Class::Directive::Clear, path);
+
           if (owner)
             owner->atPut(Class::Directive::Turn, 0);
         }
