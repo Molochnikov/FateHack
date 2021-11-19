@@ -9,13 +9,13 @@ constexpr const char *enIntro[] PROGMEM = {
 
 constexpr char enDrop[] PROGMEM = "drop";
 constexpr char enWait[] PROGMEM = "wait one minute";
-//constexpr char enInfo[] PROGMEM = "info";
+constexpr char enInfo[] PROGMEM = "next owner\xEE\x02 among\xEE\x02";
 constexpr char enUseOn[] PROGMEM = "show\xEE\xDB OR on\xEE\xDBuse\xEE\x02";
 constexpr char enDestroy[] PROGMEM = "destroy\xEE\xDB if LOW mem";
 
 constexpr const char *enMenuItems[] PROGMEM = {
   enWait,
-//  enInfo,
+  enInfo,
   enUseOn,
   enDestroy
 };

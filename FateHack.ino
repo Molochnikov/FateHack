@@ -65,7 +65,7 @@ byte food_stock = 100;
 
 enum State {
   Wait = 0,
-  //  Info,
+  Info,
   UseOn,
   Destroy,
   Menu,
@@ -865,7 +865,6 @@ void loop() {
           }
           Class::arduboy.println(readFlashStringPointer(&enMenuItems[i]));
         }
-        Class::arduboy.println();
         Class::arduboy.println(F("\x02 you(hold A to move)"));
         Class::arduboy.println(F("\xDB - obj under cursor"));
         Class::arduboy.println(F(". - floor (nothing)"));
@@ -885,17 +884,17 @@ void loop() {
       }
       Class::arduboy.display();
       break;
-    //    case State::Info:
-    //      {
-    //        Class * c = (scene->atGet(Class::Directive::Character));
-    //        if (c && ((c->atGet(Class::Directive::Hidden)) == 0) && (c != (scene->atGet(Class::Directive::Block)))) {
-    //          ShowInfo(scene->atGet(Class::Directive::Character));
-    //        } else {
-    //          currentState = State::Menu;
-    //        }
-    //      }
-    //      Class::arduboy.display();
-    //      break;
+    case State::Info:
+      {
+        Class * c = (scene->atGet(Class::Directive::Character));
+        if (c && ((c->atGet(Class::Directive::Hidden)) == 0) && (c != (scene->atGet(Class::Directive::Block)))) {
+          ShowInfo(scene->atGet(Class::Directive::Character));
+        } else {
+          currentState = State::Menu;
+        }
+      }
+      Class::arduboy.display();
+      break;
     case State::Turn:
       {
         target = 0;
