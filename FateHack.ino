@@ -867,7 +867,8 @@ void loop() {
       break;
     case State::Info:
       {
-        Class * c = (scene->atGet(Class::Directive::Character));
+        //Class * c = (scene->atGet(Class::Directive::Character));
+        Class * c = player;
         if (c && ((c->atGet(Class::Directive::Hidden)) == 0) && (c != (scene->atGet(Class::Directive::Block)))) {
           ShowInfo(scene->atGet(Class::Directive::Character));
         } else {
