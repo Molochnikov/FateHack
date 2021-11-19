@@ -610,7 +610,7 @@ void setup() {
   pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(dog)));
   pcur->atPut(Class::Directive::Block, pcur);
   pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(collar)));
-  player->atPut(Class::Directive::Add, Class::exemplar.make(drowsy));
+  //player->atPut(Class::Directive::Add, Class::exemplar.make(drowsy)); //debug drowsy
 
   //soil = Class::exemplar.make(sl);
 
@@ -808,11 +808,15 @@ void loop() {
         }
         if (use && make_choice)
         {
-          if (on) {
+          if (on && (use != player)) { //use
             (*scripts[use->toInt()]) (use, player, scene, on);
+          } else if (on) { //take
+            player->atPut(Class::Directive::Add, on);
+            scene->atPut(Class::Directive::Character, 0);
+            PrintMessage(player, 8, on);
           } else { //drop
             if ((use->atGet(Class::Directive::Block)) == 0) {
-              PrintMessage(use, 9);
+              PrintMessage(player, 9, use);
               player->atPut(Class::Directive::Delete, use);
               scene->atPut(Class::Directive::Character, use);
             } else {

@@ -512,7 +512,7 @@ Class *Scene::atPut(Directive key, Class *arg) {
         return c;
       }
       break;
-    case Class::Directive::Character: //set character under a cursor or return existing
+    case Class::Directive::Character: //set character under a cursor
       {
         int i = (_ycoord->toInt() * _xsize) + _xcoord->toInt();
         _characters[i] = arg;
