@@ -658,8 +658,12 @@ Class * ShowInfo(Class * c, byte is_select = 0) { //you don't need to understand
 
   Class::arduboy.print(F("\x19 "));
   if (target && ((target->atGet(Class::Directive::Place)) == 0)) {
-    if (target->atGet(Class::Directive::Block))
-      Class::arduboy.print(F("(bind) "));
+    if (target->atGet(Class::Directive::Block)) {
+      Class::arduboy.print(F("("));
+      Class::arduboy.print(asFlashStringHelper(enBind));
+      Class::arduboy.print(F(")"));
+      Class::arduboy.print(asFlashStringHelper(enSpace));
+    }
     Class::arduboy.println(asFlashStringHelper(target->toStr()));
   } else if (target) {
     Class::arduboy.println(asFlashStringHelper(target->toStr()));
@@ -791,7 +795,7 @@ void loop() {
       break;
     case State::UseOn:
       {
-        if (on == 0 || make_choice != 0) {
+        if (on == 0 && make_choice == 0) {
           Class * c = (scene->atGet(Class::Directive::Character));
           if (c && ((c->atGet(Class::Directive::Hidden)) == 0) && (c != (scene->atGet(Class::Directive::Block)))) {
             on = ShowInfo(c, 1);
@@ -804,7 +808,17 @@ void loop() {
         }
         if (use && make_choice)
         {
-          (*scripts[use->toInt()]) (use, player, scene, on);
+          if (on) {
+            (*scripts[use->toInt()]) (use, player, scene, on);
+          } else { //drop
+            if ((use->atGet(Class::Directive::Block)) == 0) {
+              PrintMessage(use, 9);
+              player->atPut(Class::Directive::Delete, use);
+              scene->atPut(Class::Directive::Character, use);
+            } else {
+              PrintMessage(use, 11);
+            }
+          }
           use = 0;
           on = 0;
           make_choice = 0;
@@ -850,8 +864,8 @@ void loop() {
         Class::arduboy.println();
         Class::arduboy.println(F("\x02 you(hold A to move)"));
         Class::arduboy.println(F("\xDB - obj under cursor"));
-        Class::arduboy.println(F("\xEE - 'element of'"));
         Class::arduboy.println(F(". - floor (nothing)"));
+        Class::arduboy.println(F("\xEE - 'element of'"));
         if (Class::arduboy.justPressed(DOWN_BUTTON) && currentSelection < State::MenuMAX) {
           currentSelection++;
         }

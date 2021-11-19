@@ -8,7 +8,7 @@ constexpr const char *enIntro[] PROGMEM = {
 };
 
 constexpr char enDrop[] PROGMEM = "drop";
-constexpr char enWait[] PROGMEM = "wait\x02";
+constexpr char enWait[] PROGMEM = "wait one minute";
 //constexpr char enInfo[] PROGMEM = "info";
 constexpr char enUseOn[] PROGMEM = "show\xEE\xDB OR on\xEE\xDBuse\xEE\x02";
 constexpr char enDestroy[] PROGMEM = "destroy\xEE\xDB if LOW mem";
@@ -31,6 +31,7 @@ constexpr char enFar[] PROGMEM = "away from";
 constexpr char enOwner[] PROGMEM = "not owner";
 constexpr char enGot[] PROGMEM = "got";
 constexpr char enSleep[] PROGMEM = "Zzz";
+constexpr char enBind[] PROGMEM = "bind";
 
 constexpr const char *enMessages[] PROGMEM = {
   enSpace,//0
@@ -43,5 +44,6 @@ constexpr const char *enMessages[] PROGMEM = {
   enOwner,//7
   enGot,//8
   enDrop,//9
-  enSleep//10
+  enSleep,//10
+  enBind//11
 };
