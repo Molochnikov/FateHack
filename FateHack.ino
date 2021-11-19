@@ -326,7 +326,7 @@ void NextScene(int portal, byte make_blocks = 0, byte make_soil = 1) {
   SaveCursor();
 }
 
-byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
+byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = { //all players scripts
   [](Class *, Class *, Class *, Class *) -> byte { //0
     return 0;
   },
@@ -595,12 +595,10 @@ void setup() {
 
   player = Class::exemplar.make(plr);
   player->atPut(Class::Directive::Place, player);
-  //player->atPut(Class::Directive::Block, player);
+  
   pcur = player;
   pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(life)));
-  pcur->atPut(Class::Directive::Block, pcur);
   pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(mnd)));
-  pcur->atPut(Class::Directive::Block, pcur);
   pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(waterp)));
   pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(filter)));
 
@@ -608,33 +606,16 @@ void setup() {
   pcur->atPut(Class::Directive::Place, pcur);
   pcur->atPut(Class::Directive::Hidden, pcur);
   pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(dog)));
-  pcur->atPut(Class::Directive::Block, pcur);
   pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(collar)));
+  pcur = 0;
+  
   //player->atPut(Class::Directive::Add, Class::exemplar.make(drowsy)); //debug drowsy
 
-  //soil = Class::exemplar.make(sl);
-
   wall = Class::exemplar.make(wl);
-  //wall->atPut(Class::Directive::Block, wall);
   wall->atPut(Class::Directive::Place, wall);
-
-  //pit = Class::exemplar.make(pt);
-
-  //water = Class::exemplar.make(wtr);
-
-  //door = Class::exemplar.make(dor);
-
-  //  delete xcur;
-  //  delete ycur;
-  //  xcur = Class::exemplar.make("C10");
-  //  ycur = Class::exemplar.make("C3");
-  //  scene->atPut(Class::Directive::X, xcur);
-  //  scene->atPut(Class::Directive::Y, ycur);
 
   path = Class::exemplar.make("C1");
 
-  pcur = 0;
-  //desc = Class::exemplar.make(descend);
   NextScene(1, 1);
 }
 

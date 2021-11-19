@@ -64,7 +64,7 @@ const char rawwaterp[] PROGMEM = "P!B11raw water";
 const char bottle[] PROGMEM = "P!B0empty bottle";
 const char pick[] PROGMEM = "PTB0pick";
 const char food[] PROGMEM = "P*B10food";
-const char filter[] PROGMEM = "PfB0coal filter";
+const char filter[] PROGMEM = "Pfb0coal filter";
 const char sleep[] PROGMEM = "PZB9sleep";
 
 const char * const grounds[] PROGMEM = {
