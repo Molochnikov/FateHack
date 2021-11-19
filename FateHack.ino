@@ -653,10 +653,10 @@ Class * ShowInfo(Class * c, byte is_select = 0) { //you don't need to understand
     pcur = c; // owner of target aspect
     target = (pcur->atGet(Class::Directive::Next)); // target aspect
   }
-  Class::arduboy.print('\xEE');
+  Class::arduboy.print(F("\xEE "));
   Class::arduboy.println(asFlashStringHelper(pcur->toStr()));
 
-  Class::arduboy.print('\x19');
+  Class::arduboy.print(F("\x19 "));
   if (target && ((target->atGet(Class::Directive::Place)) == 0)) {
     if (target->atGet(Class::Directive::Block))
       Class::arduboy.print(F("(bind) "));
@@ -848,7 +848,7 @@ void loop() {
           Class::arduboy.println(readFlashStringPointer(&enMenuItems[i]));
         }
         Class::arduboy.println();
-        Class::arduboy.println(F("\x02 - you"));
+        Class::arduboy.println(F("\x02 you(hold A to move)"));
         Class::arduboy.println(F("\xDB - obj under cursor"));
         Class::arduboy.println(F("\xEE - 'element of'"));
         Class::arduboy.println(F(". - floor (nothing)"));
