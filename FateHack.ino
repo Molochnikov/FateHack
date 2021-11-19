@@ -610,6 +610,7 @@ void setup() {
   pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(dog)));
   pcur->atPut(Class::Directive::Block, pcur);
   pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(collar)));
+  player->atPut(Class::Directive::Add, Class::exemplar.make(drowsy));
 
   //soil = Class::exemplar.make(sl);
 
@@ -652,10 +653,10 @@ Class * ShowInfo(Class * c, byte is_select = 0) { //you don't need to understand
     pcur = c; // owner of target aspect
     target = (pcur->atGet(Class::Directive::Next)); // target aspect
   }
-  Class::arduboy.print('\x1f');
+  Class::arduboy.print('\xEE');
   Class::arduboy.println(asFlashStringHelper(pcur->toStr()));
 
-  Class::arduboy.print('\x17');
+  Class::arduboy.print('\x19');
   if (target && ((target->atGet(Class::Directive::Place)) == 0)) {
     if (target->atGet(Class::Directive::Block))
       Class::arduboy.print(F("(bind) "));
@@ -790,13 +791,14 @@ void loop() {
       break;
     case State::UseOn:
       {
-        if (on == 0) {
+        if (on == 0 || make_choice != 0) {
           Class * c = (scene->atGet(Class::Directive::Character));
           if (c && ((c->atGet(Class::Directive::Hidden)) == 0) && (c != (scene->atGet(Class::Directive::Block)))) {
             on = ShowInfo(c, 1);
           }
-          if ((c == 0) || (on != 0))
+          if ((c == 0) || (on != 0)) {
             make_choice = 1;
+          }
         } else if (use == 0) {
           use = ShowInfo(player, 1);
         }
@@ -835,6 +837,7 @@ void loop() {
       break;
     case State::Menu:
       {
+        Class::arduboy.clear();
         Class::arduboy.setCursor(0, 0);
         for (unsigned int i = 0; i < size(enMenuItems); i++) {
           if (currentSelection == i) {
@@ -842,9 +845,12 @@ void loop() {
           } else {
             Class::arduboy.print(' ');
           }
-          Class::arduboy.print(readFlashStringPointer(&enMenuItems[i]));
-          Class::arduboy.println(' ');
+          Class::arduboy.println(readFlashStringPointer(&enMenuItems[i]));
         }
+        Class::arduboy.println();
+        Class::arduboy.println(F("\x02 - you"));
+        Class::arduboy.println(F("\xDB - char under cursor"));
+        Class::arduboy.println(F("\xEE - 'element of'"));
         if (Class::arduboy.justPressed(DOWN_BUTTON) && currentSelection < State::MenuMAX) {
           currentSelection++;
         }

@@ -7,7 +7,7 @@ Roguelike game for [Arduboy](https://arduboy.com/) or [its emulator](https://git
 ![screen](/screen.png)
 
 Bottom panel from left to right:
-* memory left `556` (if `LOW` then you better start destroying most useless objects)
+* memory left in bytes `556` (if `LOW` then you better start destroying most useless objects)
 * current year `14Y`
 * current day `1D`
 * current hour `1:`
@@ -38,4 +38,4 @@ Programming features for using as engine for other Arduboy roguelikes:
 Controls:
 * <kbd>Up</kbd> , <kbd>Down</kbd> , <kbd>Left</kbd> , <kbd>Right</kbd> - move cursor
 * <kbd>A</kbd> or <kbd>Ctrl</kbd> + <kbd>Up</kbd> , <kbd>Down</kbd> , <kbd>Left</kbd> , <kbd>Right</kbd> - move player
-* <kbd>B</kbd> or <kbd>Alt</kbd> - toggle menu at cursor position
+* <kbd>B</kbd> or <kbd>Alt</kbd> - toggle menu at cursor position or cancel

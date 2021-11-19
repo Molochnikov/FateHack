@@ -8,10 +8,10 @@ constexpr const char *enIntro[] PROGMEM = {
 };
 
 constexpr char enDrop[] PROGMEM = "drop";
-constexpr char enWait[] PROGMEM = "wait";
+constexpr char enWait[] PROGMEM = "wait\x02";
 //constexpr char enInfo[] PROGMEM = "info";
-constexpr char enUseOn[] PROGMEM = "info/use 2nd on 1st";
-constexpr char enDestroy[] PROGMEM = "destroy (if LOW mem)";
+constexpr char enUseOn[] PROGMEM = "info\xEE\xDB OR on\xEE\xDBuse\xEE\x02";
+constexpr char enDestroy[] PROGMEM = "destroy\xEE\xDB (debug)";
 
 constexpr const char *enMenuItems[] PROGMEM = {
   enWait,

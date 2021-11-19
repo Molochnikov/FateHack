@@ -222,7 +222,10 @@ Class *Player::atGet(Directive key) {
       }
       break;
     case Class::Directive::Draw:
-      Class::arduboy.print((char)(pgm_read_byte_near((this->_init) + 1)));
+      if (((char)(pgm_read_byte_near((this->_init) + 1))) == '@')
+        Class::arduboy.print('\x02');
+      else
+        Class::arduboy.print((char)(pgm_read_byte_near((this->_init) + 1)));
       return this;
       break;
     default:
