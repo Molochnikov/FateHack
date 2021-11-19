@@ -39,3 +39,5 @@ Controls:
 * <kbd>Up</kbd> , <kbd>Down</kbd> , <kbd>Left</kbd> , <kbd>Right</kbd> - move cursor
 * <kbd>A</kbd> or <kbd>Ctrl</kbd> + <kbd>Up</kbd> , <kbd>Down</kbd> , <kbd>Left</kbd> , <kbd>Right</kbd> - move player
 * <kbd>B</kbd> or <kbd>Alt</kbd> - toggle menu at cursor position or cancel
+* to take something 'on this use player'
+* to drop something 'on floor `.` use it'
