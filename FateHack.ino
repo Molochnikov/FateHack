@@ -849,8 +849,9 @@ void loop() {
         }
         Class::arduboy.println();
         Class::arduboy.println(F("\x02 - you"));
-        Class::arduboy.println(F("\xDB - char under cursor"));
+        Class::arduboy.println(F("\xDB - obj under cursor"));
         Class::arduboy.println(F("\xEE - 'element of'"));
+        Class::arduboy.println(F(". - floor (nothing)"));
         if (Class::arduboy.justPressed(DOWN_BUTTON) && currentSelection < State::MenuMAX) {
           currentSelection++;
         }
