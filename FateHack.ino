@@ -99,7 +99,7 @@ void PrintMessage(Class* src = 0, size_t num = 0, Class* trg = 0) {
     if (src)
       src->atGet(Class::Directive::Draw);
     else
-      Class::arduboy.print(F("scene"));
+      Class::arduboy.print(asFlashStringHelper(enScene));
     Class::arduboy.println();
     Class::arduboy.println(readFlashStringPointer(&enMessages[num]));
     if (trg)
@@ -638,10 +638,11 @@ void loop() {
           }
           Class::arduboy.println(readFlashStringPointer(&enMenuItems[i]));
         }
-        Class::arduboy.println(F("\x02 you(hold A to move)"));
-        Class::arduboy.println(F("\xDB - obj under cursor"));
-        Class::arduboy.println(F(". - floor (nothing)"));
-        Class::arduboy.println(F("\xEE - 'element of'"));
+        Class::arduboy.println(asFlashStringHelper(enNote1));
+        Class::arduboy.println(asFlashStringHelper(enNote2));
+        Class::arduboy.println(asFlashStringHelper(enNote3));
+        Class::arduboy.println(asFlashStringHelper(enNote4));
+        
         if (Class::arduboy.justPressed(DOWN_BUTTON) && currentSelection < State::MenuMAX) {
           currentSelection++;
         }
@@ -724,20 +725,10 @@ void loop() {
         if (pcur == 0) {
           scene->atPut(Class::Directive::Turn, 0);
         } else {
-          //if (pcur == player) {
-          //freeMem = Class::getFreeMemory();
-          //currentState = State::Turn;
-          //RestoreCursor();
-          //}
           Class *owner = pcur;
           Class *scene_owner = (scene->atPut(Class::Directive::Owner, pcur));
           if (scene_owner == 0)
             scene_owner = owner;
-
-          //is_next_scene = (*scripts[owner->toInt()]) (owner, scene_owner, scene, target);
-          //if (is_next_scene != 0)
-          //break;
-          //scene->atPut(Class::Directive::Clear, path);
 
           if (pcur)
             pcur = (pcur->atGet(Class::Directive::Next));

@@ -20,7 +20,11 @@ constexpr const char *enMenuItems[] PROGMEM = {
   enDestroy
 };
 
-constexpr char enPissedWater[] PROGMEM = "pissed in waters";
+constexpr char enNote1[] PROGMEM = "\x02 you(hold A to move)";
+constexpr char enNote2[] PROGMEM = "\xDB - obj under cursor";
+constexpr char enNote3[] PROGMEM = ". - floor (nothing)";
+constexpr char enNote4[] PROGMEM = "\xEE - 'element of'";
+
 constexpr char enSpace[] PROGMEM = " ";
 constexpr char enHungry[] PROGMEM = "hungry";
 constexpr char enToilet[] PROGMEM = "toilet";
@@ -32,6 +36,7 @@ constexpr char enOwner[] PROGMEM = "not owner";
 constexpr char enGot[] PROGMEM = "got";
 constexpr char enSleep[] PROGMEM = "Zzz";
 constexpr char enBind[] PROGMEM = "bind";
+constexpr char enScene[] PROGMEM = "scene";
 
 constexpr const char *enMessages[] PROGMEM = {
   enSpace,//0
@@ -45,5 +50,6 @@ constexpr const char *enMessages[] PROGMEM = {
   enGot,//8
   enDrop,//9
   enSleep,//10
-  enBind//11
+  enBind,//11
+  enScene//12
 };
