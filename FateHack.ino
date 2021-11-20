@@ -83,15 +83,6 @@ size_t currentSelection = State::MenuMIN;
 size_t freeMem = 0;
 size_t death_reason = 0;
 
-void PrintDebug(FlashStringHelper msg) {
-  for (int i = 0; i < 200; i++) {
-    Class::arduboy.clear();
-    Class::arduboy.setCursor(0, 0);
-    Class::arduboy.println(msg);
-    Class::arduboy.display();
-  }
-}
-
 void PrintMessage(Class* src = 0, size_t num = 0, Class* trg = 0) {
   for (int i = 0; i < 500; i++) {
     Class::arduboy.clear();
@@ -294,30 +285,33 @@ void NextScene(int portal, byte make_blocks = 0, byte make_soil = 1) {
   }
   pcur = 0;
 
-  //scene->atPut(Class::Directive::Clear, path);
-  //scene->atPut(Class::Directive::Map, desc); //set pathfinding map to downstairs
+  scene->atPut(Class::Directive::Clear, path);
+  scene->atPut(Class::Directive::Map, desc); //set pathfinding map to downstairs
 
-  //  if (make_blocks) {
-  //    int blocks_num = random(num);
-  //    for (int i = 0; i < blocks_num; i++) { //choose random block
-  //      if (random(block_chance) == 0)
-  //        scene->atPut(Class::Directive::Block, pit);
-  //      block_chance++;
-  //      if (random(block_chance) == 0)
-  //        scene->atPut(Class::Directive::Block, door);
-  //      block_chance++;
-  //      if (random(block_chance) == 0)
-  //        scene->atPut(Class::Directive::Block, water);
-  //      scene->atGet(Class::Directive::Block); //set chosen block close to downstairs
-  //    }
-  //  }
+  if (make_blocks && (scene_num != 0)) {
+    int blocks_num = random(2);
+    //    int blocks_num = random(num);
+    for (int i = 0; i < blocks_num; i++) {
+      scene->atPut(Class::Directive::Block, Class::exemplar.make(vein));
+      scene->atGet(Class::Directive::Place);
+      //      if (random(block_chance) == 0)
+      //        scene->atPut(Class::Directive::Block, pit);
+      //      block_chance++;
+      //      if (random(block_chance) == 0)
+      //        scene->atPut(Class::Directive::Block, door);
+      //      block_chance++;
+      //      if (random(block_chance) == 0)
+      //        scene->atPut(Class::Directive::Block, water);
+      //      scene->atGet(Class::Directive::Block); //set chosen block close to downstairs
+    }
+  }
   //  if (make_soil && (random(soil_chance) == 0)) {
   //    scene->atPut(Class::Directive::Place, Class::exemplar.make(sl));
   //    scene->atGet(Class::Directive::Block); //set chosen block close to downstairs
   //  }
 
   scene->atPut(Class::Directive::Clear, path);
-  //scene->atPut(Class::Directive::Block, wall); //setting blocks for a scene
+  scene->atPut(Class::Directive::Block, wall); //setting blocks for a scene
   SetCursor(plr);
   SaveCursor();
 }
@@ -401,13 +395,15 @@ void setup() {
 
   //player->atPut(Class::Directive::Add, Class::exemplar.make(drowsy)); //debug drowsy
   //player->atPut(Class::Directive::Add, Class::exemplar.make(sleep)); //debug sleep
+  //player->atPut(Class::Directive::Add, Class::exemplar.make(thirst)); //debug thirst
+  //player->atPut(Class::Directive::Add, Class::exemplar.make(hunger)); //debug hunger
 
   wall = Class::exemplar.make(wl);
   wall->atPut(Class::Directive::Place, wall);
 
   path = Class::exemplar.make("C1");
 
-  NextScene(1, 1);
+  NextScene(1);
 }
 
 Class * ShowInfo(Class * c, byte is_select = 0) { //you don't need to understand this
@@ -574,7 +570,7 @@ void loop() {
       {
         if (on == 0 && make_choice == 0) {
           Class * c = (scene->atGet(Class::Directive::Character));
-          if (c && ((c->atGet(Class::Directive::Hidden)) == 0) && (c != (scene->atGet(Class::Directive::Block)))) {
+          if (c && ((c->atGet(Class::Directive::Hidden)) == 0)) {
             on = ShowInfo(c, 1);
           }
           if ((c == 0) || (on != 0)) {

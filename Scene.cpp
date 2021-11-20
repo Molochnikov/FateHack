@@ -225,6 +225,7 @@ Class *Scene::closest(Class *arg, byte farest, byte is_block, byte is_not_block)
       return _characters[closest_pos];
     }
     num = 0;
+
     if (farest) {
       path_length--;
     } else {
@@ -609,8 +610,8 @@ Class *Scene::atGet(Directive key) {
           delete arg;
       }
       break;
-    case Class::Directive::Place: //set class to be closest by path but without blocking other paths
-      return Scene::closest(0, 0, 0, 1);
+    case Class::Directive::Place: //set block to be closest by path source but without blocking other paths
+      return Scene::closest(this->atGet(Class::Directive::Block), 0, 1, 1);
       break;
     case Class::Directive::Block: //get block
       return _block_proto;

@@ -51,15 +51,6 @@ Class::~Class() {
 
 }
 
-void Class::die( void ) {
-  set_sleep_mode( SLEEP_MODE_PWR_DOWN );
-  while (1) {
-    sleep_enable();
-    cli();
-    sleep_cpu();
-  }
-}
-
 Class *Class::atPut(Directive, Class *) {
   return 0;
 }
@@ -76,13 +67,22 @@ char* Class::toStr() {
   return 0;
 }
 
-//byte Class::DropDice(byte d = 2, byte n = 1) {
-//  int sum = 0;
-//  for (int i = 0; i < n; i++) {
-//    sum += random(d);
-//  }
-//  return sum;
-//}
+byte Class::dropDice(byte d = 2, byte n = 1) {
+  int sum = 0;
+  for (int i = 0; i < n; i++) {
+    sum += random(d);
+  }
+  return sum;
+}
+
+void Class::printDebug(char* c) {
+  for (int i = 0; i < 500; i++) {
+    Class::arduboy.clear();
+    Class::arduboy.setCursor(0, 0);
+    Class::arduboy.println(c);
+    Class::arduboy.display();
+  }
+}
 
 byte Class::getBits(byte x, byte p, byte n) {
   return (x >> (p + 1 - n)) & (~((~0U) << n));

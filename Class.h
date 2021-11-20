@@ -12,7 +12,6 @@ class Class {
     static byte setBits(byte x, byte pos_new_bits, byte new_bits, byte num_new_bits);
   public:
     const char* _init = 0;
-    static void die(void);
     static int getFreeMemory();
     static Arduboy2 arduboy;
     enum Directive {
@@ -57,5 +56,6 @@ class Class {
     virtual char* toStr();
     virtual int toInt();
     virtual char getTypeChar();
-    //static byte DropDice(byte d = 2, byte n = 1);
+    static byte dropDice(byte d = 2, byte n = 1);
+    static void printDebug(char* c);
 };

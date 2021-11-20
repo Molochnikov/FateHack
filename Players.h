@@ -15,7 +15,6 @@ const char wl[] PROGMEM = "P B0wall";
 const char pt[] PROGMEM = "P%B0pit";
 const char dor[] PROGMEM = "P+B0door";
 const char water[] PROGMEM = "P~B0raw water";
-const char vn[] PROGMEM = "P*B0vein";
 const char life[] PROGMEM = "P B2life\nLiving thing. \nLife causes hunger, \nthirst, sleep, waste, \nillness and breathe. \nYou can lost it.";
 const char mnd[] PROGMEM = "P B0mind\nIndividual that \nfeels, perceives, \nwills, and especially \nreasons and thinks.";
 const char hunger[] PROGMEM = "PhB0hunger";
@@ -62,10 +61,11 @@ const char cyanp[] PROGMEM = "P!B0cyan";
 const char waterp[] PROGMEM = "P!b11water";
 const char rawwaterp[] PROGMEM = "P!B11raw water";
 const char bottle[] PROGMEM = "P!B0bottle";
-const char pick[] PROGMEM = "PTB0pick";
-const char food[] PROGMEM = "P*B10food";
+const char pick[] PROGMEM = "PTB13pick";
+const char food[] PROGMEM = "P%B10food";
 const char filter[] PROGMEM = "Pfb0filter";
 const char sleep[] PROGMEM = "PZB9sleep";
+const char vein[] PROGMEM = "P B0vein";
 
 const char * const grounds[] PROGMEM = {
   soil, sand
@@ -87,7 +87,7 @@ const char * const players[] PROGMEM = {
   pt,
   dor,
   water,
-  vn,
+  vein,
   life,
   mnd,
   hunger,
