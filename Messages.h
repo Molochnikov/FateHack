@@ -37,6 +37,7 @@ constexpr char enGot[] PROGMEM = "got";
 constexpr char enSleep[] PROGMEM = "Zzz";
 constexpr char enBind[] PROGMEM = "bind";
 constexpr char enScene[] PROGMEM = "scene";
+constexpr char enHome[] PROGMEM = "sweet home";
 
 constexpr const char *enMessages[] PROGMEM = {
   enSpace,//0
@@ -51,5 +52,6 @@ constexpr const char *enMessages[] PROGMEM = {
   enDrop,//9
   enSleep,//10
   enBind,//11
-  enScene//12
+  enScene,//12
+  enHome//13
 };

@@ -224,6 +224,8 @@ Class *Player::atGet(Directive key) {
     case Class::Directive::Draw:
       if (((char)(pgm_read_byte_near((this->_init) + 1))) == '@')
         Class::arduboy.print('\x02');
+      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '#')
+        Class::arduboy.print('\xB2');
       else
         Class::arduboy.print((char)(pgm_read_byte_near((this->_init) + 1)));
       return this;

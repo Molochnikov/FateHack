@@ -227,6 +227,7 @@ void NextScene(int portal, byte make_blocks = 0, byte make_soil = 1) {
     is_predefined = RebuildScene(scene_minetown);
   } else if (scene_num == 255) {
     is_predefined = RebuildScene(scene_home);
+    PrintMessage(player,13);
   } else {
     RebuildScene(scene_clear);
   }

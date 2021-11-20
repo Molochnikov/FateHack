@@ -212,5 +212,15 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     if (target_of) {
     }
     return 0;
+  },
+  [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //14
+    if (target_of == player) {
+      if (scene_num == 0)
+        NextScene(-1);
+      else
+        NextScene(1);
+      return 1;
+    }
+    return 0;
   }
 };

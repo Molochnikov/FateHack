@@ -23,21 +23,11 @@ const char drowsy[] PROGMEM = "PdB12drowsy";
 const char toilet[] PROGMEM = "PtB7toilet";
 const char soil[] PROGMEM = "P,B0soil";
 const char pet[] PROGMEM = "Ppb1friend";
-const char threat[] PROGMEM = "PTB0threat";
-const char boss[] PROGMEM = "PBB0boss";
-const char filler[] PROGMEM = "PFB0filler";
-const char hitter[] PROGMEM = "PHB0hitter";
 const char dog[] PROGMEM = "PdB0undead dog";
 const char collar[] PROGMEM = "Pcb0collar";
 const char outside[] PROGMEM = "P9B5outside";
-const char house1[] PROGMEM = "P1B0house";
+const char house1[] PROGMEM = "P1B14house";
 const char house2[] PROGMEM = "P2B8bookkeeper";
-const char house3[] PROGMEM = "P3B0house";
-const char house4[] PROGMEM = "P4B0house";
-const char house5[] PROGMEM = "P5B0house";
-const char house6[] PROGMEM = "P6B0house";
-const char house7[] PROGMEM = "P7B0house";
-const char house8[] PROGMEM = "P8B0house";
 const char mnr[] PROGMEM = "PcB0miner";
 const char npc[] PROGMEM = "Pnb0NPC";
 const char adventurer[] PROGMEM = "PtB6adventurer";
@@ -58,13 +48,13 @@ const char cyanp[] PROGMEM = "P!B0cyan";
 const char waterp[] PROGMEM = "P!b11water";
 const char rawwaterp[] PROGMEM = "P!B11raw water";
 const char bottle[] PROGMEM = "P!B0bottle";
-const char pick[] PROGMEM = "P/B13pick";
+const char pick[] PROGMEM = "PTB13pick";
 const char food[] PROGMEM = "P%B10food";
 const char filter[] PROGMEM = "Pfb0filter";
 const char sleep[] PROGMEM = "PZB9sleep";
 const char vein[] PROGMEM = "P B0vein";
 const char partition[] PROGMEM = "P#B0partition";
-const char table[] PROGMEM = "PTB0table";
+const char table[] PROGMEM = "POB0table";
 const char chair[] PROGMEM = "PhB0chair";
 const char bed[] PROGMEM = "PBB0bed";
 
@@ -101,10 +91,6 @@ const char * const players[] PROGMEM = {
   toilet,
   soil,
   pet,
-  threat,
-  boss,
-  filler,
-  hitter,
   dog,
   collar,
   outside,
@@ -112,11 +98,5 @@ const char * const players[] PROGMEM = {
   adventurer,
   npc,
   house1,
-  house2,
-  house3,
-  house4,
-  house5,
-  house6,
-  house7,
-  house8
+  house2
 };
