@@ -556,9 +556,6 @@ Class *Scene::atPut(Directive key, Class *arg) {
             if ((x == xcur && y == ycur) ) {
               Class::arduboy.setTextColor(BLACK);
               Class::arduboy.setTextBackground(WHITE);
-            } else {
-              Class::arduboy.setTextColor(WHITE);
-              Class::arduboy.setTextBackground(BLACK);
             }
             if (_characters[y * _xsize + x] && (_characters[y * _xsize + x] == arg ||
                                                 Scene::getUpThingFrom(_characters[y * _xsize + x], Scene::AddClassAction::NoAction, _characters[y * _xsize + x]) == arg ||
@@ -580,6 +577,8 @@ Class *Scene::atPut(Directive key, Class *arg) {
                 Class::arduboy.print(' ');
               }
             }
+            Class::arduboy.setTextColor(WHITE);
+            Class::arduboy.setTextBackground(BLACK);
           }
           Class::arduboy.println();
         }
