@@ -1,3 +1,5 @@
+#pragma once
+
 byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = { //all players scripts
   [](Class *, Class *, Class *, Class *) -> byte { //0
     return 0;
@@ -151,16 +153,18 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     return 0;
   },
   [](Class * cls, Class * owner, Class *, Class *) -> byte { //9
-    if (owner->atGet(Class::Directive::Count)) {
+    if (owner->atGet(Class::Directive::Count)) { //sleep active
       PrintMessage(owner, 10);
-      Class *c = 0;
+      owner->atPut(Class::Directive::Turn, 0); //no turn for owner
+      Class *c = (owner->atGet(Class::Directive::Next)); //next class
       while (c && ((c->atGet(Class::Directive::Place)) == 0)) {
-        c->atPut(Class::Directive::Turn, 0);
+        c->atPut(Class::Directive::Turn, 0); //no turn for class
         c = (c->atGet(Class::Directive::Next));
       }
     } else {
       Rip(cls);
       scene->atPut(Class::Directive::Delete, cls); //delete this
+      pcur = 0;
     }
     return 0;
   },

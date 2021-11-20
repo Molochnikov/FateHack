@@ -212,10 +212,6 @@ Class * SetCursor(const char * c) {
   return 0;
 }
 
-//void DropPlayer(Class* player, Class* owner, Class* scene) {
-
-//}
-
 void NextScene(int portal, byte make_blocks = 0, byte make_soil = 1) {
   //int block_chance = 2;
   //int soil_chance = 10;
@@ -389,7 +385,7 @@ void setup() {
 
   player = Class::exemplar.make(plr);
   player->atPut(Class::Directive::Place, player);
-  
+
   pcur = player;
   pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(life)));
   pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(mnd)));
@@ -402,7 +398,7 @@ void setup() {
   pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(dog)));
   pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(collar)));
   pcur = 0;
-  
+
   //player->atPut(Class::Directive::Add, Class::exemplar.make(drowsy)); //debug drowsy
   //player->atPut(Class::Directive::Add, Class::exemplar.make(sleep)); //debug sleep
 
@@ -728,20 +724,20 @@ void loop() {
         if (pcur == 0) {
           scene->atPut(Class::Directive::Turn, 0);
         } else {
-          if (pcur == player) {
-            freeMem = Class::getFreeMemory();
-            currentState = State::Turn;
-            RestoreCursor();
-          }
+          //if (pcur == player) {
+          //freeMem = Class::getFreeMemory();
+          //currentState = State::Turn;
+          //RestoreCursor();
+          //}
           Class *owner = pcur;
           Class *scene_owner = (scene->atPut(Class::Directive::Owner, pcur));
           if (scene_owner == 0)
             scene_owner = owner;
 
-          is_next_scene = (*scripts[owner->toInt()]) (owner, scene_owner, scene, target);
-          if (is_next_scene != 0)
-            break;
-          scene->atPut(Class::Directive::Clear, path);
+          //is_next_scene = (*scripts[owner->toInt()]) (owner, scene_owner, scene, target);
+          //if (is_next_scene != 0)
+          //break;
+          //scene->atPut(Class::Directive::Clear, path);
 
           if (pcur)
             pcur = (pcur->atGet(Class::Directive::Next));
@@ -756,12 +752,20 @@ void loop() {
             }
           }
 
-          //is_next_scene = (*scripts[owner->toInt()]) (owner, scene_owner, scene, target);
+          if (owner == player) {
+            if (player->atGet(Class::Directive::Turn)) {
+              freeMem = Class::getFreeMemory();
+              currentState = State::Turn;
+              RestoreCursor();
+            } else {
+              EndTurn(player);
+            }
+          }
+          
+          if (is_next_scene == 0)
+            is_next_scene = (*scripts[owner->toInt()]) (owner, scene_owner, scene, target);
 
-          if (is_next_scene != 0)
-            break;
-
-          //scene->atPut(Class::Directive::Clear, path);
+          scene->atPut(Class::Directive::Clear, path);
 
           if (owner)
             owner->atPut(Class::Directive::Turn, 0);
