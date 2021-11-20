@@ -48,7 +48,6 @@ static Class* ycur = 0; //cursor y
 static Class* path = 0; //pathfinding distance
 
 byte scene_num = 255;
-const byte max_scene_num = 254;
 byte day = 1;
 byte hour = 1;
 byte minute = 1;
@@ -64,8 +63,9 @@ byte ore_stock = 0;
 byte ore_need = 10;
 byte food_stock = 100;
 
-char space_tile = ' ';
-char wall_tile = '=';
+const byte max_scene_num = 254;
+const char space_tile = ' ';
+const char wall_tile = '=';
 
 enum State {
   Wait = 0,

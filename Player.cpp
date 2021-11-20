@@ -222,11 +222,20 @@ Class *Player::atGet(Directive key) {
       }
       break;
     case Class::Directive::Draw:
+#define ADVANCED_TILES
+#ifdef ADVANCED_TILES
       if (((char)(pgm_read_byte_near((this->_init) + 1))) == '@')
         Class::arduboy.print('\x02');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '#')
-        Class::arduboy.print('\xB2');
+        Class::arduboy.print('\x13');
+      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'O')
+        Class::arduboy.print('\x06');
+      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'h')
+        Class::arduboy.print('\x8E');
+      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'B')
+        Class::arduboy.print('\x92');
       else
+#endif
         Class::arduboy.print((char)(pgm_read_byte_near((this->_init) + 1)));
       return this;
       break;

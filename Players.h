@@ -13,7 +13,7 @@ const char descend[] PROGMEM = "P>B3descend";
 const char ascend[] PROGMEM = "P<B4ascend";
 const char wl[] PROGMEM = "P B0wall";
 const char pt[] PROGMEM = "P%B0pit";
-const char door[] PROGMEM = "P+B0door";
+const char door[] PROGMEM = "P+b0door";
 const char water[] PROGMEM = "P~B0raw water";
 const char life[] PROGMEM = "P B2life\nLiving thing. \nLife causes hunger, \nthirst, sleep, waste, \nillness and breathe. \nYou can lost it.";
 const char mnd[] PROGMEM = "P B0mind\nIndividual that \nfeels, perceives, \nwills, and especially \nreasons and thinks.";
@@ -53,7 +53,7 @@ const char food[] PROGMEM = "P%B10food";
 const char filter[] PROGMEM = "Pfb0filter";
 const char sleep[] PROGMEM = "PZB9sleep";
 const char vein[] PROGMEM = "P B0vein";
-const char partition[] PROGMEM = "P#B0partition";
+const char partition[] PROGMEM = "P#b0partition";
 const char table[] PROGMEM = "POB0table";
 const char chair[] PROGMEM = "PhB0chair";
 const char bed[] PROGMEM = "PBB0bed";
@@ -85,7 +85,6 @@ const char * const players[] PROGMEM = {
   vein,
   life,
   mnd,
-  hunger,
   thirst,
   drowsy,
   toilet,
