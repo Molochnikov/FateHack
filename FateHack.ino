@@ -404,7 +404,7 @@ void setup() {
   pcur = 0;
   
   //player->atPut(Class::Directive::Add, Class::exemplar.make(drowsy)); //debug drowsy
-  player->atPut(Class::Directive::Add, Class::exemplar.make(sleep)); //debug sleep
+  //player->atPut(Class::Directive::Add, Class::exemplar.make(sleep)); //debug sleep
 
   wall = Class::exemplar.make(wl);
   wall->atPut(Class::Directive::Place, wall);
