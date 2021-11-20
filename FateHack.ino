@@ -227,7 +227,7 @@ void NextScene(int portal, byte make_blocks = 0, byte make_soil = 1) {
     is_predefined = RebuildScene(scene_minetown);
   } else if (scene_num == 255) {
     is_predefined = RebuildScene(scene_home);
-    PrintMessage(player,13);
+    PrintMessage(player, 13);
   } else {
     RebuildScene(scene_clear);
   }
@@ -632,7 +632,6 @@ void loop() {
       break;
     case State::Menu:
       {
-        Class::arduboy.clear();
         Class::arduboy.setCursor(0, 0);
         for (unsigned int i = 0; i < size(enMenuItems); i++) {
           if (currentSelection == i) {
@@ -747,7 +746,7 @@ void loop() {
             }
           }
 
-          if (owner == player) {
+          if (owner && (owner == player)) {
             if (player->atGet(Class::Directive::Turn)) {
               //freeMem = Class::getFreeMemory();
               currentState = State::Turn;
@@ -760,9 +759,11 @@ void loop() {
           if (is_next_scene == 0)
             is_next_scene = (*scripts[owner->toInt()]) (owner, scene_owner, scene, target);
 
+
           scene->atPut(Class::Directive::Clear, path);
 
-          if (owner)
+
+          if (owner && (is_next_scene == 0))
             owner->atPut(Class::Directive::Turn, 0);
         }
         pcur = 0;

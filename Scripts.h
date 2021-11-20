@@ -110,31 +110,31 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     return 0;
   },
   [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //7
-    if (target_of) {
-      for (unsigned int i = 0; i < size(waters); i++) { //find target in waters
-        if ((target_of->_init) == waters[i]) { //found
-          scene->atPut(Class::Directive::Cursor, owner); //set cursor on owner
-          if ((scene->atPut(Class::Directive::Near, target_of)) == target_of) { //if near target
-            PrintMessage(owner, 0); //print message
-            owner->atPut(Class::Directive::Delete, cls); //delete this
-            Rip(cls); //print message
-          } else {
-            PrintMessage(owner, 6, target_of);
-          }
-        }
-      }
-      for (unsigned int i = 0; i < size(potions); i++) { //find target in potions
-        if ((target_of->_init) == potions[i]) { //found
-          if ((scene->atPut(Class::Directive::Owner, target_of)) == owner) { //if owner of target
-            (*scripts[target_of->toInt()]) (target_of, owner, scene, cls); //run potion script
-            owner->atPut(Class::Directive::Delete, cls); //delete this
-            Rip(cls); //print message
-          } else {
-            PrintMessage(owner, 7, target_of);
-          }
-        }
-      }
-    }
+    //    if (target_of) {
+    //      for (unsigned int i = 0; i < size(waters); i++) { //find target in waters
+    //        if ((target_of->_init) == waters[i]) { //found
+    //          scene->atPut(Class::Directive::Cursor, owner); //set cursor on owner
+    //          if ((scene->atPut(Class::Directive::Near, target_of)) == target_of) { //if near target
+    //            PrintMessage(owner, 0); //print message
+    //            owner->atPut(Class::Directive::Delete, cls); //delete this
+    //            Rip(cls); //print message
+    //          } else {
+    //            PrintMessage(owner, 6, target_of);
+    //          }
+    //        }
+    //      }
+    //      for (unsigned int i = 0; i < size(potions); i++) { //find target in potions
+    //        if ((target_of->_init) == potions[i]) { //found
+    //          if ((scene->atPut(Class::Directive::Owner, target_of)) == owner) { //if owner of target
+    //            (*scripts[target_of->toInt()]) (target_of, owner, scene, cls); //run potion script
+    //            owner->atPut(Class::Directive::Delete, cls); //delete this
+    //            Rip(cls); //print message
+    //          } else {
+    //            PrintMessage(owner, 7, target_of);
+    //          }
+    //        }
+    //      }
+    //    }
     return 0;
   },
   [](Class *, Class *, Class *, Class * target_of) -> byte { //8

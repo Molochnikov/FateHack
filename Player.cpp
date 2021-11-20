@@ -1,5 +1,7 @@
 #include "Player.h"
 
+#define CODE_PAGE_437
+
 //Player *Player::_exemplar = new Player(Exemplar());
 
 char* Player::toStr() {
@@ -222,10 +224,13 @@ Class *Player::atGet(Directive key) {
       }
       break;
     case Class::Directive::Draw:
-#define ADVANCED_TILES
-#ifdef ADVANCED_TILES
+#ifdef CODE_PAGE_437
       if (((char)(pgm_read_byte_near((this->_init) + 1))) == '@')
         Class::arduboy.print('\x02');
+      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'N')
+        Class::arduboy.print('\x01');
+      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'p')
+        Class::arduboy.print('\x03');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '#')
         Class::arduboy.print('\x13');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'O')
@@ -234,6 +239,22 @@ Class *Player::atGet(Directive key) {
         Class::arduboy.print('\x8E');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'B')
         Class::arduboy.print('\x92');
+      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '>')
+        Class::arduboy.print('\x1F');
+      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '<')
+        Class::arduboy.print('\x1E');
+      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '9')
+        Class::arduboy.print('\xDF');
+      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '1')
+        Class::arduboy.print('\xDE');
+      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '2')
+        Class::arduboy.print('\xDD');
+      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '~') {
+        if (random(2))
+          Class::arduboy.print('\xB0');
+        else
+          Class::arduboy.print('\xB1');
+      }
       else
 #endif
         Class::arduboy.print((char)(pgm_read_byte_near((this->_init) + 1)));

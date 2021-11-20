@@ -29,8 +29,8 @@ const char outside[] PROGMEM = "P9B5outside";
 const char house1[] PROGMEM = "P1B14house";
 const char house2[] PROGMEM = "P2B8bookkeeper";
 const char mnr[] PROGMEM = "PcB0miner";
-const char npc[] PROGMEM = "Pnb0NPC";
-const char adventurer[] PROGMEM = "PtB6adventurer";
+const char npc[] PROGMEM = "PNb0NPC";
+const char adventurer[] PROGMEM = "PaB6adventurer";
 const char boozep[] PROGMEM = "P!B8booze";
 const char oil[] PROGMEM = "P~B0oil";
 const char blood[] PROGMEM = "P~B0blood";
@@ -54,9 +54,9 @@ const char filter[] PROGMEM = "Pfb0filter";
 const char sleep[] PROGMEM = "PZB9sleep";
 const char vein[] PROGMEM = "P B0vein";
 const char partition[] PROGMEM = "P#b0partition";
-const char table[] PROGMEM = "POB0table";
-const char chair[] PROGMEM = "PhB0chair";
-const char bed[] PROGMEM = "PBB0bed";
+const char table[] PROGMEM = "POb0table";
+const char chair[] PROGMEM = "Phb0chair";
+const char bed[] PROGMEM = "PBb0bed";
 
 const char * const grounds[] PROGMEM = {
   soil
