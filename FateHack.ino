@@ -48,6 +48,7 @@ static Class* ycur = 0; //cursor y
 static Class* path = 0; //pathfinding distance
 
 byte scene_num = 255;
+const byte max_scene_num = 254;
 byte day = 1;
 byte hour = 1;
 byte minute = 1;
@@ -62,6 +63,9 @@ byte pick_stock = 10;
 byte ore_stock = 0;
 byte ore_need = 10;
 byte food_stock = 100;
+
+char space_tile = ' ';
+char wall_tile = '=';
 
 enum State {
   Wait = 0,
@@ -221,20 +225,17 @@ void NextScene(int portal, byte make_blocks = 0, byte make_soil = 1) {
     scene->atPut(Class::Directive::Next, player);
   if (scene_num == 0) {
     is_predefined = RebuildScene(scene_minetown);
+  } else if (scene_num == 255) {
+    is_predefined = RebuildScene(scene_home);
   } else {
-    is_predefined = RebuildScene(scene_clear);
+    RebuildScene(scene_clear);
   }
 
-
-  //  if (desc == 0)
-  //    desc = Class::exemplar.make(descend);
-  //  if (asc == 0)
-  //    asc = Class::exemplar.make(ascend);
   Class * asc = 0;
   Class * desc = 0;
 
   if (is_predefined == 0) {
-    if (scene_num != 255) {
+    if (scene_num != max_scene_num) {
       desc = Class::exemplar.make(descend);
       desc->atPut(Class::Directive::Place, desc);
     }
@@ -249,7 +250,7 @@ void NextScene(int portal, byte make_blocks = 0, byte make_soil = 1) {
     }
     while ((scene->atPut(Class::Directive::Build, 0)) == 0); //generate scene
 
-    if (scene_num != 255) {
+    if (scene_num != max_scene_num) {
       if (is_down) {
         scene->atPut(Class::Directive::Far, desc); //setting downstairs
         scene->atPut(Class::Directive::Clear, path);
@@ -288,10 +289,11 @@ void NextScene(int portal, byte make_blocks = 0, byte make_soil = 1) {
   scene->atPut(Class::Directive::Clear, path);
   scene->atPut(Class::Directive::Map, desc); //set pathfinding map to downstairs
 
-  if (make_blocks && (scene_num != 0)) {
-    int blocks_num = random(2);
+  if (make_blocks && (is_predefined == 0)) {
+    int r = random(max_scene_num - scene_num);
     //    int blocks_num = random(num);
-    for (int i = 0; i < blocks_num; i++) {
+    //for (int i = 0; i < blocks_num; i++) {
+    if (r == 0) {
       scene->atPut(Class::Directive::Block, Class::exemplar.make(vein));
       scene->atGet(Class::Directive::Place);
       //      if (random(block_chance) == 0)
@@ -336,15 +338,16 @@ byte RebuildScene(const char* s) {
   while (scene->atGet(Class::Directive::Up)) {};
   int x = xcur->toInt();
   int y = ycur->toInt();
-  s++;
+  if (s != scene_clear)
+    s++;
   do {
     do {
       ch = (char) (pgm_read_byte_near(s + ((y * 20) + x)));
-      if (ch == ' ') {
+      if ((ch == space_tile) || (s == scene_clear)) {
       } else if (ch == pgm_read_byte_near((player->_init) + 1)) {
         scene->atPut(Class::Directive::Character, player);
         is_predefined = 1;
-      } else if (ch == '#') {
+      } else if (ch == wall_tile) {
         if ((scene->atGet(Class::Directive::Block)) == 0) {
           scene->atPut(Class::Directive::Block, wall);
         }

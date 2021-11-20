@@ -13,7 +13,7 @@ const char descend[] PROGMEM = "P>B3descend";
 const char ascend[] PROGMEM = "P<B4ascend";
 const char wl[] PROGMEM = "P B0wall";
 const char pt[] PROGMEM = "P%B0pit";
-const char dor[] PROGMEM = "P+B0door";
+const char door[] PROGMEM = "P+B0door";
 const char water[] PROGMEM = "P~B0raw water";
 const char life[] PROGMEM = "P B2life\nLiving thing. \nLife causes hunger, \nthirst, sleep, waste, \nillness and breathe. \nYou can lost it.";
 const char mnd[] PROGMEM = "P B0mind\nIndividual that \nfeels, perceives, \nwills, and especially \nreasons and thinks.";
@@ -21,10 +21,7 @@ const char hunger[] PROGMEM = "PhB0hunger";
 const char thirst[] PROGMEM = "PtB0thirst";
 const char drowsy[] PROGMEM = "PdB12drowsy";
 const char toilet[] PROGMEM = "PtB7toilet";
-const char sand[] PROGMEM = "P.B0sand";
 const char soil[] PROGMEM = "P,B0soil";
-const char farm[] PROGMEM = "P=B0farm";
-const char gold[] PROGMEM = "P$b0gold";
 const char pet[] PROGMEM = "Ppb1friend";
 const char threat[] PROGMEM = "PTB0threat";
 const char boss[] PROGMEM = "PBB0boss";
@@ -61,14 +58,18 @@ const char cyanp[] PROGMEM = "P!B0cyan";
 const char waterp[] PROGMEM = "P!b11water";
 const char rawwaterp[] PROGMEM = "P!B11raw water";
 const char bottle[] PROGMEM = "P!B0bottle";
-const char pick[] PROGMEM = "PTB13pick";
+const char pick[] PROGMEM = "P/B13pick";
 const char food[] PROGMEM = "P%B10food";
 const char filter[] PROGMEM = "Pfb0filter";
 const char sleep[] PROGMEM = "PZB9sleep";
 const char vein[] PROGMEM = "P B0vein";
+const char partition[] PROGMEM = "P#B0partition";
+const char table[] PROGMEM = "PTB0table";
+const char chair[] PROGMEM = "PhB0chair";
+const char bed[] PROGMEM = "PBB0bed";
 
 const char * const grounds[] PROGMEM = {
-  soil, sand
+  soil
 };
 
 const char * const waters[] PROGMEM = {
@@ -80,12 +81,16 @@ const char * const potions[] PROGMEM = {
 };
 
 const char * const players[] PROGMEM = {
+  table,
+  chair,
+  bed,
+  partition,
   plr,
   descend,
   ascend,
   wl,
   pt,
-  dor,
+  door,
   water,
   vein,
   life,
@@ -95,8 +100,6 @@ const char * const players[] PROGMEM = {
   drowsy,
   toilet,
   soil,
-  farm,
-  gold,
   pet,
   threat,
   boss,
