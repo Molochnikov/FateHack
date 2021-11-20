@@ -229,9 +229,9 @@ void NextScene(int portal, byte make_blocks = 0, byte make_soil = 1) {
   if (scene)
     scene->atPut(Class::Directive::Next, player);
   if (scene_num == 0) {
-    is_predefined = RebuildScene(scene_latium_mines4);
+    is_predefined = RebuildScene(scene_minetown);
   } else {
-    is_predefined = RebuildScene(clear_scene);
+    is_predefined = RebuildScene(scene_clear);
   }
 
 
@@ -501,12 +501,16 @@ void loop() {
 
   scene->atPut(Class::Directive::Map, player);
   scene->atPut(Class::Directive::Draw, player);
-  if (freeMem < 300)
-    Class::arduboy.print(F("LOW"));
-  else
-    Class::arduboy.print(freeMem);
+  freeMem = Class::getFreeMemory();
+  if (freeMem) {
+    if (freeMem < 300)
+      Class::arduboy.print(F("LOW"));
+    else
+      Class::arduboy.print(freeMem);
+    Class::arduboy.print(readFlashStringPointer(&enMessages[0]));
+  }
   scene->atPut(Class::Directive::Clear, path);
-  Class::arduboy.print(readFlashStringPointer(&enMessages[0]));
+
   Class::arduboy.print(age);
   Class::arduboy.print(F("Y"));
   Class::arduboy.print(day);
@@ -642,7 +646,7 @@ void loop() {
         Class::arduboy.println(asFlashStringHelper(enNote2));
         Class::arduboy.println(asFlashStringHelper(enNote3));
         Class::arduboy.println(asFlashStringHelper(enNote4));
-        
+
         if (Class::arduboy.justPressed(DOWN_BUTTON) && currentSelection < State::MenuMAX) {
           currentSelection++;
         }
@@ -745,14 +749,14 @@ void loop() {
 
           if (owner == player) {
             if (player->atGet(Class::Directive::Turn)) {
-              freeMem = Class::getFreeMemory();
+              //freeMem = Class::getFreeMemory();
               currentState = State::Turn;
               RestoreCursor();
             } else {
               EndTurn(player);
             }
           }
-          
+
           if (is_next_scene == 0)
             is_next_scene = (*scripts[owner->toInt()]) (owner, scene_owner, scene, target);
 

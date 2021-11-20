@@ -1,24 +1,33 @@
 #pragma once
 
-//const char test_scene1[] PROGMEM = "S"
-//"                    "
-//"                    "
-//"                    "
-//"                    "
-//"                    "
-//"####################"
-//"@                  >";
-//
-//const char test_scene2[] PROGMEM = "S"
-//"@                  >"
-//"####################"
-//"                    "
-//"                    "
-//"                    "
-//"                    "
-//"                    ";
+const char scene_test_memory_limit[] PROGMEM = "S"
+"####################"
+"####################"
+"####################"
+"####################"
+"####################"
+"           #########"
+"@                  >";
 
-const char scene_latium_mines4[] PROGMEM = "S"
+const char scene_test_end[] PROGMEM = "S"
+"                    "
+"                    "
+"                    "
+"                    "
+"                    "
+"####################"
+"@                  >";
+
+const char scene_test_start[] PROGMEM = "S"
+"@                  >"
+"####################"
+"                    "
+"                    "
+"                    "
+"                    "
+"                    ";
+
+const char scene_minetown[] PROGMEM = "S"
 "########~~~#########"
 "########~9~#########"
 "########   #########"
@@ -27,7 +36,7 @@ const char scene_latium_mines4[] PROGMEM = "S"
 "#########>##########"
 "####################";
 
-const char clear_scene[] PROGMEM = "S"
+const char scene_clear[] PROGMEM = "S" //TODO procedural
 "                    "
 "                    "
 "                    "

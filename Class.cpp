@@ -21,6 +21,7 @@ int Class::getFreeMemory() {
 #else  // __arm__
   return __brkval ? &top - __brkval : &top - __malloc_heap_start;
 #endif  // __arm__
+  return 0;
 }
 
 Class::Class(Exemplar) {
