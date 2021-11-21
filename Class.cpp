@@ -159,7 +159,7 @@ const uint8_t PROGMEM fill[] = {
   0xFF
 };
 
-size_t write(uint8_t c) {
+size_t Class::write(uint8_t c) {
   if (c == '\n')      {
     Class::_cursorX = Class::_baseX;
     Class::_cursorY += Class::_lineHeight;
@@ -176,14 +176,7 @@ size_t write(uint8_t c) {
   return 1;
 }
 
-size_t Class::exemplar.print(const __FlashStringHelper * c) {
-  return Class::exemplar.print(c);
-}
-size_t Class::exemplar.println(const __FlashStringHelper * c) {
-  return Class::exemplar.println(c);
-}
-
-void Class::exemplar.printChar(const char c, const int8_t x, int8_t y) {
+void Class::printChar(const char c, const int8_t x, int8_t y) {
 
   int8_t idx = -1;
 
