@@ -2,7 +2,7 @@
 
 <a href="https://felipemanga.github.io/ProjectABE/?url=https://raw.githubusercontent.com/Molochnikov/FateHack/main/FateHack.ino.leonardo.hex&skin=arduboy">Play it in your browser using ProjectABE!</a>
 
-Roguelike game and probably engine for [Arduboy](https://arduboy.com/) or [its emulator](https://github.com/felipemanga/ProjectABE/releases/latest) influenced by NetHack and WildTangent's FATE.
+Roguelike game and probably tiniest roguelike engine for [Arduboy](https://arduboy.com/) or [its emulator](https://github.com/felipemanga/ProjectABE/releases/latest) influenced by NetHack and WildTangent's FATE.
 
 ![screen](/screen.png)
 
