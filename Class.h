@@ -1,9 +1,10 @@
 #pragma once
 
 #include "Exemplar.h"
-#include <Arduboy2.h>
 
 //#define CUSTOM_TILES
+
+#include <Arduboy2.h>
 
 #ifdef CUSTOM_TILES
 #include <SpritesB.h>
@@ -60,7 +61,12 @@ class Class : public Print  {
       Near,
       Cursor
     };
+#ifdef CUSTOM_TILES
+    static Arduboy2Base arduboy;
+#endif
+#ifndef CUSTOM_TILES
     static Arduboy2 arduboy;
+#endif
     static Class exemplar;
     Class(Exemplar);
     Class();

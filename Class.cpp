@@ -2,7 +2,13 @@
 
 //#define CUSTOM_TILES
 
+#ifdef CUSTOM_TILES
+Arduboy2Base Class::arduboy;
+#endif
+#ifndef CUSTOM_TILES
 Arduboy2 Class::arduboy;
+#endif
+
 Class *Class::list = 0;
 Class Class::exemplar = Class(Exemplar());
 char Class::errFlag = 0;
