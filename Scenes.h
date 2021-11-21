@@ -6,7 +6,7 @@ const char scene_test_memory_limit[] PROGMEM = "S"
 "===================="
 "===================="
 "===================="
-"           ========="
+"     ==============="
 "@                  >";
 
 const char scene_test_end[] PROGMEM = "S"

@@ -503,7 +503,7 @@ void loop() {
   scene->atPut(Class::Directive::Draw, player);
   freeMem = Class::getFreeMemory();
   if (freeMem) {
-    if (freeMem < 300)
+    if (freeMem < 256)
       Class::exemplar.print(F("LOW"));
     else
       Class::exemplar.print(freeMem);
@@ -760,9 +760,7 @@ void loop() {
           if (is_next_scene == 0)
             is_next_scene = (*scripts[owner->toInt()]) (owner, scene_owner, scene, target);
 
-
           scene->atPut(Class::Directive::Clear, path);
-
 
           if (owner && (is_next_scene == 0))
             owner->atPut(Class::Directive::Turn, 0);

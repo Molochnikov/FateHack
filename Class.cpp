@@ -177,9 +177,7 @@ size_t Class::write(uint8_t c) {
 }
 
 void Class::printChar(const char c, const int8_t x, int8_t y) {
-
   int8_t idx = -1;
-
   ++y;
 
   switch (c) {
@@ -209,7 +207,6 @@ void Class::setTextColor(const uint8_t color) {
 void Class::setTextBackground(const uint8_t color) {
   Class::_textBackground = color;
 }
-
 
 void Class::setHeight(const uint8_t color) {
   Class::_lineHeight = color;
