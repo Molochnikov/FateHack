@@ -90,15 +90,15 @@ size_t death_reason = 0;
 void PrintMessage(Class* src = 0, size_t num = 0, Class* trg = 0) {
   for (int i = 0; i < 500; i++) {
     Class::arduboy.clear();
-    Class::arduboy.setCursor(0, 0);
+    Class::setCursor(0, 0);
     if (src)
       src->atGet(Class::Directive::Draw);
     else
-      Class::arduboy.print(asFlashStringHelper(enScene));
-    Class::arduboy.println();
-    Class::arduboy.println(readFlashStringPointer(&enMessages[num]));
+      Class::print(asFlashStringHelper(enScene));
+    Class::println();
+    Class::println(readFlashStringPointer(&enMessages[num]));
     if (trg)
-      Class::arduboy.print(asFlashStringHelper(trg->toStr()));
+      Class::print(asFlashStringHelper(trg->toStr()));
     Class::arduboy.display();
   }
 }
@@ -108,11 +108,11 @@ void Rip(Class* c, size_t reason = 0) {
     currentState = State::Dead;
     death_reason = reason;
     Class::arduboy.clear();
-    Class::arduboy.setCursor(0, 0);
+    Class::setCursor(0, 0);
     c->atGet(Class::Directive::Draw);
-    Class::arduboy.println(readFlashStringPointer(&enMessages[5]));
-    Class::arduboy.print(readFlashStringPointer(&enMessages[6]));
-    Class::arduboy.print(readFlashStringPointer(&enMessages[reason]));
+    Class::println(readFlashStringPointer(&enMessages[5]));
+    Class::print(readFlashStringPointer(&enMessages[6]));
+    Class::print(readFlashStringPointer(&enMessages[reason]));
     Class::arduboy.display();
   } else {
     PrintMessage(c, 5);
@@ -412,33 +412,33 @@ void setup() {
 
 Class * ShowInfo(Class * c, byte is_select = 0) { //you don't need to understand this
   Class::arduboy.clear();
-  Class::arduboy.setCursor(0, 0);
-  Class::arduboy.print(F("[DOWN-next"));
+  Class::setCursor(0, 0);
+  Class::print(F("[DOWN-next"));
   if (is_select) {
-    Class::arduboy.print(F(",A-select"));
+    Class::print(F(",A-select"));
   } else if (player == c) {
-    Class::arduboy.print(F(",A-owner"));
+    Class::print(F(",A-owner"));
   }
-  Class::arduboy.println(F("]"));
+  Class::println(F("]"));
 
   if ((pcur == 0) && (target == 0)) {
     pcur = c; // owner of target aspect
     target = (pcur->atGet(Class::Directive::Next)); // target aspect
   }
-  Class::arduboy.print(F("\xEE "));
-  Class::arduboy.println(asFlashStringHelper(pcur->toStr()));
+  Class::print(F("\xEE "));
+  Class::println(asFlashStringHelper(pcur->toStr()));
 
-  Class::arduboy.print(F("\x19 "));
+  Class::print(F("\x19 "));
   if (target && ((target->atGet(Class::Directive::Place)) == 0)) {
     if (target->atGet(Class::Directive::Block)) {
-      Class::arduboy.print(F("("));
-      Class::arduboy.print(asFlashStringHelper(enBind));
-      Class::arduboy.print(F(")"));
-      Class::arduboy.print(asFlashStringHelper(enSpace));
+      Class::print(F("("));
+      Class::print(asFlashStringHelper(enBind));
+      Class::print(F(")"));
+      Class::print(asFlashStringHelper(enSpace));
     }
-    Class::arduboy.println(asFlashStringHelper(target->toStr()));
+    Class::println(asFlashStringHelper(target->toStr()));
   } else if (target) {
-    Class::arduboy.println(asFlashStringHelper(target->toStr()));
+    Class::println(asFlashStringHelper(target->toStr()));
   }
 
   if (Class::arduboy.justPressed(DOWN_BUTTON)) {
@@ -504,44 +504,44 @@ void loop() {
   freeMem = Class::getFreeMemory();
   if (freeMem) {
     if (freeMem < 300)
-      Class::arduboy.print(F("LOW"));
+      Class::print(F("LOW"));
     else
-      Class::arduboy.print(freeMem);
-    Class::arduboy.print(readFlashStringPointer(&enMessages[0]));
+      Class::print(freeMem);
+    Class::print(readFlashStringPointer(&enMessages[0]));
   }
   scene->atPut(Class::Directive::Clear, path);
 
-  Class::arduboy.print(age);
-  Class::arduboy.print(F("Y"));
-  Class::arduboy.print(day);
-  Class::arduboy.print(F("D"));
-  Class::arduboy.print(readFlashStringPointer(&enMessages[0]));
-  Class::arduboy.print(hour);
-  Class::arduboy.print(F(":"));
-  Class::arduboy.print(minute);
-  Class::arduboy.print(readFlashStringPointer(&enMessages[0]));
-  Class::arduboy.print(scene_num);
-  Class::arduboy.println();
+  Class::print(age);
+  Class::print(F("Y"));
+  Class::print(day);
+  Class::print(F("D"));
+  Class::print(readFlashStringPointer(&enMessages[0]));
+  Class::print(hour);
+  Class::print(F(":"));
+  Class::print(minute);
+  Class::print(readFlashStringPointer(&enMessages[0]));
+  Class::print(scene_num);
+  Class::println();
 
   switch (currentState) {
     case State::Bookkeeper:
-      Class::arduboy.setCursor(0, 0);
-      Class::arduboy.println(F("Bookkeeper:"));
-      Class::arduboy.print(population_stock);
-      Class::arduboy.print(readFlashStringPointer(&enMessages[0]));
-      Class::arduboy.println(F("man(1 food each)"));
-      Class::arduboy.print(food_stock);
-      Class::arduboy.print(readFlashStringPointer(&enMessages[0]));
-      Class::arduboy.println(F("food | A - take"));
-      Class::arduboy.print(ore_stock);
-      Class::arduboy.print(readFlashStringPointer(&enMessages[0]));
-      Class::arduboy.print(F("coal | need"));
-      Class::arduboy.print(readFlashStringPointer(&enMessages[0]));
-      Class::arduboy.println(ore_need);
-      Class::arduboy.print(pick_stock);
-      Class::arduboy.print(readFlashStringPointer(&enMessages[0]));
-      Class::arduboy.print(F("picks | autopickup"));
-      Class::arduboy.println(readFlashStringPointer(&enMessages[0]));
+      Class::setCursor(0, 0);
+      Class::println(F("Bookkeeper:"));
+      Class::print(population_stock);
+      Class::print(readFlashStringPointer(&enMessages[0]));
+      Class::println(F("man(1 food each)"));
+      Class::print(food_stock);
+      Class::print(readFlashStringPointer(&enMessages[0]));
+      Class::println(F("food | A - take"));
+      Class::print(ore_stock);
+      Class::print(readFlashStringPointer(&enMessages[0]));
+      Class::print(F("coal | need"));
+      Class::print(readFlashStringPointer(&enMessages[0]));
+      Class::println(ore_need);
+      Class::print(pick_stock);
+      Class::print(readFlashStringPointer(&enMessages[0]));
+      Class::print(F("picks | autopickup"));
+      Class::println(readFlashStringPointer(&enMessages[0]));
       Class::arduboy.display();
       if (Class::arduboy.justPressed(A_BUTTON)) {
         if (food_stock > 0) {
@@ -556,7 +556,7 @@ void loop() {
       break;
     case State::Intro:
       Class::arduboy.clear();
-      Class::arduboy.print(readFlashStringPointer(&enIntro[make_choice]));
+      Class::print(readFlashStringPointer(&enIntro[make_choice]));
       Class::arduboy.display();
       if (Class::arduboy.justPressed(B_BUTTON) || Class::arduboy.justPressed(A_BUTTON)) {
         make_choice++;
@@ -632,19 +632,19 @@ void loop() {
       break;
     case State::Menu:
       {
-        Class::arduboy.setCursor(0, 0);
+        Class::setCursor(0, 0);
         for (unsigned int i = 0; i < size(enMenuItems); i++) {
           if (currentSelection == i) {
-            Class::arduboy.print('\x1A');
+            Class::print('\x1A');
           } else {
-            Class::arduboy.print(' ');
+            Class::print(' ');
           }
-          Class::arduboy.println(readFlashStringPointer(&enMenuItems[i]));
+          Class::println(readFlashStringPointer(&enMenuItems[i]));
         }
-        Class::arduboy.println(asFlashStringHelper(enNote1));
-        Class::arduboy.println(asFlashStringHelper(enNote2));
-        Class::arduboy.println(asFlashStringHelper(enNote3));
-        Class::arduboy.println(asFlashStringHelper(enNote4));
+        Class::println(asFlashStringHelper(enNote1));
+        Class::println(asFlashStringHelper(enNote2));
+        Class::println(asFlashStringHelper(enNote3));
+        Class::println(asFlashStringHelper(enNote4));
 
         if (Class::arduboy.justPressed(DOWN_BUTTON) && currentSelection < State::MenuMAX) {
           currentSelection++;

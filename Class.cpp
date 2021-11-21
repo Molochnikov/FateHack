@@ -1,5 +1,7 @@
 #include "Class.h"
 
+//#define CUSTOM_TILES
+
 Arduboy2 Class::arduboy;
 Class *Class::list = 0;
 Class Class::exemplar = Class(Exemplar());
@@ -75,14 +77,14 @@ byte Class::dropDice(byte d = 2, byte n = 1) {
   return sum;
 }
 
-void Class::printDebug(char* c) {
-  for (int i = 0; i < 500; i++) {
-    Class::arduboy.clear();
-    Class::arduboy.setCursor(0, 0);
-    Class::arduboy.println(c);
-    Class::arduboy.display();
-  }
-}
+//void Class::printDebug(char* c) {
+//  for (int i = 0; i < 500; i++) {
+//    Class::arduboy.clear();
+//    Class::setCursor(0, 0);
+//    Class::println(c);
+//    Class::arduboy.display();
+//  }
+//}
 
 byte Class::getBits(byte x, byte p, byte n) {
   return (x >> (p + 1 - n)) & (~((~0U) << n));
@@ -99,3 +101,134 @@ int Class::toInt() {
 char Class::getTypeChar() {
   return 0;
 }
+
+#ifndef CUSTOM_TILES
+size_t Class::write(uint8_t c) {
+  return Class::arduboy.write(c);
+}
+size_t Class::print(const __FlashStringHelper * c) {
+  return Class::arduboy.print(c);
+}
+size_t Class::println(const __FlashStringHelper * c) {
+  return Class::arduboy.println(c);
+}
+size_t Class::println() {
+  return Class::arduboy.println();
+}
+void Class::setTextColor(const uint8_t color) {
+  return Class::arduboy.setTextColor(color);
+}
+void Class::setTextBackground(const uint8_t color) {
+  return Class::arduboy.setTextBackground(color);
+}
+void Class::setCursor(int16_t x, int16_t y) {
+  return Class::arduboy.setCursor(x, y);
+}
+#endif
+#ifdef CUSTOM_TILES
+
+uint8_t Class::_lineHeight = 8;
+uint8_t Class::_letterSpacing = 1;
+
+int8_t Class::_cursorX = 0;
+int8_t Class::_textBackground = 0;
+int8_t Class::_cursorY = 0;
+int8_t Class::_baseX = 0;
+int8_t Class::_textColor = 1;
+
+enum {
+  FONT4x6_WIDTH = 4,
+  FONT4x6_HEIGHT = 7
+};
+
+enum {
+  CHAR_NUMBER_0 = 48
+};
+
+enum {
+  FONT_NUMBER_0_INDEX = 26
+};
+
+enum {
+  FONT_BACKGROUND = 10
+};
+
+const uint8_t PROGMEM font_images[] = {
+  4, 8,
+
+  // Just and example. You can add your tiles.
+  0x1E,  // ░░░▓▓▓▓░
+  0x29,  // ░░▓░▓░░▓
+  0x25,  // ░░▓░░▓░▓
+  0x1E,  // ░░░▓▓▓▓░
+};
+
+const uint8_t PROGMEM fill[] = {
+  1, 8,
+  0xFF
+};
+
+size_t Class::write(uint8_t c) {
+  if (c == '\n')      {
+    Class::_cursorX = Class::_baseX;
+    Class::_cursorY += Class::_lineHeight;
+  } else {
+    if (Class::_textBackground == WHITE) {
+      SpritesB::drawSelfMasked(Class::_cursorX, Class::_cursorY, font_images, FONT_BACKGROUND);
+    }
+    Class::printChar(c, Class::_cursorX, Class::_cursorY);
+    Class::_cursorX += FONT4x6_WIDTH + Class::_letterSpacing;
+    if (Class::_textBackground == WHITE) {
+      SpritesB::drawSelfMasked(Class::_cursorX - 1, Class::_cursorY, fill, 0);
+    }
+  }
+  return 1;
+}
+
+size_t Class::print(const __FlashStringHelper * c) {
+  return Class::exemplar.print(c);
+}
+size_t Class::println(const __FlashStringHelper * c) {
+  return Class::exemplar.println(c);
+}
+
+void Class::printChar(const char c, const int8_t x, int8_t y) {
+
+  int8_t idx = -1;
+
+  ++y;
+
+  switch (c) {
+    case CHAR_NUMBER_0:
+      idx = FONT_NUMBER_0_INDEX;
+      break;
+  }
+
+  if (idx > -1) {
+    if (_textColor == WHITE) {
+      SpritesB::drawSelfMasked(x, y, font_images, idx);
+    } else {
+      SpritesB::drawErase(x, y, font_images, idx);
+    }
+  }
+}
+
+void Class::setCursor(const int8_t x, const int8_t y) {
+  Class::_cursorX = Class::_baseX = x;
+  Class::_cursorY = y;
+}
+
+void Class::setTextColor(const uint8_t color) {
+  Class::_textColor = color;
+}
+
+void Class::setTextBackground(const uint8_t color) {
+  Class::_textBackground = color;
+}
+
+
+void Class::setHeight(const uint8_t color) {
+  Class::_lineHeight = color;
+}
+
+#endif

@@ -226,38 +226,38 @@ Class *Player::atGet(Directive key) {
     case Class::Directive::Draw:
 #ifdef CODE_PAGE_437
       if (((char)(pgm_read_byte_near((this->_init) + 1))) == '@')
-        Class::arduboy.print('\x02');
+        Class::print('\x02');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'N')
-        Class::arduboy.print('\x01');
+        Class::print('\x01');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'p')
-        Class::arduboy.print('\x03');
+        Class::print('\x03');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '#')
-        Class::arduboy.print('\x13');
+        Class::print('\x13');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'O')
-        Class::arduboy.print('\x06');
+        Class::print('\x06');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'h')
-        Class::arduboy.print('\x8E');
+        Class::print('\x8E');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'B')
-        Class::arduboy.print('\x92');
+        Class::print('\x92');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '>')
-        Class::arduboy.print('\x1F');
+        Class::print('\x1F');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '<')
-        Class::arduboy.print('\x1E');
+        Class::print('\x1E');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '9')
-        Class::arduboy.print('\xDF');
+        Class::print('\xDF');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '1')
-        Class::arduboy.print('\xDE');
+        Class::print('\xDE');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '2')
-        Class::arduboy.print('\xDD');
+        Class::print('\xDD');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '~') {
         if (random(2))
-          Class::arduboy.print('\xB0');
+          Class::print('\xB0');
         else
-          Class::arduboy.print('\xB1');
+          Class::print('\xB1');
       }
       else
 #endif
-        Class::arduboy.print((char)(pgm_read_byte_near((this->_init) + 1)));
+        Class::print((char)(pgm_read_byte_near((this->_init) + 1)));
       return this;
       break;
     default:

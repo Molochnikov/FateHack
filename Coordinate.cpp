@@ -96,7 +96,7 @@ Class *Coordinate::atGet(Directive key) {
       }
       break;
     case Class::Directive::Draw: //draw coord in one char
-      Class::arduboy.print(_symbol);
+      Class::print(_symbol);
       return this;
       break;
     case Class::Directive::Up: //move coordinate up

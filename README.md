@@ -2,17 +2,25 @@
 
 <a href="https://felipemanga.github.io/ProjectABE/?url=https://raw.githubusercontent.com/Molochnikov/FateHack/main/FateHack.ino.leonardo.hex&skin=arduboy">Play it in your browser using ProjectABE!</a>
 
-Roguelike game for [Arduboy](https://arduboy.com/) or [its emulator](https://github.com/felipemanga/ProjectABE/releases/latest) influenced by NetHack and WildTangent's FATE.
+Roguelike game and probably engine for [Arduboy](https://arduboy.com/) or [its emulator](https://github.com/felipemanga/ProjectABE/releases/latest) influenced by NetHack and WildTangent's FATE.
 
 ![screen](/screen.png)
 
-Bottom panel from left to right:
+Bottom panel:
 * memory left in bytes `556` (if `LOW` then you better start destroying most useless objects)
 * current year `14Y`
 * current day `1D`
 * current hour `1:`
 * current minute `:1`
 * current negative elevation `0`
+
+Controls:
+* <kbd>Up</kbd> , <kbd>Down</kbd> , <kbd>Left</kbd> , <kbd>Right</kbd> - move cursor
+* <kbd>A</kbd> or <kbd>Ctrl</kbd> + <kbd>Up</kbd> , <kbd>Down</kbd> , <kbd>Left</kbd> , <kbd>Right</kbd> - move player
+* <kbd>A</kbd> or <kbd>Ctrl</kbd> - select object for action or give object to the next potential owner in your possessions
+* <kbd>B</kbd> or <kbd>Alt</kbd> - toggle menu at cursor position or cancel action
+* to take something 'on this use player'
+* to drop something 'on floor `.` use this'
 
 Game features:
 * cursor
@@ -35,10 +43,3 @@ Programming features for using as engine for other Arduboy roguelikes:
 * master OOP pattern at the core - prototype (exemplar)
 * easy scripting for objects interactions
 
-Controls:
-* <kbd>Up</kbd> , <kbd>Down</kbd> , <kbd>Left</kbd> , <kbd>Right</kbd> - move cursor
-* <kbd>A</kbd> or <kbd>Ctrl</kbd> + <kbd>Up</kbd> , <kbd>Down</kbd> , <kbd>Left</kbd> , <kbd>Right</kbd> - move player
-* <kbd>A</kbd> or <kbd>Ctrl</kbd> - select object for action or give object to the next potential owner in your possessions
-* <kbd>B</kbd> or <kbd>Alt</kbd> - toggle menu at cursor position or cancel action
-* to take something 'on this use player'
-* to drop something 'on floor `.` use this'

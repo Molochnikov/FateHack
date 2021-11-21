@@ -555,8 +555,8 @@ Class *Scene::atPut(Directive key, Class *arg) {
         for (int y = 0; y < _ysize; y++) {
           for (int x = 0; x < _xsize; x++) {
             if ((x == xcur && y == ycur) ) {
-              Class::arduboy.setTextColor(BLACK);
-              Class::arduboy.setTextBackground(WHITE);
+              Class::setTextColor(BLACK);
+              Class::setTextBackground(WHITE);
             }
             if (_characters[y * _xsize + x] && (_characters[y * _xsize + x] == arg ||
                                                 Scene::getUpThingFrom(_characters[y * _xsize + x], Scene::AddClassAction::NoAction, _characters[y * _xsize + x]) == arg ||
@@ -568,20 +568,20 @@ Class *Scene::atPut(Directive key, Class *arg) {
                 _characters[y * _xsize + x]->atGet(Class::Directive::Draw);
               } else {
                 char c = (char) (pgm_read_byte_near(_scene + (y * _xsize + x)));
-                Class::arduboy.print(c);
+                Class::print(c);
               }
               _characters[y * _xsize + x]->atPut(Class::Directive::Hidden, _characters[y * _xsize + x]);
             } else {
               if (_characters[y * _xsize + x] && (_characters[y * _xsize + x]->atGet(Class::Directive::Hidden) == 0)) {
                 _characters[y * _xsize + x]->atGet(Class::Directive::Draw);
               } else {
-                Class::arduboy.print(' ');
+                Class::print(' ');
               }
             }
-            Class::arduboy.setTextColor(WHITE);
-            Class::arduboy.setTextBackground(BLACK);
+            Class::setTextColor(WHITE);
+            Class::setTextBackground(BLACK);
           }
-          Class::arduboy.println();
+          Class::println();
         }
       }
       return 0;
@@ -691,19 +691,19 @@ Class *Scene::atGet(Directive key) {
         for (int y = 0; y < _ysize; y++) {
           for (int x = 0; x < _xsize; x++) {
             if ((x == xcur && y == ycur) ) {
-              Class::arduboy.setTextColor(BLACK);
-              Class::arduboy.setTextBackground(WHITE);
+              Class::setTextColor(BLACK);
+              Class::setTextBackground(WHITE);
             }
             if (_characters[y * _xsize + x]) {
               _characters[y * _xsize + x]->atGet(Class::Directive::Draw);
             } else {
               char c = (char) (pgm_read_byte_near(_scene + (y * _xsize + x)));
-              Class::arduboy.print(c);
+              Class::print(c);
             }
-            Class::arduboy.setTextColor(WHITE);
-            Class::arduboy.setTextBackground(BLACK);
+            Class::setTextColor(WHITE);
+            Class::setTextBackground(BLACK);
           }
-          Class::arduboy.println();
+          Class::println();
         }
       }
       return 0;
