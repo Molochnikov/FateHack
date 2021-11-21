@@ -413,11 +413,11 @@ void setup() {
 Class * ShowInfo(Class * c, byte is_select = 0) { //you don't need to understand this
   Class::arduboy.clear();
   Class::setCursor(0, 0);
-  Class::exemplar.print(F("[DOWN-next"));
+  Class::exemplar.print(F("[DOWN-NEXT"));
   if (is_select) {
-    Class::exemplar.print(F(",A-select"));
+    Class::exemplar.print(F(",A-SELECT"));
   } else if (player == c) {
-    Class::exemplar.print(F(",A-owner"));
+    Class::exemplar.print(F(",A-OWNER"));
   }
   Class::exemplar.println(F("]"));
 
@@ -526,21 +526,21 @@ void loop() {
   switch (currentState) {
     case State::Bookkeeper:
       Class::setCursor(0, 0);
-      Class::exemplar.println(F("Bookkeeper:"));
+      Class::exemplar.println(F("BOOKKEEPER:"));
       Class::exemplar.print(population_stock);
       Class::exemplar.print(readFlashStringPointer(&enMessages[0]));
-      Class::exemplar.println(F("man(1 food each)"));
+      Class::exemplar.println(F("MAN(1 FOOD EACH)"));
       Class::exemplar.print(food_stock);
       Class::exemplar.print(readFlashStringPointer(&enMessages[0]));
-      Class::exemplar.println(F("food | A - take"));
+      Class::exemplar.println(F("FOOD | A - TAKE"));
       Class::exemplar.print(ore_stock);
       Class::exemplar.print(readFlashStringPointer(&enMessages[0]));
-      Class::exemplar.print(F("coal | need"));
+      Class::exemplar.print(F("COAL | NEED"));
       Class::exemplar.print(readFlashStringPointer(&enMessages[0]));
       Class::exemplar.println(ore_need);
       Class::exemplar.print(pick_stock);
       Class::exemplar.print(readFlashStringPointer(&enMessages[0]));
-      Class::exemplar.print(F("picks | autopickup"));
+      Class::exemplar.print(F("PICKS | AUTOPICKUP"));
       Class::exemplar.println(readFlashStringPointer(&enMessages[0]));
       Class::arduboy.display();
       if (Class::arduboy.justPressed(A_BUTTON)) {

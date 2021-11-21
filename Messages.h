@@ -2,31 +2,31 @@
 
 #define CODE_PAGE_437
 
-constexpr char enIntro1[] PROGMEM = "You live in communist\nmining village.\n\n1 year equal 9 days.\n\nYour task to fulfill\nannual coal mining\nplan.";
-constexpr char enIntro2[] PROGMEM = "In reward you can\norder food and picks\nfrom other villages\nfor next year.\n\nGood luck!";
+constexpr char enIntro1[] PROGMEM = "YOU LIVE IN COMMUNIST\nMINING VILLAGE.\n\n1 YEAR EQUAL 9 DAYS.\n\nYOUR TASK TO FULFILL\nANNUAL COAL MINING\nPLAN.";
+constexpr char enIntro2[] PROGMEM = "IN REWARD YOU CAN\nORDER FOOD AND PICKS\nFROM OTHER VILLAGES\nFOR NEXT YEAR.\n\nGOOD LUCK!";
 
 constexpr const char *enIntro[] PROGMEM = {
   enIntro1, enIntro2
 };
 
-constexpr char enDrop[] PROGMEM = "drop";
-constexpr char enWait[] PROGMEM = "wait one minute";
+constexpr char enDrop[] PROGMEM = "DROP";
+constexpr char enWait[] PROGMEM = "WAIT ONE MINUTE";
 
 #ifdef CODE_PAGE_437
-constexpr char enInfo[] PROGMEM = "next owner\xEE\x02 among\xEE\x02";
+constexpr char enInfo[] PROGMEM = "NEXT OWNER\xEE\x02 AMONG\xEE\x02";
 #endif
 #ifndef CODE_PAGE_437
-constexpr char enInfo[] PROGMEM = "next owner\xEE@ among\xEE@";
+constexpr char enInfo[] PROGMEM = "NEXT OWNER\xEE@ AMONG\xEE@";
 #endif
 
 #ifdef CODE_PAGE_437
-constexpr char enUseOn[] PROGMEM = "show\xEE\xDB OR on\xEE\xDBuse\xEE\x02";
+constexpr char enUseOn[] PROGMEM = "SHOW\xEE\xDB OR ON\xEE\xDBUSE\xEE\x02";
 #endif
 #ifndef CODE_PAGE_437
-constexpr char enUseOn[] PROGMEM = "show\xEE\xDB OR on\xEE\xDBuse\xEE@";
+constexpr char enUseOn[] PROGMEM = "SHOW\xEE\xDB OR ON\xEE\xDBUSE\xEE@";
 #endif
 
-constexpr char enDestroy[] PROGMEM = "destroy\xEE\xDB if LOW mem";
+constexpr char enDestroy[] PROGMEM = "DESTROY\xEE\xDB IF LOW MEM";
 
 constexpr const char *enMenuItems[] PROGMEM = {
   enWait,
@@ -36,29 +36,29 @@ constexpr const char *enMenuItems[] PROGMEM = {
 };
 
 #ifdef CODE_PAGE_437
-constexpr char enNote1[] PROGMEM = "\x02 you(hold A to move)";
+constexpr char enNote1[] PROGMEM = "\x02 YOU(HOLD A TO MOVE)";
 #endif
 #ifndef CODE_PAGE_437
-constexpr char enNote1[] PROGMEM = "@ you(hold A to move)";
+constexpr char enNote1[] PROGMEM = "@ YOU(HOLD A TO MOVE)";
 #endif
 
-constexpr char enNote2[] PROGMEM = "\xDB - obj under cursor";
-constexpr char enNote3[] PROGMEM = ". - floor (nothing)";
-constexpr char enNote4[] PROGMEM = "\xEE - 'element of'";
+constexpr char enNote2[] PROGMEM = "\xDB - OBJ UNDER CURSOR";
+constexpr char enNote3[] PROGMEM = ". - FLOOR (NOTHING)";
+constexpr char enNote4[] PROGMEM = "\xEE - 'ELEMENT OF'";
 
 constexpr char enSpace[] PROGMEM = " ";
-constexpr char enHungry[] PROGMEM = "hungry";
-constexpr char enToilet[] PROGMEM = "toilet";
-constexpr char enThirst[] PROGMEM = "thirsty";
-constexpr char enDrowsy[] PROGMEM = "drowsy";
-constexpr char enDead[] PROGMEM = "disappeared";
-constexpr char enFar[] PROGMEM = "away from";
-constexpr char enOwner[] PROGMEM = "not owner";
-constexpr char enGot[] PROGMEM = "got";
-constexpr char enSleep[] PROGMEM = "Zzz";
-constexpr char enBind[] PROGMEM = "bind";
-constexpr char enScene[] PROGMEM = "scene";
-constexpr char enHome[] PROGMEM = "sweet home";
+constexpr char enHungry[] PROGMEM = "HUNGRY";
+constexpr char enToilet[] PROGMEM = "TOILET";
+constexpr char enThirst[] PROGMEM = "THIRSTY";
+constexpr char enDrowsy[] PROGMEM = "DROWSY";
+constexpr char enDead[] PROGMEM = "DISAPPEARED";
+constexpr char enFar[] PROGMEM = "AWAY FROM";
+constexpr char enOwner[] PROGMEM = "NOT OWNER";
+constexpr char enGot[] PROGMEM = "GOT";
+constexpr char enSleep[] PROGMEM = "ZZZ";
+constexpr char enBind[] PROGMEM = "BIND";
+constexpr char enScene[] PROGMEM = "SCENE";
+constexpr char enHome[] PROGMEM = "HOME";
 
 constexpr const char *enMessages[] PROGMEM = {
   enSpace,//0

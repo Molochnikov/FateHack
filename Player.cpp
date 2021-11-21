@@ -229,7 +229,7 @@ Class *Player::atGet(Directive key) {
         Class::exemplar.print('\x02');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'N')
         Class::exemplar.print('\x01');
-      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'p')
+      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'P')
         Class::exemplar.print('\x03');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '#')
         Class::exemplar.print('\x13');
