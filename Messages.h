@@ -1,5 +1,7 @@
 #pragma once
 
+#define CODE_PAGE_437
+
 constexpr char enIntro1[] PROGMEM = "You live in communist\nmining village.\n\n1 year equal 9 days.\n\nYour task to fulfill\nannual coal mining\nplan.";
 constexpr char enIntro2[] PROGMEM = "In reward you can\norder food and picks\nfrom other villages\nfor next year.\n\nGood luck!";
 
@@ -9,8 +11,21 @@ constexpr const char *enIntro[] PROGMEM = {
 
 constexpr char enDrop[] PROGMEM = "drop";
 constexpr char enWait[] PROGMEM = "wait one minute";
+
+#ifdef CODE_PAGE_437
 constexpr char enInfo[] PROGMEM = "next owner\xEE\x02 among\xEE\x02";
+#endif
+#ifndef CODE_PAGE_437
+constexpr char enInfo[] PROGMEM = "next owner\xEE@ among\xEE@";
+#endif
+
+#ifdef CODE_PAGE_437
 constexpr char enUseOn[] PROGMEM = "show\xEE\xDB OR on\xEE\xDBuse\xEE\x02";
+#endif
+#ifndef CODE_PAGE_437
+constexpr char enUseOn[] PROGMEM = "show\xEE\xDB OR on\xEE\xDBuse\xEE@";
+#endif
+
 constexpr char enDestroy[] PROGMEM = "destroy\xEE\xDB if LOW mem";
 
 constexpr const char *enMenuItems[] PROGMEM = {
@@ -20,7 +35,13 @@ constexpr const char *enMenuItems[] PROGMEM = {
   enDestroy
 };
 
+#ifdef CODE_PAGE_437
 constexpr char enNote1[] PROGMEM = "\x02 you(hold A to move)";
+#endif
+#ifndef CODE_PAGE_437
+constexpr char enNote1[] PROGMEM = "@ you(hold A to move)";
+#endif
+
 constexpr char enNote2[] PROGMEM = "\xDB - obj under cursor";
 constexpr char enNote3[] PROGMEM = ". - floor (nothing)";
 constexpr char enNote4[] PROGMEM = "\xEE - 'element of'";
