@@ -10,12 +10,7 @@
 #include <Print.h>
 #endif
 
-#ifdef CUSTOM_TILES
 class Class : public Print  {
-#endif
-#ifndef CUSTOM_TILES
-    class Class {
-#endif
       protected:
         static Class *list;
         Class *next;
@@ -81,15 +76,12 @@ class Class : public Print  {
         //static void printDebug(char* c);
 
         virtual size_t write(uint8_t c);
-        static size_t print(const __FlashStringHelper * c);
-        static size_t println(const __FlashStringHelper * c);
-        static size_t println(void);
-        static void setCursor(int16_t x, int16_t y);
+        using Print::write;
+        static void setCursor(int8_t x, int8_t y);
         static void setTextColor(const uint8_t color);
         static void setTextBackground(const uint8_t color);
 #ifdef CUSTOM_TILES
         static void printChar(const char c, const int8_t x, int8_t y);
-        static void setCursor(const int8_t x, const int8_t y);
         static void setHeight(const uint8_t color);
 #endif
     };

@@ -77,11 +77,11 @@ byte Class::dropDice(byte d = 2, byte n = 1) {
   return sum;
 }
 
-//void Class::printDebug(char* c) {
+//void Class::exemplar.printDebug(char* c) {
 //  for (int i = 0; i < 500; i++) {
 //    Class::arduboy.clear();
 //    Class::setCursor(0, 0);
-//    Class::println(c);
+//    Class::exemplar.println(c);
 //    Class::arduboy.display();
 //  }
 //}
@@ -106,22 +106,13 @@ char Class::getTypeChar() {
 size_t Class::write(uint8_t c) {
   return Class::arduboy.write(c);
 }
-size_t Class::print(const __FlashStringHelper * c) {
-  return Class::arduboy.print(c);
-}
-size_t Class::println(const __FlashStringHelper * c) {
-  return Class::arduboy.println(c);
-}
-size_t Class::println() {
-  return Class::arduboy.println();
-}
 void Class::setTextColor(const uint8_t color) {
   return Class::arduboy.setTextColor(color);
 }
 void Class::setTextBackground(const uint8_t color) {
   return Class::arduboy.setTextBackground(color);
 }
-void Class::setCursor(int16_t x, int16_t y) {
+void Class::setCursor(int8_t x, int8_t y) {
   return Class::arduboy.setCursor(x, y);
 }
 #endif
@@ -168,7 +159,7 @@ const uint8_t PROGMEM fill[] = {
   0xFF
 };
 
-size_t Class::write(uint8_t c) {
+size_t write(uint8_t c) {
   if (c == '\n')      {
     Class::_cursorX = Class::_baseX;
     Class::_cursorY += Class::_lineHeight;
@@ -176,7 +167,7 @@ size_t Class::write(uint8_t c) {
     if (Class::_textBackground == WHITE) {
       SpritesB::drawSelfMasked(Class::_cursorX, Class::_cursorY, font_images, FONT_BACKGROUND);
     }
-    Class::printChar(c, Class::_cursorX, Class::_cursorY);
+    Class::exemplar.printChar(c, Class::_cursorX, Class::_cursorY);
     Class::_cursorX += FONT4x6_WIDTH + Class::_letterSpacing;
     if (Class::_textBackground == WHITE) {
       SpritesB::drawSelfMasked(Class::_cursorX - 1, Class::_cursorY, fill, 0);
@@ -185,14 +176,14 @@ size_t Class::write(uint8_t c) {
   return 1;
 }
 
-size_t Class::print(const __FlashStringHelper * c) {
+size_t Class::exemplar.print(const __FlashStringHelper * c) {
   return Class::exemplar.print(c);
 }
-size_t Class::println(const __FlashStringHelper * c) {
+size_t Class::exemplar.println(const __FlashStringHelper * c) {
   return Class::exemplar.println(c);
 }
 
-void Class::printChar(const char c, const int8_t x, int8_t y) {
+void Class::exemplar.printChar(const char c, const int8_t x, int8_t y) {
 
   int8_t idx = -1;
 

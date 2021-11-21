@@ -226,38 +226,38 @@ Class *Player::atGet(Directive key) {
     case Class::Directive::Draw:
 #ifdef CODE_PAGE_437
       if (((char)(pgm_read_byte_near((this->_init) + 1))) == '@')
-        Class::print('\x02');
+        Class::exemplar.print('\x02');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'N')
-        Class::print('\x01');
+        Class::exemplar.print('\x01');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'p')
-        Class::print('\x03');
+        Class::exemplar.print('\x03');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '#')
-        Class::print('\x13');
+        Class::exemplar.print('\x13');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'O')
-        Class::print('\x06');
+        Class::exemplar.print('\x06');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'h')
-        Class::print('\x8E');
+        Class::exemplar.print('\x8E');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'B')
-        Class::print('\x92');
+        Class::exemplar.print('\x92');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '>')
-        Class::print('\x1F');
+        Class::exemplar.print('\x1F');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '<')
-        Class::print('\x1E');
+        Class::exemplar.print('\x1E');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '9')
-        Class::print('\xDF');
+        Class::exemplar.print('\xDF');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '1')
-        Class::print('\xDE');
+        Class::exemplar.print('\xDE');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '2')
-        Class::print('\xDD');
+        Class::exemplar.print('\xDD');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '~') {
         if (random(2))
-          Class::print('\xB0');
+          Class::exemplar.print('\xB0');
         else
-          Class::print('\xB1');
+          Class::exemplar.print('\xB1');
       }
       else
 #endif
-        Class::print((char)(pgm_read_byte_near((this->_init) + 1)));
+        Class::exemplar.print((char)(pgm_read_byte_near((this->_init) + 1)));
       return this;
       break;
     default:

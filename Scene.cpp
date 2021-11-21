@@ -568,20 +568,20 @@ Class *Scene::atPut(Directive key, Class *arg) {
                 _characters[y * _xsize + x]->atGet(Class::Directive::Draw);
               } else {
                 char c = (char) (pgm_read_byte_near(_scene + (y * _xsize + x)));
-                Class::print(c);
+                Class::exemplar.print(c);
               }
               _characters[y * _xsize + x]->atPut(Class::Directive::Hidden, _characters[y * _xsize + x]);
             } else {
               if (_characters[y * _xsize + x] && (_characters[y * _xsize + x]->atGet(Class::Directive::Hidden) == 0)) {
                 _characters[y * _xsize + x]->atGet(Class::Directive::Draw);
               } else {
-                Class::print(' ');
+                Class::exemplar.print(' ');
               }
             }
             Class::setTextColor(WHITE);
             Class::setTextBackground(BLACK);
           }
-          Class::println();
+          Class::exemplar.println();
         }
       }
       return 0;
@@ -698,12 +698,12 @@ Class *Scene::atGet(Directive key) {
               _characters[y * _xsize + x]->atGet(Class::Directive::Draw);
             } else {
               char c = (char) (pgm_read_byte_near(_scene + (y * _xsize + x)));
-              Class::print(c);
+              Class::exemplar.print(c);
             }
             Class::setTextColor(WHITE);
             Class::setTextBackground(BLACK);
           }
-          Class::println();
+          Class::exemplar.println();
         }
       }
       return 0;
