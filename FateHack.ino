@@ -58,7 +58,7 @@ byte age = 14;
 byte left = 0;
 byte up = 0;
 byte make_choice = 0;
-byte isBotMode = 0;
+byte isBotMode = 1;
 
 byte population_stock = 10;
 byte pick_stock = 10;
@@ -572,15 +572,15 @@ void loop() {
       }
       if (make_choice == size(enIntro)) {
         make_choice = 0;
-#ifdef DEMO_MODE
+#ifndef DEMO_VERSION
         currentState = State::IsBot;
 #endif
-#ifndef DEMO_MODE
+#ifdef DEMO_VERSION
         currentState = State::OtherTurn;
 #endif
       }
       break;
-#ifdef DEMO_MODE
+#ifndef DEMO_VERSION
     case State::IsBot:
       Class::arduboy.clear();
       Class::exemplar.setCursor(0, 0);
