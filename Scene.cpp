@@ -237,8 +237,8 @@ Class *Scene::closest(Class *arg, byte farest, byte is_block, byte is_not_block)
 
 Class *Scene::buildPath(Class *path_proto, Class *block_proto, int is_scene_already) {
   int has_free = 1;
-  int max_instances = 21;
-  int min_instances = 20;
+  int max_instances = 6;
+  int min_instances = 5;
   int chance = 3;
   //int last_pos;
   int count_visited;

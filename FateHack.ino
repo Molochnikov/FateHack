@@ -112,6 +112,7 @@ void Rip(Class* c, size_t reason = 0) {
     Class::arduboy.clear();
     Class::exemplar.setCursor(0, 0);
     c->atGet(Class::Directive::Draw);
+    Class::exemplar.println(readFlashStringPointer(&enMessages[0]));
     Class::exemplar.println(readFlashStringPointer(&enMessages[5]));
     Class::exemplar.print(readFlashStringPointer(&enMessages[6]));
     Class::exemplar.println(readFlashStringPointer(&enMessages[0]));
@@ -293,7 +294,7 @@ void NextScene(int portal, byte make_blocks = 0, byte make_soil = 1) {
   scene->atPut(Class::Directive::Clear, path);
   scene->atPut(Class::Directive::Map, desc); //set pathfinding map to downstairs
 
-  if (make_blocks && (is_predefined == 0)) {
+  if (0 && make_blocks && (is_predefined == 0)) {
     int r = random(max_scene_num - scene_num);
     //    int blocks_num = random(num);
     //for (int i = 0; i < blocks_num; i++) {

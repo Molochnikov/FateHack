@@ -3,9 +3,16 @@
 byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = { //all players scripts
   [](Class * cls, Class * owner, Class *, Class *) -> byte { //0
     if ((cls == player) && isBotMode) {
-      Class * c = SetCursor(descend); //find descend in scene
+      Class *c = Class::exemplar.make(thirst); //create
+      if (player->atPut(Class::Directive::Character, c)) { //find
+        delete c;
+        c = SetCursor(ascend); //find
+      } else {
+        delete c;
+        c = SetCursor(descend); //find
+      }
       if (c) {
-        if ((scene->atPut(Class::Directive::Near, owner)) == owner) { //if descend in cursor near this
+        if ((scene->atPut(Class::Directive::Near, owner)) == owner) { //if in cursor near this
           (*scripts[c->toInt()]) (c, c, scene, player);
           owner->atPut(Class::Directive::Turn, 0);
           Class::arduboy.display();
@@ -96,7 +103,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     if (scene_num == 255) {
       return 0;
     }
-    int r = random(scene_num + 5);
+    int r = random(scene_num + 5) + 1;
     scene->atPut(Class::Directive::Clear, path);  //clear pathes from scene
     if ((r == 0) && (SetCursor(adventurer) == 0) && SetCursor(outside) && ((scene->atPut(Class::Directive::Near, 0)) == 0)) {  //if scene without adventurer and near space is not blocked
       Class * c  = Class::exemplar.make(adventurer); //create npc
@@ -187,7 +194,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
   [](Class * cls, Class *, Class * scene, Class * target_of) -> byte { //10
     if (target_of) {
       Class* hngr = Class::exemplar.make(hunger); //create
-      Class* a = target_of->atPut(Class::Directive::Character, hngr); //find
+      Class* a = (target_of->atPut(Class::Directive::Character, hngr)); //find
       delete hngr; //free object
       if (a) {
         Rip(a);
