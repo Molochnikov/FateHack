@@ -114,6 +114,7 @@ void Rip(Class* c, size_t reason = 0) {
     c->atGet(Class::Directive::Draw);
     Class::exemplar.println(readFlashStringPointer(&enMessages[5]));
     Class::exemplar.print(readFlashStringPointer(&enMessages[6]));
+    Class::exemplar.println(readFlashStringPointer(&enMessages[0]));
     Class::exemplar.print(readFlashStringPointer(&enMessages[reason]));
     Class::arduboy.display();
   } else {
@@ -771,7 +772,6 @@ void loop() {
 
           if (owner && (owner == player)) {
             if (player->atGet(Class::Directive::Turn)) {
-              //freeMem = Class::getFreeMemory();
               currentState = State::Turn;
               RestoreCursor();
             } else {

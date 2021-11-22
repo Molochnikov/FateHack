@@ -1,12 +1,14 @@
 #pragma once
 
 byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = { //all players scripts
-  [](Class *cls, Class *owner, Class *, Class *) -> byte { //0
+  [](Class * cls, Class * owner, Class *, Class *) -> byte { //0
     if ((cls == player) && isBotMode) {
       Class * c = SetCursor(descend); //find descend in scene
       if (c) {
         if ((scene->atPut(Class::Directive::Near, owner)) == owner) { //if descend in cursor near this
           (*scripts[c->toInt()]) (c, c, scene, player);
+          owner->atPut(Class::Directive::Turn, 0);
+          Class::arduboy.display();
           return 1;
         }
         scene->atPut(Class::Directive::Clear, path);

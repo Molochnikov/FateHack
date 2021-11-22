@@ -321,8 +321,8 @@ void Scene::recursiveDeleteClass(Class* arg) {
 byte Scene::checkPath(Class *cls, byte min_path, byte where, int r) {
   if (cls && ((cls->getTypeChar()) == (_path_proto->getTypeChar())) && ((cls->toInt()) < min_path)) {
     return 1;
-  } else if (cls && ((cls->atGet(Class::Directive::Block)) == 0) && (random(2) == 0)) {
-    return 1;
+//  } else if (((cls && ((cls->atGet(Class::Directive::Block)) == 0)) || (cls == 0)) && (random(r) == 0)) {
+//    return 1;
   }
   return 0;
 }
@@ -415,20 +415,22 @@ Class *Scene::atPut(Directive key, Class *arg) {
           where = 1;
         }
         cls = Scene::getDownThingFrom(arg, Scene::AddClassAction::NoAction, arg);
-        if (checkPath(cls, min_path, where, 1)) {
+        if (checkPath(cls, min_path, where, 2)) {
           min_path = cls->toInt();
           where = 2;
         }
         cls = Scene::getLeftThingFrom(arg, Scene::AddClassAction::NoAction, arg);
-        if (checkPath(cls, min_path, where, 1)) {
+        if (checkPath(cls, min_path, where, 3)) {
           min_path = cls->toInt();
           where = 3;
         }
         cls = Scene::getRightThingFrom(arg, Scene::AddClassAction::NoAction, arg);
-        if (checkPath(cls, min_path, where, 1)) {
+        if (checkPath(cls, min_path, where, 4)) {
           min_path = cls->toInt();
           where = 4;
         }
+        if (where == 0)
+         where = random(5);
         switch (where) {
           case 1:
             Scene::getUpThingFrom(arg, Scene::AddClassAction::MoveIfEmpty, arg);
