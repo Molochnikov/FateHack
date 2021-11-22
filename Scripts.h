@@ -1,7 +1,10 @@
 #pragma once
 
 byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = { //all players scripts
-  [](Class *, Class *, Class *, Class *) -> byte { //0
+  [](Class *, Class * owner, Class *, Class *) -> byte { //0
+    if ((owner == player) && isBotMode) {
+      
+    }
     return 0;
   },
   [](Class * cls, Class * owner, Class * scene, Class *) -> byte { //1

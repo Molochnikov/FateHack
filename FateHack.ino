@@ -56,6 +56,7 @@ byte age = 14;
 byte left = 0;
 byte up = 0;
 byte make_choice = 0;
+byte isBotMode = 0;
 
 byte population_stock = 10;
 byte pick_stock = 10;
@@ -78,6 +79,7 @@ enum State {
   Dead,
   Intro,
   Bookkeeper,
+  IsBot,
   MenuMIN = Wait,
   MenuMAX = Destroy
 };
@@ -413,13 +415,13 @@ void setup() {
 Class * ShowInfo(Class * c, byte is_select = 0) { //you don't need to understand this
   Class::arduboy.clear();
   Class::exemplar.setCursor(0, 0);
-  Class::exemplar.print(F("[DOWN-NEXT"));
+  Class::exemplar.print(F("(DOWN-NEXT"));
   if (is_select) {
     Class::exemplar.print(F(",A-SELECT"));
   } else if (player == c) {
     Class::exemplar.print(F(",A-OWNER"));
   }
-  Class::exemplar.println(F("]"));
+  Class::exemplar.println(F(")"));
 
   if ((pcur == 0) && (target == 0)) {
     pcur = c; // owner of target aspect
@@ -564,6 +566,20 @@ void loop() {
         make_choice++;
       }
       if (make_choice == size(enIntro)) {
+        make_choice = 0;
+        currentState = State::IsBot;
+      }
+      break;
+    case State::IsBot:
+      Class::arduboy.clear();
+      Class::exemplar.setCursor(0, 0);
+      Class::exemplar.print(asFlashStringHelper(enBot));
+      Class::arduboy.display();
+      if (Class::arduboy.justPressed(B_BUTTON)) {
+        make_choice = 0;
+        currentState = State::OtherTurn;
+      } else if (Class::arduboy.justPressed(A_BUTTON)) {
+        isBotMode = 1;
         make_choice = 0;
         currentState = State::OtherTurn;
       }
@@ -750,6 +766,9 @@ void loop() {
             }
           }
 
+          if (is_next_scene == 0)
+            is_next_scene = (*scripts[owner->toInt()]) (owner, scene_owner, scene, target);
+
           if (owner && (owner == player)) {
             if (player->atGet(Class::Directive::Turn)) {
               //freeMem = Class::getFreeMemory();
@@ -760,8 +779,6 @@ void loop() {
             }
           }
 
-          if (is_next_scene == 0)
-            is_next_scene = (*scripts[owner->toInt()]) (owner, scene_owner, scene, target);
 
           scene->atPut(Class::Directive::Clear, path);
 

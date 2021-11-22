@@ -1,6 +1,6 @@
 #include "Player.h"
 
-//#define CODE_PAGE_437
+#define CODE_PAGE_437
 
 //Player *Player::_exemplar = new Player(Exemplar());
 
