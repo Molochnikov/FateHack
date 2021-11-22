@@ -227,7 +227,7 @@ Class *Player::atGet(Directive key) {
 #ifdef CODE_PAGE_437
       if (((char)(pgm_read_byte_near((this->_init) + 1))) == '@')
         Class::exemplar.print('\x02');
-      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'n')
+      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'a')
         Class::exemplar.print('\x01');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'f')
         Class::exemplar.print('\x03');

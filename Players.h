@@ -8,7 +8,7 @@
    name - name and description
 */
 
-const char plr[] PROGMEM = "P@B0PLAYER";
+const char plr[] PROGMEM = "P@b0PLAYER";
 const char descend[] PROGMEM = "P>B3DESCEND";
 const char ascend[] PROGMEM = "P<B4ASCEND";
 const char wl[] PROGMEM = "P B0WALL";
@@ -27,8 +27,8 @@ const char collar[] PROGMEM = "Pcb0COLLAR";
 const char outside[] PROGMEM = "P9B5OUTSIDE";
 const char house1[] PROGMEM = "P1B14HOUSE";
 const char house2[] PROGMEM = "P2B8BOOKKEEPER";
-const char mnr[] PROGMEM = "PmB0MINER";
-const char npc[] PROGMEM = "Pnb0NPC";
+//const char mnr[] PROGMEM = "PmB0MINER";
+//const char npc[] PROGMEM = "Pnb0NPC";
 const char adventurer[] PROGMEM = "PaB6ADVENTURER";
 const char oil[] PROGMEM = "P~B0oil";
 //const char blood[] PROGMEM = "P~B0blood";
@@ -61,7 +61,7 @@ const char * const grounds[] PROGMEM = {
 };
 
 const char * const waters[] PROGMEM = {
-  water, oil//, blood
+  water, oil
 };
 
 //const char * const potions[] PROGMEM = {
@@ -90,9 +90,9 @@ const char * const players[] PROGMEM = {
   dog,
   collar,
   outside,
-  mnr,
+//  mnr,
   adventurer,
-  npc,
+//  npc,
   house1,
   house2
 };

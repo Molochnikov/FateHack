@@ -779,7 +779,6 @@ void loop() {
             }
           }
 
-
           scene->atPut(Class::Directive::Clear, path);
 
           if (owner && (is_next_scene == 0))

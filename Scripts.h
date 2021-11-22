@@ -1,9 +1,20 @@
 #pragma once
 
 byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = { //all players scripts
-  [](Class *, Class * owner, Class *, Class *) -> byte { //0
-    if ((owner == player) && isBotMode) {
-      
+  [](Class *cls, Class *owner, Class *, Class *) -> byte { //0
+    if ((cls == player) && isBotMode) {
+      Class * c = SetCursor(descend); //find descend in scene
+      if (c) {
+        if ((scene->atPut(Class::Directive::Near, owner)) == owner) { //if descend in cursor near this
+          (*scripts[c->toInt()]) (c, c, scene, player);
+          return 1;
+        }
+        scene->atPut(Class::Directive::Clear, path);
+        scene->atPut(Class::Directive::Map, c);
+        scene->atPut(Class::Directive::Move, owner);
+      }
+      owner->atPut(Class::Directive::Turn, 0);
+      Class::arduboy.display();
     }
     return 0;
   },
@@ -86,13 +97,13 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     int r = random(scene_num + 5);
     scene->atPut(Class::Directive::Clear, path);  //clear pathes from scene
     if ((r == 0) && (SetCursor(adventurer) == 0) && SetCursor(outside) && ((scene->atPut(Class::Directive::Near, 0)) == 0)) {  //if scene without adventurer and near space is not blocked
-      Class * c  = Class::exemplar.make(npc); //create npc
+      Class * c  = Class::exemplar.make(adventurer); //create npc
       PrintMessage(0, 8, c);
       scene->atPut(Class::Directive::Map, owner); //create paths to this
       scene->atPut(Class::Directive::Close, c); //set npc close to this
       c->atPut(Class::Directive::Hidden, c); //reveal npc
-      c = (c->atPut(Class::Directive::Next, Class::exemplar.make(adventurer))); //npc is adventurer
-      c = (c->atPut(Class::Directive::Next, Class::exemplar.make(mnr))); //adventurer has class (miner)
+      //c = (c->atPut(Class::Directive::Next, Class::exemplar.make(adventurer))); //npc is adventurer
+      //c = (c->atPut(Class::Directive::Next, Class::exemplar.make(mnr))); //adventurer has class (miner)
       c = (c->atPut(Class::Directive::Next, Class::exemplar.make(life))); //alive
     }
     return 0;
