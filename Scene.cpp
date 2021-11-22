@@ -555,8 +555,8 @@ Class *Scene::atPut(Directive key, Class *arg) {
         for (int y = 0; y < _ysize; y++) {
           for (int x = 0; x < _xsize; x++) {
             if ((x == xcur && y == ycur) ) {
-              Class::setTextColor(BLACK);
-              Class::setTextBackground(WHITE);
+              Class::exemplar.setTextColor(BLACK);
+              Class::exemplar.setTextBackground(WHITE);
             }
             if (_characters[y * _xsize + x] && (_characters[y * _xsize + x] == arg ||
                                                 Scene::getUpThingFrom(_characters[y * _xsize + x], Scene::AddClassAction::NoAction, _characters[y * _xsize + x]) == arg ||
@@ -578,8 +578,8 @@ Class *Scene::atPut(Directive key, Class *arg) {
                 Class::exemplar.print(' ');
               }
             }
-            Class::setTextColor(WHITE);
-            Class::setTextBackground(BLACK);
+            Class::exemplar.setTextColor(WHITE);
+            Class::exemplar.setTextBackground(BLACK);
           }
           Class::exemplar.println();
         }

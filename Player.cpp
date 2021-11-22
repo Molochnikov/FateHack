@@ -1,6 +1,6 @@
 #include "Player.h"
 
-#define CODE_PAGE_437
+//#define CODE_PAGE_437
 
 //Player *Player::_exemplar = new Player(Exemplar());
 
@@ -227,17 +227,17 @@ Class *Player::atGet(Directive key) {
 #ifdef CODE_PAGE_437
       if (((char)(pgm_read_byte_near((this->_init) + 1))) == '@')
         Class::exemplar.print('\x02');
-      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'N')
+      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'n')
         Class::exemplar.print('\x01');
-      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'P')
+      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'f')
         Class::exemplar.print('\x03');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '#')
         Class::exemplar.print('\x13');
-      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'O')
+      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'o')
         Class::exemplar.print('\x06');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'h')
         Class::exemplar.print('\x8E');
-      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'B')
+      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'b')
         Class::exemplar.print('\x92');
       else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '>')
         Class::exemplar.print('\x1F');

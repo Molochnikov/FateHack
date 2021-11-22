@@ -90,7 +90,7 @@ size_t death_reason = 0;
 void PrintMessage(Class* src = 0, size_t num = 0, Class* trg = 0) {
   for (int i = 0; i < 500; i++) {
     Class::arduboy.clear();
-    Class::setCursor(0, 0);
+    Class::exemplar.setCursor(0, 0);
     if (src)
       src->atGet(Class::Directive::Draw);
     else
@@ -108,7 +108,7 @@ void Rip(Class* c, size_t reason = 0) {
     currentState = State::Dead;
     death_reason = reason;
     Class::arduboy.clear();
-    Class::setCursor(0, 0);
+    Class::exemplar.setCursor(0, 0);
     c->atGet(Class::Directive::Draw);
     Class::exemplar.println(readFlashStringPointer(&enMessages[5]));
     Class::exemplar.print(readFlashStringPointer(&enMessages[6]));
@@ -412,7 +412,7 @@ void setup() {
 
 Class * ShowInfo(Class * c, byte is_select = 0) { //you don't need to understand this
   Class::arduboy.clear();
-  Class::setCursor(0, 0);
+  Class::exemplar.setCursor(0, 0);
   Class::exemplar.print(F("[DOWN-NEXT"));
   if (is_select) {
     Class::exemplar.print(F(",A-SELECT"));
@@ -498,6 +498,7 @@ void loop() {
     return;
   Class::arduboy.pollButtons();
   Class::arduboy.clear();
+  Class::exemplar.setCursor(0, 0);
 
   scene->atPut(Class::Directive::Map, player);
   scene->atPut(Class::Directive::Draw, player);
@@ -525,7 +526,7 @@ void loop() {
 
   switch (currentState) {
     case State::Bookkeeper:
-      Class::setCursor(0, 0);
+      Class::exemplar.setCursor(0, 0);
       Class::exemplar.println(F("BOOKKEEPER:"));
       Class::exemplar.print(population_stock);
       Class::exemplar.print(readFlashStringPointer(&enMessages[0]));
@@ -556,6 +557,7 @@ void loop() {
       break;
     case State::Intro:
       Class::arduboy.clear();
+      Class::exemplar.setCursor(0, 0);
       Class::exemplar.print(readFlashStringPointer(&enIntro[make_choice]));
       Class::arduboy.display();
       if (Class::arduboy.justPressed(B_BUTTON) || Class::arduboy.justPressed(A_BUTTON)) {
@@ -632,7 +634,8 @@ void loop() {
       break;
     case State::Menu:
       {
-        Class::setCursor(0, 0);
+        Class::arduboy.clear();
+        Class::exemplar.setCursor(0, 0);
         for (unsigned int i = 0; i < size(enMenuItems); i++) {
           if (currentSelection == i) {
             Class::exemplar.print('\x1A');
