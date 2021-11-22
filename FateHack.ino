@@ -8,6 +8,8 @@
 
 #include "Messages.h"
 
+#define DEMO_MODE
+
 template<typename Type, size_t arraySize> constexpr size_t size(const Type (&)[arraySize]) noexcept
 {
   return arraySize;
@@ -399,6 +401,7 @@ void setup() {
   pcur->atPut(Class::Directive::Hidden, pcur);
   pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(dog)));
   pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(collar)));
+
   pcur = 0;
 
   //player->atPut(Class::Directive::Add, Class::exemplar.make(drowsy)); //debug drowsy
@@ -569,9 +572,15 @@ void loop() {
       }
       if (make_choice == size(enIntro)) {
         make_choice = 0;
+#ifdef DEMO_MODE
         currentState = State::IsBot;
+#endif
+#ifndef DEMO_MODE
+        currentState = State::OtherTurn;
+#endif
       }
       break;
+#ifdef DEMO_MODE
     case State::IsBot:
       Class::arduboy.clear();
       Class::exemplar.setCursor(0, 0);
@@ -586,6 +595,7 @@ void loop() {
         currentState = State::OtherTurn;
       }
       break;
+#endif
     case State::Dead:
       Rip(player, death_reason);
       Class::arduboy.display();

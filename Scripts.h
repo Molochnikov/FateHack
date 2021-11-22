@@ -1,7 +1,10 @@
 #pragma once
 
+#define DEMO_MODE
+
 byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = { //all players scripts
   [](Class * cls, Class * owner, Class *, Class *) -> byte { //0
+#ifdef DEMO_MODE
     if ((cls == player) && isBotMode) {
       Class *c = Class::exemplar.make(thirst); //create
       if (player->atPut(Class::Directive::Character, c)) { //find
@@ -25,6 +28,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
       owner->atPut(Class::Directive::Turn, 0);
       Class::arduboy.display();
     }
+#endif
     return 0;
   },
   [](Class * cls, Class * owner, Class * scene, Class *) -> byte { //1
