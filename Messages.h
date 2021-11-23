@@ -1,6 +1,6 @@
 #pragma once
 
-#define CODE_PAGE_437
+//#define CODE_PAGE_437
 
 constexpr char enBot[] PROGMEM = "DEMO MODE? AY/BN";
 

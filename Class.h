@@ -2,7 +2,7 @@
 
 #include "Exemplar.h"
 
-//#define CUSTOM_TILES
+#define CUSTOM_TILES
 
 #include <Arduboy2.h>
 

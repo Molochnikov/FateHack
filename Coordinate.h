@@ -19,7 +19,7 @@ class Coordinate : public Class {
     //static Coordinate *_exemplar;
     Class *make(const char* s);
     static const char _typeChar = 'C';
-    int value = 0;
+    int _value = 0;
     static const char _symbol = '.';
     int _is_hidden = 1;
     char numChar(int number);

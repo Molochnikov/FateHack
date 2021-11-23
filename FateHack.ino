@@ -47,6 +47,7 @@ static Class* player = 0; //you
 static Class* wall = 0; //wall
 static Class* xcur = 0; //cursor x
 static Class* ycur = 0; //cursor y
+static Class* maxp = 0; //max path length
 static Class* path = 0; //pathfinding distance
 
 byte scene_num = 255;
@@ -238,6 +239,9 @@ void NextScene(int portal, byte make_blocks = 0) {
   Class * asc = 0;
   Class * desc = 0;
 
+  scene->atPut(Class::Directive::Greater, maxp); //or equal min path
+  scene->atPut(Class::Directive::Less, maxp); //or equal max path
+
   if (is_predefined == 0) {
     if (scene_num != max_scene_num) {
       desc = Class::exemplar.make(descend);
@@ -251,11 +255,8 @@ void NextScene(int portal, byte make_blocks = 0) {
       scene->atPut(Class::Directive::Next, player); //clear the scene and go next scene
       scene->atPut(Class::Directive::Path, path); //setting paths for a scene
       scene->atPut(Class::Directive::Block, wall); //setting blocks for a scene
-      if (ycur)
-        delete ycur;
-      ycur = Class::exemplar.make("C7"); //TODO if <7 then bug with max_path_length = 0. Don't set < 7!
-      scene->atPut(Class::Directive::Greater, ycur); //or equal min path
-      scene->atPut(Class::Directive::Less, ycur); //or equal max path
+      scene->atPut(Class::Directive::Greater, maxp); //or equal min path
+      scene->atPut(Class::Directive::Less, maxp); //or equal max path
       PrintMessage(0, 8, player);
     }
     while ((scene->atPut(Class::Directive::Build, 0)) == 0); //generate scene
@@ -401,6 +402,7 @@ void setup() {
   wall->atPut(Class::Directive::Place, wall);
 
   path = Class::exemplar.make("C1");
+  maxp = Class::exemplar.make("C7"); //TODO if <7 then bug with max_path_length = 0. Don't set < 7!
 
   NextScene(1);
 }

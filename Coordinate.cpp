@@ -7,7 +7,7 @@ char* Coordinate::toStr() {
 }
 
 int Coordinate::toInt() {
-  return value;
+  return _value;
 }
 
 char Coordinate::numChar(int number)
@@ -28,7 +28,7 @@ Coordinate::Coordinate(Exemplar a): Class(a) {
 
 Class *Coordinate::clone() const {
   Class *retval = new Coordinate("C1");
-  for (int i = 1; i < value; i++) {
+  for (int i = 1; i < _value; i++) {
     retval->atGet(Class::Directive::Up);
   }
   return retval;
@@ -41,7 +41,7 @@ Coordinate::Coordinate(const char* s): Class() {
     if (!i) {
       Class::errFlag = 'Y';
     } else {
-      value = i;
+      _value = i;
     }
   } else {
     Class::errFlag = 'Y';
@@ -100,10 +100,10 @@ Class *Coordinate::atGet(Directive key) {
       return this;
       break;
     case Class::Directive::Up: //move coordinate up
-      value++;
+      _value++;
       break;
     case Class::Directive::Down: //move coordinate down
-      value--;
+      _value--;
       break;
     default:
       return Class::atGet(key);

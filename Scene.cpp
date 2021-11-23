@@ -487,6 +487,14 @@ Class *Scene::atPut(Directive key, Class *arg) {
         if (_path_proto) {
           delete _path_proto;
         }
+        if (_max_path_proto) {
+          delete _max_path_proto;
+        }
+        if (_min_path_proto) {
+          delete _min_path_proto;
+        }
+        _max_path_proto = 0;
+        _min_path_proto = 0;
         _path_proto = 0;
         Class * cl = arg;
         byte to_delete = 1;
