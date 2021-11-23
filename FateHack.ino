@@ -8,7 +8,7 @@
 
 #include "Messages.h"
 
-ARDUBOY_NO_USB
+//ARDUBOY_NO_USB
 
 template<typename Type, size_t arraySize> constexpr size_t size(const Type (&)[arraySize]) noexcept
 {
