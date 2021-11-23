@@ -93,7 +93,7 @@ size_t freeMem = 0;
 size_t death_reason = 0;
 
 void PrintMessage(Class* src = 0, size_t num = 0, Class* trg = 0) {
-  for (int i = 0; i < 200; i++) {
+  for (int i = 0; i < 500; i++) {
     Class::arduboy.clear();
     Class::exemplar.setCursor(0, 0);
     if (src)
@@ -301,7 +301,7 @@ void NextScene(int portal, byte make_blocks = 0) {
   scene->atPut(Class::Directive::Map, desc); //set pathfinding map to downstairs
 
   if (make_blocks && (is_predefined == 0)) {
-    int r = random((max_scene_num - scene_num)/5);
+    int r = random((max_scene_num - scene_num)/100);
     if (r == 0) {
       scene->atPut(Class::Directive::Block, Class::exemplar.make(waterp));
       scene->atGet(Class::Directive::Place);

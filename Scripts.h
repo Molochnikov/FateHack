@@ -180,7 +180,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     }
     return 0;
   },
-  [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //11
+  [](Class * cls, Class *, Class * scene, Class * target_of) -> byte { //11
     if (target_of) {
       Class* c = 0;
       Class *a = 0;
