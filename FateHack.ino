@@ -93,7 +93,7 @@ size_t freeMem = 0;
 size_t death_reason = 0;
 
 void PrintMessage(Class* src = 0, size_t num = 0, Class* trg = 0) {
-  for (int i = 0; i < 100; i++) {
+  for (int i = 0; i < 200; i++) {
     Class::arduboy.clear();
     Class::exemplar.setCursor(0, 0);
     if (src)

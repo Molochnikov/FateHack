@@ -63,6 +63,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     } else if (target_of) { //dissapear to next scene
       Rip(target_of);
       scene->atPut(Class::Directive::Delete, target_of);
+      return 2;
     }
     return 0;
   },
@@ -73,6 +74,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     } else if (target_of) { //dissapear to next scene
       Rip(target_of);
       scene->atPut(Class::Directive::Delete, target_of);
+      return 2;
     }
     return 0;
   },
@@ -124,9 +126,9 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
       if (c) {
         if ((scene->atPut(Class::Directive::Near, owner)) == owner) { //if in cursor near this
           owner->atPut(Class::Directive::Turn, 0);
-          byte ret = (*scripts[c->toInt()]) (c, c, scene, owner);
+          byte is_new_scene = (*scripts[c->toInt()]) (c, c, scene, owner);
           Class::arduboy.display();
-          return ret;
+          return is_new_scene;
         }
         scene->atPut(Class::Directive::Clear, path);
         scene->atPut(Class::Directive::Map, c);
@@ -184,17 +186,32 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
   },
   [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //11
     if (target_of) {
-      Class* thrst = Class::exemplar.make(thirst); //create
-      Class* a = target_of->atPut(Class::Directive::Character, thrst); //find
-      delete thrst; //free object
+      Class* c = 0;
+      Class *a = 0;
+      byte is_delete = 0;
+      c = Class::exemplar.make(thirst); //create
+      a = target_of->atPut(Class::Directive::Character, c); //find
+      delete c; //free object
       if (a) {
         Rip(a);
         scene->atPut(Class::Directive::Delete, a); //if has then delete
+        //Rip(cls); //print message
+        //scene->atPut(Class::Directive::Delete, cls); //delete this
+        is_delete = 1;
+      }
+      c = Class::exemplar.make(toilet); //create
+      a = target_of->atPut(Class::Directive::Character, c); //find
+      delete c; //free object
+      if (a) {
+        Rip(a);
+        scene->atPut(Class::Directive::Delete, a); //if has then delete
+        //Rip(cls); //print message
+        //scene->atPut(Class::Directive::Delete, cls); //delete this
+        is_delete = 1;
+      }
+      if (is_delete) {
         Rip(cls); //print message
         scene->atPut(Class::Directive::Delete, cls); //delete this
-        //a = Class::exemplar.make(bottle);
-        //PrintMessage(owner, 8, a);
-        //owner->atPut(Class::Directive::Add, a);
       }
     }
     return 0;

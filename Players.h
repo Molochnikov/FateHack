@@ -17,9 +17,9 @@ const char door[] PROGMEM = "P+b0DOOR";
 const char life[] PROGMEM = "PlB2LIFE\nLIVING THING.\nLIFE CAUSES HUNGER,\nTHIRST, SLEEP, WASTE.\nYOU CAN LOST IT.";
 //const char mnd[] PROGMEM = "PmB0MIND//\nINDIVIDUAL THAT \nFEELS, PERCEIVES, \nWILLS, AND ESPECIALLY \nREASONS AND THINKS.";
 const char hunger[] PROGMEM = "PhB0HUNGER";
-const char thirst[] PROGMEM = "PtB0THIRST";
+const char thirst[] PROGMEM = "PTB0THIRST";
 const char drowsy[] PROGMEM = "PdB12DROWSY";
-const char toilet[] PROGMEM = "PtB0TOILET";
+const char toilet[] PROGMEM = "POB0TOILET";
 //const char soil[] PROGMEM = "P,B0SOIL";
 const char pet[] PROGMEM = "Pfb1FRIEND";
 const char dog[] PROGMEM = "PdB0UNDEAD DOG";
@@ -69,31 +69,31 @@ const char partition[] PROGMEM = "P#b0PARTITION";
 //};
 
 const char * const players[] PROGMEM = {
-//  table,
-//  chair,
-//  bed,
-waterp,
+  //  table,
+  //  chair,
+  //  bed,
+  waterp,
   partition,
   plr,
   descend,
   ascend,
   wl,
   door,
-//  water,
+  //  water,
   vein,
   life,
-//  mnd,
+  //  mnd,
   thirst,
   drowsy,
   toilet,
-//  soil,
+  //  soil,
   pet,
   dog,
   collar,
   outside,
-//  mnr,
+  //  mnr,
   adventurer,
-//  npc,
+  //  npc,
   house1,
   house2
 };
