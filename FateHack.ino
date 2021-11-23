@@ -298,7 +298,7 @@ void NextScene(int portal, byte make_blocks = 0, byte make_soil = 1) {
   scene->atPut(Class::Directive::Clear, path);
   scene->atPut(Class::Directive::Map, desc); //set pathfinding map to downstairs
 
-  if (0 && make_blocks && (is_predefined == 0)) {
+  if (make_blocks && (is_predefined == 0)) {
     int r = random(max_scene_num - scene_num);
     //    int blocks_num = random(num);
     //for (int i = 0; i < blocks_num; i++) {
@@ -396,7 +396,7 @@ void setup() {
   pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(life)));
   //pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(mnd)));
   pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(waterp)));
-  pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(filter)));
+//  pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(filter)));
 
   pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(pet)));
   pcur->atPut(Class::Directive::Place, pcur);

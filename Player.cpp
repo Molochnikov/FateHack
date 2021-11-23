@@ -239,8 +239,6 @@ Class *Player::atGet(Directive key) {
         Class::exemplar.print('\x03');
       else if (replaceDrawChar('#'))
         Class::exemplar.print('\x13');
-      else if (replaceDrawChar('b'))
-        Class::exemplar.print('\x92');
       else if (replaceDrawChar('>'))
         Class::exemplar.print('\x1F');
       else if (replaceDrawChar('<'))

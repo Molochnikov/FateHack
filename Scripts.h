@@ -118,7 +118,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     if (scene_num == 255) {
       return 0;
     }
-    int r = random(scene_num + 5) + 1;
+    int r = random(scene_num + 5);
     scene->atPut(Class::Directive::Clear, path);  //clear pathes from scene
     if ((r == 0) && (SetCursor(adventurer) == 0) && SetCursor(outside) && ((scene->atPut(Class::Directive::Near, 0)) == 0)) {  //if scene without adventurer and near space is not blocked
       Class * c  = Class::exemplar.make(adventurer); //create npc
