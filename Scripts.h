@@ -1,7 +1,7 @@
 #pragma once
 
 byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = { //all players scripts
-  [](Class * cls, Class * owner, Class *, Class *) -> byte { //0
+  [](Class *, Class *, Class *, Class *) -> byte { //0
     return 0;
   },
   [](Class * cls, Class * owner, Class * scene, Class *) -> byte { //1
@@ -89,10 +89,10 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     }
     return 0;
   },
-  [](Class *, Class * owner, Class * scene, Class *) -> byte { //6
+  [](Class *, Class *, Class *, Class *) -> byte { //6
     return 0;
   },
-  [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //7
+  [](Class * cls, Class * owner, Class * scene, Class *) -> byte { //7
     if (((cls == player) && isBotMode) || (cls != player)) {
       Class *c =  Class::exemplar.make(thirst); //create
       Class *t = 0;
@@ -115,8 +115,8 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
       }
       if (c) {
         if ((scene->atPut(Class::Directive::Near, owner)) == owner) { //if in cursor near this
-          (*scripts[c->toInt()]) (c, c, scene, owner);
           owner->atPut(Class::Directive::Turn, 0);
+          (*scripts[c->toInt()]) (c, c, scene, owner);
           Class::arduboy.display();
           return 2;
         }
@@ -200,12 +200,12 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     }
     return 0;
   },
-  [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //13
+  [](Class *, Class *, Class * , Class * target_of) -> byte { //13
     if (target_of) {
     }
     return 0;
   },
-  [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //14
+  [](Class *, Class *, Class *, Class * target_of) -> byte { //14
     if (target_of == player) {
       if (scene_num == 0)
         NextScene(-1);

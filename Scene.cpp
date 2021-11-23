@@ -417,8 +417,11 @@ Class *Scene::atPut(Directive key, Class *arg) {
               }
             }
           }
+
           //after all chains has freed from arg we can finally free memory
           Scene::recursiveDeleteClass(arg);
+          //char buff[1] = "d";
+          //Class::printDebug(buff);
         }
         return 0;
       }
