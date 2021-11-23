@@ -402,7 +402,7 @@ void setup() {
   wall->atPut(Class::Directive::Place, wall);
 
   path = Class::exemplar.make("C1");
-  maxp = Class::exemplar.make("C7"); //TODO if <7 then bug with max_path_length = 0. Don't set < 7!
+  maxp = Class::exemplar.make("C8"); //TODO if <7 then bug with max_path_length = 0. Don't set < 7!
 
   NextScene(1);
 }

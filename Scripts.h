@@ -98,11 +98,17 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     if (((cls == player) && isBotMode) || (cls != player)) {
       Class *c = 0; //check
       Class *t = 0; //target
+      byte is_take = 0;
+      byte is_new_scene = 0;
       c = Class::exemplar.make(toilet); //create
       if (owner->atPut(Class::Directive::Character, c)) { //find in owner
         t = SetCursor(waterp); //find on scene
       }
       delete c;
+      if ((scene_num != 0) && ((owner->atPut(Class::Directive::Character, SetCursor(waterp))) == 0) && SetCursor(waterp)) {
+        t = SetCursor(waterp);
+        is_take = 1;
+      }
       if (t == 0) { // no target
         c = Class::exemplar.make(thirst); //create
         if ((t = (owner->atPut(Class::Directive::Character, c)))) { //find in owner
@@ -122,7 +128,13 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
       if (t) {
         if ((scene->atPut(Class::Directive::Near, owner)) == owner) { //if in cursor near this
           owner->atPut(Class::Directive::Turn, 0);
-          byte is_new_scene = (*scripts[t->toInt()]) (t, t, scene, owner);  //interact
+          if (is_take) {
+            owner->atPut(Class::Directive::Add, t);
+            scene->atPut(Class::Directive::Character, 0);
+            PrintMessage(player, 8, t);
+          } else {
+            is_new_scene = (*scripts[t->toInt()]) (t, t, scene, owner);  //interact
+          }
           Class::arduboy.display();
           return is_new_scene;
         }
