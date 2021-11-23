@@ -6,14 +6,25 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
   [](Class * cls, Class * owner, Class *, Class *) -> byte { //0
 #ifdef DEMO_MODE
     if ((cls == player) && isBotMode) {
-      Class *c = 0;// Class::exemplar.make(thirst); //create
-      //if (player->atPut(Class::Directive::Character, c)) { //find
-      //  delete c;
-      //  c = SetCursor(ascend); //find
-      //} else {
-      //  delete c;
+      Class *c =  Class::exemplar.make(thirst); //create
+      Class *t = 0;
+      if ((t = (player->atPut(Class::Directive::Character, c)))) { //find
+        Class * wtr = Class::exemplar.make(waterp); //create
+        Class * w = 0;
+        if ((w = (player->atPut(Class::Directive::Character, wtr)))) {
+          (*scripts[wtr->toInt()]) (w, player, scene, t);
+          delete c;
+          delete wtr;
+          c = SetCursor(descend);
+        } else {
+          delete wtr;
+          delete c;
+          c = SetCursor(ascend); //find
+        }
+      } else {
+        delete c;
         c = SetCursor(descend); //find
-      //}
+      }
       if (c) {
         if ((scene->atPut(Class::Directive::Near, owner)) == owner) { //if in cursor near this
           (*scripts[c->toInt()]) (c, c, scene, player);

@@ -27,4 +27,5 @@ class Player : public Class {
             +--------- effect duration
     */
     static const char _typeChar = 'P';
+    byte replaceDrawChar(char ch);
 };

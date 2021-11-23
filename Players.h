@@ -15,12 +15,12 @@ const char wl[] PROGMEM = "P B0WALL";
 const char door[] PROGMEM = "P+b0DOOR";
 const char water[] PROGMEM = "P~B0RAW WATER";
 const char life[] PROGMEM = "PlB2LIFE\nLIVING THING. \nLIFE CAUSES HUNGER, \nTHIRST, SLEEP, WASTE, \nILLNESS AND BREATHE. \nYOU CAN LOST IT.";
-const char mnd[] PROGMEM = "PmB0MIND\nINDIVIDUAL THAT \nFEELS, PERCEIVES, \nWILLS, AND ESPECIALLY \nREASONS AND THINKS.";
+//const char mnd[] PROGMEM = "PmB0MIND//\nINDIVIDUAL THAT \nFEELS, PERCEIVES, \nWILLS, AND ESPECIALLY \nREASONS AND THINKS.";
 const char hunger[] PROGMEM = "PhB0HUNGER";
 const char thirst[] PROGMEM = "PtB0THIRST";
 const char drowsy[] PROGMEM = "PdB12DROWSY";
 const char toilet[] PROGMEM = "PtB7TOILET";
-const char soil[] PROGMEM = "P,B0SOIL";
+//const char soil[] PROGMEM = "P,B0SOIL";
 const char pet[] PROGMEM = "Pfb1FRIEND";
 const char dog[] PROGMEM = "PdB0UNDEAD DOG";
 const char collar[] PROGMEM = "Pcb0COLLAR";
@@ -30,7 +30,7 @@ const char house2[] PROGMEM = "P2B8BOOKKEEPER";
 //const char mnr[] PROGMEM = "PmB0MINER";
 //const char npc[] PROGMEM = "Pnb0NPC";
 const char adventurer[] PROGMEM = "PaB6ADVENTURER";
-const char oil[] PROGMEM = "P~B0oil";
+//const char oil[] PROGMEM = "P~B0oil";
 //const char blood[] PROGMEM = "P~B0blood";
 //const char oilp[] PROGMEM = "P!B0black";
 //const char bloodp[] PROGMEM = "P!B0red";
@@ -52,16 +52,16 @@ const char filter[] PROGMEM = "Pfb0FILTER";
 const char sleep[] PROGMEM = "PsB9SLEEP";
 const char vein[] PROGMEM = "P B0VEIN";
 const char partition[] PROGMEM = "P#b0PARTITION";
-const char table[] PROGMEM = "Pob0TABLE";
-const char chair[] PROGMEM = "Phb0CHAIR";
+//const char table[] PROGMEM = "Pob0TABLE";
+//const char chair[] PROGMEM = "Phb0CHAIR";
 const char bed[] PROGMEM = "Pbb0BED";
 
-const char * const grounds[] PROGMEM = {
-  soil
-};
+//const char * const grounds[] PROGMEM = {
+//  soil
+//};
 
 const char * const waters[] PROGMEM = {
-  water, oil
+  water//, oil
 };
 
 //const char * const potions[] PROGMEM = {
@@ -69,8 +69,8 @@ const char * const waters[] PROGMEM = {
 //};
 
 const char * const players[] PROGMEM = {
-  table,
-  chair,
+//  table,
+//  chair,
   bed,
   partition,
   plr,
@@ -81,11 +81,11 @@ const char * const players[] PROGMEM = {
   water,
   vein,
   life,
-  mnd,
+//  mnd,
   thirst,
   drowsy,
   toilet,
-  soil,
+//  soil,
   pet,
   dog,
   collar,

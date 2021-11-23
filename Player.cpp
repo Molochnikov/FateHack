@@ -178,6 +178,12 @@ Class *Player::atPut(Directive key, Class *arg) {
   return this;
 }
 
+byte Player::replaceDrawChar(char ch) {
+  if (((char)(pgm_read_byte_near((this->_init) + 1))) == ch)
+    return 1;
+  return 0;
+}
+
 Class *Player::atGet(Directive key) {
   switch (key) {
     case Class::Directive::Next: //get next player in player
@@ -225,31 +231,27 @@ Class *Player::atGet(Directive key) {
       break;
     case Class::Directive::Draw:
 #ifdef CODE_PAGE_437
-      if (((char)(pgm_read_byte_near((this->_init) + 1))) == '@')
+      if (replaceDrawChar('@'))
         Class::exemplar.print('\x02');
-      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'a')
+      else if (replaceDrawChar('a'))
         Class::exemplar.print('\x01');
-      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'f')
+      else if (replaceDrawChar('f'))
         Class::exemplar.print('\x03');
-      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '#')
+      else if (replaceDrawChar('#'))
         Class::exemplar.print('\x13');
-      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'o')
-        Class::exemplar.print('\x06');
-      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'h')
-        Class::exemplar.print('\x8E');
-      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == 'b')
+      else if (replaceDrawChar('b'))
         Class::exemplar.print('\x92');
-      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '>')
+      else if (replaceDrawChar('>'))
         Class::exemplar.print('\x1F');
-      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '<')
+      else if (replaceDrawChar('<'))
         Class::exemplar.print('\x1E');
-      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '9')
+      else if (replaceDrawChar('9'))
         Class::exemplar.print('\xDF');
-      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '1')
+      else if (replaceDrawChar('1'))
         Class::exemplar.print('\xDE');
-      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '2')
+      else if (replaceDrawChar('2'))
         Class::exemplar.print('\xDD');
-      else if (((char)(pgm_read_byte_near((this->_init) + 1))) == '~') {
+      else if (replaceDrawChar('~')) {
         if (random(2))
           Class::exemplar.print('\xB0');
         else

@@ -394,7 +394,7 @@ void setup() {
 
   pcur = player;
   pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(life)));
-  pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(mnd)));
+  //pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(mnd)));
   pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(waterp)));
   pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(filter)));
 
