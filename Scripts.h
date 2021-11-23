@@ -96,42 +96,38 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
   },
   [](Class * cls, Class * owner, Class * scene, Class *) -> byte { //7
     if (((cls == player) && isBotMode) || (cls != player)) {
-      Class *c = 0;
-      Class *t = 0;
+      Class *c = 0; //check
+      Class *t = 0; //target
       c = Class::exemplar.make(toilet); //create
-      if ((t = (owner->atPut(Class::Directive::Character, c)))) { //find in owner
-        delete c;
-        c = SetCursor(waterp); //find on scene
-      } else {
-        delete c;
+      if (owner->atPut(Class::Directive::Character, c)) { //find in owner
+        t = SetCursor(waterp); //find on scene
+      }
+      delete c;
+      if (t == 0) { // no target
         c = Class::exemplar.make(thirst); //create
         if ((t = (owner->atPut(Class::Directive::Character, c)))) { //find in owner
-          Class * wtr = Class::exemplar.make(waterp); //create
-          Class * w = 0;
-          if ((w = (owner->atPut(Class::Directive::Character, wtr)))) { //find in owner
-            (*scripts[wtr->toInt()]) (w, owner, scene, t); //interact
-            delete c;
-            delete wtr;
-            c = SetCursor(descend);
+          delete c;
+          c = Class::exemplar.make(waterp); //create
+          if ((t = (owner->atPut(Class::Directive::Character, c)))) { //find in owner
+            (*scripts[t->toInt()]) (t, owner, scene, owner); //interact
+            t = SetCursor(descend);
           } else {
-            delete wtr;
-            delete c;
-            c = SetCursor(ascend); //find
+            t = SetCursor(ascend); //find
           }
         } else {
-          delete c;
-          c = SetCursor(descend); //find
+          t = SetCursor(descend); //find
         }
+        delete c;
       }
-      if (c) {
+      if (t) {
         if ((scene->atPut(Class::Directive::Near, owner)) == owner) { //if in cursor near this
           owner->atPut(Class::Directive::Turn, 0);
-          byte is_new_scene = (*scripts[c->toInt()]) (c, c, scene, owner);
+          byte is_new_scene = (*scripts[t->toInt()]) (t, t, scene, owner);  //interact
           Class::arduboy.display();
           return is_new_scene;
         }
         scene->atPut(Class::Directive::Clear, path);
-        scene->atPut(Class::Directive::Map, c);
+        scene->atPut(Class::Directive::Map, t);
         scene->atPut(Class::Directive::Move, owner);
       }
       owner->atPut(Class::Directive::Turn, 0);
@@ -198,16 +194,17 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
         //Rip(cls); //print message
         //scene->atPut(Class::Directive::Delete, cls); //delete this
         is_delete = 1;
-      }
-      c = Class::exemplar.make(toilet); //create
-      a = target_of->atPut(Class::Directive::Character, c); //find
-      delete c; //free object
-      if (a) {
-        Rip(a);
-        scene->atPut(Class::Directive::Delete, a); //if has then delete
-        //Rip(cls); //print message
-        //scene->atPut(Class::Directive::Delete, cls); //delete this
-        is_delete = 1;
+      } else {
+        c = Class::exemplar.make(toilet); //create
+        a = target_of->atPut(Class::Directive::Character, c); //find
+        delete c; //free object
+        if (a) {
+          Rip(a);
+          scene->atPut(Class::Directive::Delete, a); //if has then delete
+          //Rip(cls); //print message
+          //scene->atPut(Class::Directive::Delete, cls); //delete this
+          is_delete = 1;
+        }
       }
       if (is_delete) {
         Rip(cls); //print message
