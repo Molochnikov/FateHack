@@ -202,7 +202,7 @@ Class *Scene::closest(Class *arg, byte farest, byte is_block, byte is_not_block)
     path_length = 0;
     end_path_length = max_path_length;
   }
-  
+
   //char buff[10];
   //Class::printDebug(itoa(path_length, buff, 10));
 
@@ -244,8 +244,8 @@ Class *Scene::closest(Class *arg, byte farest, byte is_block, byte is_not_block)
 
 Class *Scene::buildPath(Class *path_proto, Class *block_proto, int is_scene_already) {
   int has_free = 1;
-  int max_instances = 7;
-  int min_instances = 7; //TODO if <7 then bug with max_path_length = 0
+  int max_instances = (_max_path_proto->toInt());
+  int min_instances = (_min_path_proto->toInt()); //TODO if <7 then bug with max_path_length = 0
   int chance = 3;
   //int last_pos;
   int count_visited = 0;
@@ -334,14 +334,20 @@ void Scene::recursiveDeleteClass(Class* arg) {
 byte Scene::checkPath(Class *cls, byte min_path, byte where, int r) {
   if (cls && ((cls->getTypeChar()) == (_path_proto->getTypeChar())) && ((cls->toInt()) < min_path)) {
     return 1;
-    //  } else if (((cls && ((cls->atGet(Class::Directive::Block)) == 0)) || (cls == 0)) && (random(r) == 0)) {
-    //    return 1;
   }
   return 0;
 }
 
 Class *Scene::atPut(Directive key, Class *arg) {
   switch (key) {
+    case Class::Directive::Greater: //atPut set min path in generated scene
+      _min_path_proto = arg->clone();
+      return this;
+      break;
+    case Class::Directive::Less: //atPut set max path in generated scene
+      _max_path_proto = arg->clone();
+      return this;
+      break;
     case Class::Directive::Cursor: //set cursor on owner of arg
       {
         Class * owner = (this->atPut(Class::Directive::Owner, arg));
@@ -501,7 +507,15 @@ Class *Scene::atPut(Directive key, Class *arg) {
         if (_block_proto) {
           delete _block_proto;
         }
+        if (_max_path_proto) {
+          delete _max_path_proto;
+        }
+        if (_min_path_proto) {
+          delete _min_path_proto;
+        }
         _block_proto = 0;
+        _max_path_proto = 0;
+        _min_path_proto = 0;
       }
       break;
     case Class::Directive::Far: //atPut set class to be farest by path

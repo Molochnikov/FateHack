@@ -8,7 +8,7 @@
    name - name and description
 */
 
-const char plr[] PROGMEM = "P@b0PLAYER";
+const char plr[] PROGMEM = "P@b7PLAYER";
 const char descend[] PROGMEM = "P>B3DESCEND";
 const char ascend[] PROGMEM = "P<B4ASCEND";
 const char wl[] PROGMEM = "P B0WALL";
@@ -19,7 +19,7 @@ const char life[] PROGMEM = "PlB2LIFE\nLIVING THING.\nLIFE CAUSES HUNGER,\nTHIRS
 const char hunger[] PROGMEM = "PhB0HUNGER";
 const char thirst[] PROGMEM = "PtB0THIRST";
 const char drowsy[] PROGMEM = "PdB12DROWSY";
-const char toilet[] PROGMEM = "PtB7TOILET";
+const char toilet[] PROGMEM = "PtB0TOILET";
 //const char soil[] PROGMEM = "P,B0SOIL";
 const char pet[] PROGMEM = "Pfb1FRIEND";
 const char dog[] PROGMEM = "PdB0UNDEAD DOG";
@@ -29,7 +29,7 @@ const char house1[] PROGMEM = "P1B14HOUSE";
 const char house2[] PROGMEM = "P2B8BOOKKEEPER";
 //const char mnr[] PROGMEM = "PmB0MINER";
 //const char npc[] PROGMEM = "Pnb0NPC";
-const char adventurer[] PROGMEM = "PaB6MINER";
+const char adventurer[] PROGMEM = "PaB7MINER";
 //const char oil[] PROGMEM = "P~B0oil";
 //const char blood[] PROGMEM = "P~B0blood";
 //const char oilp[] PROGMEM = "P!B0black";

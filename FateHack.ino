@@ -8,7 +8,7 @@
 
 #include "Messages.h"
 
-#define DEMO_MODE
+ARDUBOY_NO_USB
 
 template<typename Type, size_t arraySize> constexpr size_t size(const Type (&)[arraySize]) noexcept
 {
@@ -213,10 +213,7 @@ Class * SetCursor(const char * c) {
   return 0;
 }
 
-void NextScene(int portal, byte make_blocks = 0, byte make_soil = 1) {
-  //int block_chance = 2;
-  //int soil_chance = 10;
-  //int num = 4;
+void NextScene(int portal, byte make_blocks = 0) {
   int is_down = 0;
   byte is_predefined = 0;
 
@@ -254,6 +251,11 @@ void NextScene(int portal, byte make_blocks = 0, byte make_soil = 1) {
       scene->atPut(Class::Directive::Next, player); //clear the scene and go next scene
       scene->atPut(Class::Directive::Path, path); //setting paths for a scene
       scene->atPut(Class::Directive::Block, wall); //setting blocks for a scene
+      if (ycur)
+        delete ycur;
+      ycur = Class::exemplar.make("C7"); //TODO if <7 then bug with max_path_length = 0. Don't set < 7!
+      scene->atPut(Class::Directive::Greater, ycur); //or equal min path
+      scene->atPut(Class::Directive::Less, ycur); //or equal max path
       PrintMessage(0, 8, player);
     }
     while ((scene->atPut(Class::Directive::Build, 0)) == 0); //generate scene
@@ -291,7 +293,6 @@ void NextScene(int portal, byte make_blocks = 0, byte make_soil = 1) {
     if (pcur->atGet(Class::Directive::Place))
       scene->atPut(Class::Directive::Close, pcur);
     pcur = (pcur->atGet(Class::Directive::Next));
-    //PrintMessage(0, 8, player);
   }
   pcur = 0;
 
@@ -300,26 +301,11 @@ void NextScene(int portal, byte make_blocks = 0, byte make_soil = 1) {
 
   if (make_blocks && (is_predefined == 0)) {
     int r = random(max_scene_num - scene_num);
-    //    int blocks_num = random(num);
-    //for (int i = 0; i < blocks_num; i++) {
     if (r == 0) {
       scene->atPut(Class::Directive::Block, Class::exemplar.make(vein));
       scene->atGet(Class::Directive::Place);
-      //      if (random(block_chance) == 0)
-      //        scene->atPut(Class::Directive::Block, pit);
-      //      block_chance++;
-      //      if (random(block_chance) == 0)
-      //        scene->atPut(Class::Directive::Block, door);
-      //      block_chance++;
-      //      if (random(block_chance) == 0)
-      //        scene->atPut(Class::Directive::Block, water);
-      //      scene->atGet(Class::Directive::Block); //set chosen block close to downstairs
     }
   }
-  //  if (make_soil && (random(soil_chance) == 0)) {
-  //    scene->atPut(Class::Directive::Place, Class::exemplar.make(sl));
-  //    scene->atGet(Class::Directive::Block); //set chosen block close to downstairs
-  //  }
 
   scene->atPut(Class::Directive::Clear, path);
   scene->atPut(Class::Directive::Block, wall); //setting blocks for a scene
@@ -396,7 +382,7 @@ void setup() {
   pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(life)));
   //pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(mnd)));
   pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(waterp)));
-//  pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(filter)));
+  //  pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(filter)));
 
   pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(pet)));
   pcur->atPut(Class::Directive::Place, pcur);
