@@ -83,14 +83,14 @@ byte Class::dropDice(byte d = 2, byte n = 1) {
   return sum;
 }
 
-//void Class::exemplar.printDebug(char* c) {
-//  for (int i = 0; i < 500; i++) {
-//    Class::arduboy.clear();
-//    Class::setCursor(0, 0);
-//    Class::exemplar.println(c);
-//    Class::arduboy.display();
-//  }
-//}
+void Class::printDebug(char* c) {
+  for (int i = 0; i < 100; i++) {
+    Class::arduboy.clear();
+    Class::setCursor(0, 0);
+    Class::exemplar.println(c);
+    Class::arduboy.display();
+  }
+}
 
 byte Class::getBits(byte x, byte p, byte n) {
   return (x >> (p + 1 - n)) & (~((~0U) << n));

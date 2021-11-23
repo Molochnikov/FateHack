@@ -92,7 +92,7 @@ size_t freeMem = 0;
 size_t death_reason = 0;
 
 void PrintMessage(Class* src = 0, size_t num = 0, Class* trg = 0) {
-  for (int i = 0; i < 500; i++) {
+  for (int i = 0; i < 100; i++) {
     Class::arduboy.clear();
     Class::exemplar.setCursor(0, 0);
     if (src)
@@ -254,6 +254,7 @@ void NextScene(int portal, byte make_blocks = 0, byte make_soil = 1) {
       scene->atPut(Class::Directive::Next, player); //clear the scene and go next scene
       scene->atPut(Class::Directive::Path, path); //setting paths for a scene
       scene->atPut(Class::Directive::Block, wall); //setting blocks for a scene
+      PrintMessage(0, 8, player);
     }
     while ((scene->atPut(Class::Directive::Build, 0)) == 0); //generate scene
 
@@ -290,6 +291,7 @@ void NextScene(int portal, byte make_blocks = 0, byte make_soil = 1) {
     if (pcur->atGet(Class::Directive::Place))
       scene->atPut(Class::Directive::Close, pcur);
     pcur = (pcur->atGet(Class::Directive::Next));
+    //PrintMessage(0, 8, player);
   }
   pcur = 0;
 
@@ -587,10 +589,10 @@ void loop() {
       Class::exemplar.print(asFlashStringHelper(enBot));
       Class::arduboy.display();
       if (Class::arduboy.justPressed(B_BUTTON)) {
+        isBotMode = 0;
         make_choice = 0;
         currentState = State::OtherTurn;
       } else if (Class::arduboy.justPressed(A_BUTTON)) {
-        isBotMode = 1;
         make_choice = 0;
         currentState = State::OtherTurn;
       }

@@ -156,6 +156,10 @@ void Scene::clearClasses(Class *arg) {
 }
 
 Class *Scene::buildScene(Class *player, Class *path_proto, Class *block_proto, int is_scene_already) {
+  //  if (is_scene_already == 0) {
+  //    char buff[10];
+  //    Class::printDebug(itoa(random(5), buff, 10));
+  //  }
   int plrpos = 0;
   Class * c = 0;
   if (is_scene_already) {
@@ -181,8 +185,8 @@ Class *Scene::closest(Class *arg, byte farest, byte is_block, byte is_not_block)
   int closest_pos = -1;
   int num = 0;
   int max_path_length = 0;
-  int path_length;
-  int end_path_length;
+  int path_length = 0;
+  int end_path_length = 0;
 
   for (int pos = 0; pos < (_xsize * _ysize); pos++) { //get max path
     if (_characters[pos] && (_characters[pos]->getTypeChar() == _path_proto->getTypeChar())) {
@@ -198,6 +202,9 @@ Class *Scene::closest(Class *arg, byte farest, byte is_block, byte is_not_block)
     path_length = 0;
     end_path_length = max_path_length;
   }
+  
+  //char buff[10];
+  //Class::printDebug(itoa(path_length, buff, 10));
 
   while (path_length != end_path_length) {
     for (int pos = 0; pos < (_xsize * _ysize); pos++) {
@@ -237,12 +244,13 @@ Class *Scene::closest(Class *arg, byte farest, byte is_block, byte is_not_block)
 
 Class *Scene::buildPath(Class *path_proto, Class *block_proto, int is_scene_already) {
   int has_free = 1;
-  int max_instances = 6;
-  int min_instances = 5;
+  int max_instances = 7;
+  int min_instances = 7; //TODO if <7 then bug with max_path_length = 0
   int chance = 3;
   //int last_pos;
-  int count_visited;
-  int count_created;
+  int count_visited = 0;
+  int count_created = 0;
+  //int iter = random(5);
 
   while (has_free) {
     count_created = 0;
@@ -297,6 +305,11 @@ Class *Scene::buildPath(Class *path_proto, Class *block_proto, int is_scene_alre
       }
       has_free = 0;
     }
+    //if (is_scene_already == 0) {
+    //  char buff[10];
+    //  iter++;
+    //  Class::printDebug(itoa(iter, buff, 10));
+    //}
   }
   return this;
 }
@@ -321,8 +334,8 @@ void Scene::recursiveDeleteClass(Class* arg) {
 byte Scene::checkPath(Class *cls, byte min_path, byte where, int r) {
   if (cls && ((cls->getTypeChar()) == (_path_proto->getTypeChar())) && ((cls->toInt()) < min_path)) {
     return 1;
-//  } else if (((cls && ((cls->atGet(Class::Directive::Block)) == 0)) || (cls == 0)) && (random(r) == 0)) {
-//    return 1;
+    //  } else if (((cls && ((cls->atGet(Class::Directive::Block)) == 0)) || (cls == 0)) && (random(r) == 0)) {
+    //    return 1;
   }
   return 0;
 }
@@ -430,7 +443,7 @@ Class *Scene::atPut(Directive key, Class *arg) {
           where = 4;
         }
         if (where == 0)
-         where = random(5);
+          where = random(5);
         switch (where) {
           case 1:
             Scene::getUpThingFrom(arg, Scene::AddClassAction::MoveIfEmpty, arg);
@@ -491,7 +504,7 @@ Class *Scene::atPut(Directive key, Class *arg) {
         _block_proto = 0;
       }
       break;
-    case Class::Directive::Far: //set class to be farest by path
+    case Class::Directive::Far: //atPut set class to be farest by path
       return Scene::closest(arg, 1);
       break;
     case Class::Directive::Close: //set class to be closest by path but may block other paths

@@ -79,7 +79,7 @@ class Class : public Print  {
     virtual int toInt();
     virtual char getTypeChar();
     static byte dropDice(byte d = 2, byte n = 1);
-    //static void printDebug(char* c);
+    static void printDebug(char* c);
 
     virtual size_t write(uint8_t c);
     using Print::write;
