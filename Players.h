@@ -13,7 +13,7 @@ const char descend[] PROGMEM = "P>B3DESCEND";
 const char ascend[] PROGMEM = "P<B4ASCEND";
 const char wl[] PROGMEM = "P B0WALL";
 const char door[] PROGMEM = "P+b0DOOR";
-const char water[] PROGMEM = "P~B0RAW WATER";
+//const char water[] PROGMEM = "P~B0RAW WATER";
 const char life[] PROGMEM = "PlB2LIFE\nLIVING THING.\nLIFE CAUSES HUNGER,\nTHIRST, SLEEP, WASTE.\nYOU CAN LOST IT.";
 //const char mnd[] PROGMEM = "PmB0MIND//\nINDIVIDUAL THAT \nFEELS, PERCEIVES, \nWILLS, AND ESPECIALLY \nREASONS AND THINKS.";
 const char hunger[] PROGMEM = "PhB0HUNGER";
@@ -43,9 +43,9 @@ const char adventurer[] PROGMEM = "PaB7MINER";
 //const char pinkp[] PROGMEM = "P!B0pink";
 //const char grayp[] PROGMEM = "P!B0gray";
 //const char cyanp[] PROGMEM = "P!B0cyan";
-const char waterp[] PROGMEM = "P!b11WATER";
+const char waterp[] PROGMEM = "P~b11WATER";
 //const char rawwaterp[] PROGMEM = "P!B0RAW WATER";
-const char bottle[] PROGMEM = "P!B0BOTTLE";
+//const char bottle[] PROGMEM = "P!B0BOTTLE";
 const char pick[] PROGMEM = "P/B13PICK";
 const char food[] PROGMEM = "P%B10FOOD";
 //const char filter[] PROGMEM = "Pfb0FILTER";
@@ -60,9 +60,9 @@ const char partition[] PROGMEM = "P#b0PARTITION";
 //  soil
 //};
 
-const char * const waters[] PROGMEM = {
-  water//, oil
-};
+//const char * const waters[] PROGMEM = {
+//  water//, oil
+//};
 
 //const char * const potions[] PROGMEM = {
 //  boozep, oilp, bloodp, inkp, milkp, greenp, purplep, orangep, brownp, pinkp, grayp, cyanp
@@ -72,13 +72,14 @@ const char * const players[] PROGMEM = {
 //  table,
 //  chair,
 //  bed,
+waterp,
   partition,
   plr,
   descend,
   ascend,
   wl,
   door,
-  water,
+//  water,
   vein,
   life,
 //  mnd,

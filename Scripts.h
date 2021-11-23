@@ -94,31 +94,39 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
   },
   [](Class * cls, Class * owner, Class * scene, Class *) -> byte { //7
     if (((cls == player) && isBotMode) || (cls != player)) {
-      Class *c =  Class::exemplar.make(thirst); //create
+      Class *c = 0;
       Class *t = 0;
-      if ((t = (owner->atPut(Class::Directive::Character, c)))) { //find
-        Class * wtr = Class::exemplar.make(waterp); //create
-        Class * w = 0;
-        if ((w = (owner->atPut(Class::Directive::Character, wtr)))) {
-          (*scripts[wtr->toInt()]) (w, owner, scene, t);
-          delete c;
-          delete wtr;
-          c = SetCursor(descend);
-        } else {
-          delete wtr;
-          delete c;
-          c = SetCursor(ascend); //find
-        }
+      c = Class::exemplar.make(toilet); //create
+      if ((t = (owner->atPut(Class::Directive::Character, c)))) { //find in owner
+        delete c;
+        c = SetCursor(waterp); //find on scene
       } else {
         delete c;
-        c = SetCursor(descend); //find
+        c = Class::exemplar.make(thirst); //create
+        if ((t = (owner->atPut(Class::Directive::Character, c)))) { //find in owner
+          Class * wtr = Class::exemplar.make(waterp); //create
+          Class * w = 0;
+          if ((w = (owner->atPut(Class::Directive::Character, wtr)))) { //find in owner
+            (*scripts[wtr->toInt()]) (w, owner, scene, t); //interact
+            delete c;
+            delete wtr;
+            c = SetCursor(descend);
+          } else {
+            delete wtr;
+            delete c;
+            c = SetCursor(ascend); //find
+          }
+        } else {
+          delete c;
+          c = SetCursor(descend); //find
+        }
       }
       if (c) {
         if ((scene->atPut(Class::Directive::Near, owner)) == owner) { //if in cursor near this
           owner->atPut(Class::Directive::Turn, 0);
-          (*scripts[c->toInt()]) (c, c, scene, owner);
+          byte ret = (*scripts[c->toInt()]) (c, c, scene, owner);
           Class::arduboy.display();
-          return 2;
+          return ret;
         }
         scene->atPut(Class::Directive::Clear, path);
         scene->atPut(Class::Directive::Map, c);
@@ -184,9 +192,9 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
         scene->atPut(Class::Directive::Delete, a); //if has then delete
         Rip(cls); //print message
         scene->atPut(Class::Directive::Delete, cls); //delete this
-        a = Class::exemplar.make(bottle);
-        PrintMessage(owner, 8, a);
-        owner->atPut(Class::Directive::Add, a);
+        //a = Class::exemplar.make(bottle);
+        //PrintMessage(owner, 8, a);
+        //owner->atPut(Class::Directive::Add, a);
       }
     }
     return 0;

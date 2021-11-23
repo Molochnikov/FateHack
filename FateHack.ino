@@ -301,9 +301,9 @@ void NextScene(int portal, byte make_blocks = 0) {
   scene->atPut(Class::Directive::Map, desc); //set pathfinding map to downstairs
 
   if (make_blocks && (is_predefined == 0)) {
-    int r = random(max_scene_num - scene_num);
+    int r = random((max_scene_num - scene_num)/5);
     if (r == 0) {
-      scene->atPut(Class::Directive::Block, Class::exemplar.make(vein));
+      scene->atPut(Class::Directive::Block, Class::exemplar.make(waterp));
       scene->atGet(Class::Directive::Place);
     }
   }
