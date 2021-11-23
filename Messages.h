@@ -5,7 +5,7 @@
 constexpr char enBot[] PROGMEM = "DEMO MODE? AY/BN";
 
 constexpr char enIntro1[] PROGMEM = "YOU LIVE IN COMMUNIST\nMINING VILLAGE.\n\n1 YEAR EQUAL 9 DAYS.\n\nYOUR TASK TO FULFILL\nANNUAL COAL MINING\nPLAN.";
-constexpr char enIntro2[] PROGMEM = "IN REWARD YOU CAN\nORDER FOOD AND PICKS\nFROM OTHER VILLAGES\nFOR NEXT YEAR.\n\nGOOD LUCK!";
+constexpr char enIntro2[] PROGMEM = "IN REWARD YOU CAN\nORDER FOOD AND PICKS\nFROM OTHER VILLAGES\nFOR NEXT YEAR.\n\nGOOD LUCK.";
 
 constexpr const char *enIntro[] PROGMEM = {
   enIntro1, enIntro2
@@ -44,9 +44,9 @@ constexpr char enNote1[] PROGMEM = "\x02 YOU(HOLD A TO MOVE)";
 constexpr char enNote1[] PROGMEM = "@ YOU(HOLD A TO MOVE)";
 #endif
 
-constexpr char enNote2[] PROGMEM = "\xDB - OBJ UNDER CURSOR";
-constexpr char enNote3[] PROGMEM = ". - FLOOR (NOTHING)";
-constexpr char enNote4[] PROGMEM = "\xEE - 'ELEMENT OF'";
+constexpr char enNote2[] PROGMEM = "\xDB : OBJ UNDER CURSOR";
+constexpr char enNote3[] PROGMEM = ". : FLOOR (NOTHING)";
+constexpr char enNote4[] PROGMEM = "\xEE : 'ELEMENT OF'";
 
 constexpr char enSpace[] PROGMEM = " ";
 constexpr char enHungry[] PROGMEM = "HUNGRY";

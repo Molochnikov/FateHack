@@ -410,11 +410,11 @@ void setup() {
 Class * ShowInfo(Class * c, byte is_select = 0) { //you don't need to understand this
   Class::arduboy.clear();
   Class::exemplar.setCursor(0, 0);
-  Class::exemplar.print(F("(DOWN-NEXT"));
+  Class::exemplar.print(F("(DOWN:NEXT"));
   if (is_select) {
-    Class::exemplar.print(F(",A-SELECT"));
+    Class::exemplar.print(F(",A:SELECT"));
   } else if (player == c) {
-    Class::exemplar.print(F(",A-OWNER"));
+    Class::exemplar.print(F(",A:OWNER"));
   }
   Class::exemplar.println(F(")"));
 
@@ -530,7 +530,7 @@ void loop() {
       Class::exemplar.println(F("MAN(1 FOOD EACH)"));
       Class::exemplar.print(food_stock);
       Class::exemplar.print(readFlashStringPointer(&enMessages[0]));
-      Class::exemplar.println(F("FOOD | A - TAKE"));
+      Class::exemplar.println(F("FOOD | A : TAKE"));
       Class::exemplar.print(ore_stock);
       Class::exemplar.print(readFlashStringPointer(&enMessages[0]));
       Class::exemplar.print(F("COAL | NEED"));
