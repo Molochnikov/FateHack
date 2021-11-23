@@ -87,6 +87,6 @@ class Class : public Print  {
     static void setTextColor(const uint8_t color);
     static void setTextBackground(const uint8_t color);
 #ifdef CUSTOM_TILES
-    static void printChar(const char c, const int8_t x, int8_t y);
+    static void printChar(const unsigned char c, const int8_t x, int8_t y);
 #endif
 };
