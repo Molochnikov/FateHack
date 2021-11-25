@@ -82,13 +82,15 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     int r = random(scene_num + 5);
     scene->atPut(Class::Directive::Clear, path);  //clear pathes from scene
     scene->atGet(Class::Directive::Cursor);
-    if ((r == 0) && ((scene->atPut(Class::Directive::Search, adventurer)) == 0) && ((scene->atPut(Class::Directive::Near, 0)) == 0)) {  //if scene without adventurer and near space is not blocked
-      Class * c  = Class::exemplar.make(adventurer); //create npc
+    Class * c  = Class::exemplar.make(adventurer); //create npc
+    if ((r == 0) && ((scene->atPut(Class::Directive::Search, c)) == 0) && ((scene->atPut(Class::Directive::Near, 0)) == 0)) {  //if scene without adventurer and near space is not blocked
       PrintMessage(0, 8, c);
       scene->atPut(Class::Directive::Map, owner); //create paths to this
       scene->atPut(Class::Directive::Close, c); //set npc close to this
       c->atPut(Class::Directive::Hidden, c); //reveal npc
       c = (c->atPut(Class::Directive::Next, Class::exemplar.make(life))); //alive
+    } else {
+      delete c;
     }
     return 0;
   },
@@ -122,16 +124,22 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
           delete c;
           c = Class::exemplar.make(waterp); //create
           if ((t = (owner->atPut(Class::Directive::Character, c)))) { //find in owner
+            delete c;
             (*scripts[t->toInt()]) (t, owner, scene, owner); //interact
+            c = Class::exemplar.make(descend);
             scene->atGet(Class::Directive::Cursor);
-            t = (scene->atPut(Class::Directive::Search, descend));
+            t = (scene->atPut(Class::Directive::Search, c));
           } else {
+            delete c;
+            c = Class::exemplar.make(ascend);
             scene->atGet(Class::Directive::Cursor);
-            t = (scene->atPut(Class::Directive::Search, ascend));
+            t = (scene->atPut(Class::Directive::Search, c));
           }
         } else {
+          delete c;
+          c = Class::exemplar.make(descend);
           scene->atGet(Class::Directive::Cursor);
-          t = (scene->atPut(Class::Directive::Search, descend));
+          t = (scene->atPut(Class::Directive::Search, c));
         }
         delete c;
       }
