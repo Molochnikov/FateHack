@@ -222,12 +222,12 @@ size_t Class::write(uint8_t c) {
     _cursorY += _lineHeight;
   } else {
     if (_textBackground == WHITE) {
-      SpritesB::drawSelfMasked(_cursorX, _cursorY, font_images, FONT_BACKGROUND_INDEX);
+      sprites.drawSelfMasked(_cursorX, _cursorY, font_images, FONT_BACKGROUND_INDEX);
     }
     printChar(c, _cursorX, _cursorY);
     _cursorX += FONT4x6_WIDTH + _letterSpacing;
     if (_textBackground == WHITE) {
-      SpritesB::drawSelfMasked(_cursorX - 1, _cursorY, fill, 0);
+      sprites.drawSelfMasked(_cursorX - 1, _cursorY, fill, 0);
     }
   }
   return 1;
@@ -311,10 +311,10 @@ void Class::printChar(const unsigned char c, const int8_t x, int8_t y) {
 
   if (idx > -1) {
     if (_textColor == WHITE) {
-      SpritesB::drawSelfMasked(x, y, font_images, idx);
+      sprites.drawSelfMasked(x, y, font_images, idx);
     }
     else {
-      SpritesB::drawErase(x, y, font_images, idx);
+      sprites.drawErase(x, y, font_images, idx);
     }
   }
 }

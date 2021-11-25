@@ -1,3 +1,5 @@
+#include "Logo.h"
+
 #include "Players.h"
 #include "Scenes.h"
 
@@ -83,11 +85,12 @@ enum State {
   Intro,
   Bookkeeper,
   IsBot,
+  Logo,
   MenuMIN = Wait,
   MenuMAX = Destroy
 };
 
-size_t currentState = State::Intro;
+size_t currentState = State::Logo;
 size_t currentSelection = State::MenuMIN;
 size_t freeMem = 0;
 size_t death_reason = 0;
@@ -239,7 +242,7 @@ void NextScene(int portal, byte make_blocks = 0) {
       scene->atPut(Class::Directive::Block, wall); //setting blocks for a scene
       scene->atPut(Class::Directive::Greater, maxp); //or equal min path
       scene->atPut(Class::Directive::Less, maxp); //or equal max path
-      PrintMessage(0, 8, player);
+      //PrintMessage(0, 8, player);
     }
     while ((scene->atPut(Class::Directive::Build, 0)) == 0); //generate scene
 
@@ -505,6 +508,14 @@ void loop() {
   Class::exemplar.println();
 
   switch (currentState) {
+    case State::Logo:
+      Class::arduboy.clear();
+      Class::sprites.drawSelfMasked(0, 0, logo, 0);
+      Class::arduboy.display();
+      if (Class::arduboy.justPressed(B_BUTTON) || Class::arduboy.justPressed(A_BUTTON)) {
+        currentState = State::Intro;
+      }
+      break;
     case State::Bookkeeper:
       Class::exemplar.setCursor(0, 0);
       Class::exemplar.println(F("BOOKKEEPER:"));

@@ -62,13 +62,16 @@ class Class : public Print  {
       Near,
       Cursor
     };
+    
 #ifdef CUSTOM_TILES
     static Arduboy2Base arduboy;
 #endif
 #ifndef CUSTOM_TILES
     static Arduboy2 arduboy;
 #endif
+    static SpritesB sprites;
     static Class exemplar;
+    
     Class(Exemplar);
     Class();
     virtual ~Class();
