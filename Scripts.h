@@ -81,7 +81,8 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
   [](Class *, Class * owner, Class * scene, Class *) -> byte { //5
     int r = random(scene_num + 5);
     scene->atPut(Class::Directive::Clear, path);  //clear pathes from scene
-    if ((r == 0) && (SetCursor(adventurer) == 0) && SetCursor(outside) && ((scene->atPut(Class::Directive::Near, 0)) == 0)) {  //if scene without adventurer and near space is not blocked
+    scene->atGet(Class::Directive::Cursor);
+    if ((r == 0) && ((scene->atPut(Class::Directive::Search, adventurer)) == 0) && ((scene->atPut(Class::Directive::Near, 0)) == 0)) {  //if scene without adventurer and near space is not blocked
       Class * c  = Class::exemplar.make(adventurer); //create npc
       PrintMessage(0, 8, c);
       scene->atPut(Class::Directive::Map, owner); //create paths to this
@@ -100,14 +101,20 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
       Class *t = 0; //target
       byte is_take = 0;
       byte is_new_scene = 0;
-      c = Class::exemplar.make(toilet); //create
-      if (owner->atPut(Class::Directive::Character, c)) { //find in owner
-        t = SetCursor(waterp); //find on scene
+      c = Class::exemplar.make(waterp); //create
+      scene->atGet(Class::Directive::Cursor); //reset cursor
+      while ((t = (scene->atPut(Class::Directive::Search, c)))) { //find
+        if ((owner->atPut(Class::Directive::Character, t)) == 0) { //not owner
+          if ((scene->atGet(Class::Directive::Character)) == t) { //not have owner
+            is_take = 1;
+            break;
+          }
+        }
       }
       delete c;
-      if ((scene_num != 0) && ((owner->atPut(Class::Directive::Character, SetCursor(waterp))) == 0) && SetCursor(waterp)) {
-        t = SetCursor(waterp);
-        is_take = 1;
+      c = Class::exemplar.make(toilet); //create
+      if ((owner->atPut(Class::Directive::Character, c))) { //find in owner
+        is_take = 0;
       }
       if (t == 0) { // no target
         c = Class::exemplar.make(thirst); //create
@@ -116,12 +123,15 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
           c = Class::exemplar.make(waterp); //create
           if ((t = (owner->atPut(Class::Directive::Character, c)))) { //find in owner
             (*scripts[t->toInt()]) (t, owner, scene, owner); //interact
-            t = SetCursor(descend);
+            scene->atGet(Class::Directive::Cursor);
+            t = (scene->atPut(Class::Directive::Search, descend));
           } else {
-            t = SetCursor(ascend); //find
+            scene->atGet(Class::Directive::Cursor);
+            t = (scene->atPut(Class::Directive::Search, ascend));
           }
         } else {
-          t = SetCursor(descend); //find
+          scene->atGet(Class::Directive::Cursor);
+          t = (scene->atPut(Class::Directive::Search, descend));
         }
         delete c;
       }

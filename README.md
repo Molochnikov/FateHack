@@ -1,5 +1,5 @@
 # FateHack
-<!--## Warning! Don't load this sketch in your Arduboy until you know how to upload sketches after **ARDUBOY_NO_USB**!-->
+<!--## Warning! This version uses “remove USB stack” technique. When you upload a new game, you need to hold down the DOWN button while ARDUBOY is starting up.->
 <!--### <a href="https://felipemanga.github.io/ProjectABE/?url=https://raw.githubusercontent.com/Molochnikov/FateHack/main/FateHack.ino.leonardo.hex&skin=BareFit">Play it in your browser using ProjectABE!</a>-->
 
 Roguelike game and probably tiniest roguelike engine for [Arduboy](https://arduboy.com/) or [its emulator](https://github.com/felipemanga/ProjectABE/releases/latest) influenced by NetHack and WildTangent's FATE.

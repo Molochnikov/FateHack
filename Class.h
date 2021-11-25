@@ -51,6 +51,7 @@ class Class : public Print  {
       Place,
       Map,
       Turn,
+      Search,
       Scene,
       Move,
       Draw,

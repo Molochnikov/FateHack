@@ -485,6 +485,23 @@ Class *Scene::atPut(Directive key, Class *arg) {
         return 0;
       }
       break;
+    case Class::Directive::Search: //atPut find next copy arg in the scene
+      {
+        Class * cls = 0;
+        do {
+          do {
+            cls = this->atGet(Class::Directive::Character);
+            while (cls) {
+              if ((cls->_init) == (arg->_init))
+                return (this->atGet(Class::Directive::Character));
+              cls = (cls->atGet(Class::Directive::Next));
+            }
+          } while (this->atGet(Class::Directive::Right));
+          while (this->atGet(Class::Directive::Left)) {};
+        } while (this->atGet(Class::Directive::Down));
+        return 0;
+      }
+      break;
     case Class::Directive::Next: //clear the scene except arg and his players
       {
         if (_path_proto) {
@@ -644,6 +661,10 @@ Class *Scene::atPut(Directive key, Class *arg) {
 
 Class *Scene::atGet(Directive key) {
   switch (key) {
+    case Class::Directive::Cursor: //atGet set cursor at start
+      while (this->atGet(Class::Directive::Left)) {};
+      while (this->atGet(Class::Directive::Up)) {};
+      break;
     case Class::Directive::Delete: //delete player from scene on cursor
       {
         Class * arg = this->atGet(Class::Directive::Character);
@@ -678,7 +699,7 @@ Class *Scene::atGet(Directive key) {
         return 0;
       }
       break;
-    case Class::Directive::Character: //get the character under the cursor
+    case Class::Directive::Character: //atGet get the character under the cursor
       {
         int x = _xcoord->toInt();
         int y = _ycoord->toInt();

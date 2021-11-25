@@ -196,24 +196,6 @@ void RestoreCursor() {
   }
 }
 
-Class * SetCursor(const char * c) {
-  Class * cls = 0;
-  while (scene->atGet(Class::Directive::Left)) {};
-  while (scene->atGet(Class::Directive::Up)) {};
-  do {
-    do {
-      cls = scene->atGet(Class::Directive::Character);
-      while (cls) {
-        if ((cls->_init) == c)
-          return (scene->atGet(Class::Directive::Character));
-        cls = (cls->atGet(Class::Directive::Next));
-      }
-    } while (scene->atGet(Class::Directive::Right));
-    while (scene->atGet(Class::Directive::Left)) {};
-  } while (scene->atGet(Class::Directive::Down));
-  return 0;
-}
-
 void NextScene(int portal, byte make_blocks = 0) {
   int is_down = 0;
   byte is_predefined = 0;
@@ -301,7 +283,7 @@ void NextScene(int portal, byte make_blocks = 0) {
   scene->atPut(Class::Directive::Map, desc); //set pathfinding map to downstairs
 
   if (make_blocks && (is_predefined == 0)) {
-    int r = random((max_scene_num - scene_num)/100);
+    int r = random((max_scene_num - scene_num) / 100);
     if (r == 0) {
       scene->atPut(Class::Directive::Block, Class::exemplar.make(waterp));
       scene->atGet(Class::Directive::Place);
@@ -310,7 +292,8 @@ void NextScene(int portal, byte make_blocks = 0) {
 
   scene->atPut(Class::Directive::Clear, path);
   scene->atPut(Class::Directive::Block, wall); //setting blocks for a scene
-  SetCursor(plr);
+  scene->atGet(Class::Directive::Cursor);
+  scene->atPut(Class::Directive::Search, player);
   SaveCursor();
 }
 
