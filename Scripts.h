@@ -124,8 +124,8 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
           delete c;
           c = Class::exemplar.make(waterp); //create
           if ((t = (owner->atPut(Class::Directive::Character, c)))) { //find in owner
-            delete c;
             (*scripts[t->toInt()]) (t, owner, scene, owner); //interact
+            delete c;
             c = Class::exemplar.make(descend);
             scene->atGet(Class::Directive::Cursor);
             t = (scene->atPut(Class::Directive::Search, c));

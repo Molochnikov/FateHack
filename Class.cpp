@@ -84,7 +84,7 @@ byte Class::dropDice(byte d = 2, byte n = 1) {
 }
 
 void Class::printDebug(char* c) {
-  for (int i = 0; i < 100; i++) {
+  for (int i = 0; i < 500; i++) {
     Class::arduboy.clear();
     Class::setCursor(0, 0);
     Class::exemplar.println(c);
