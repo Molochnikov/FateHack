@@ -118,6 +118,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
       if ((owner->atPut(Class::Directive::Character, c))) { //find in owner
         is_take = 0;
       }
+      delete c;
       if (t == 0) { // no target
         c = Class::exemplar.make(thirst); //create
         if ((t = (owner->atPut(Class::Directive::Character, c)))) { //find in owner
