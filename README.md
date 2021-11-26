@@ -47,7 +47,12 @@ Roguelike game and probably tiniest roguelike library for [Arduboy](https://ardu
 ## How to build:
 
 ## Roguelike library documentation:
-Library uses dynamic memory allocation and prototype polymorphism principles. There is no memory for smart pointers implementation so don't forget to `delete` objects when you don't need them anymore.
+Library uses dynamic memory allocation and parametric polymorphism principles. There is no memory for smart pointers implementation so don't forget to `delete` objects when you don't need them anymore like this:
+```
+Class *c = Class::exemplar.make(object_template);
+delete c;
+c = 0;
+```
 ### Class
 Base class and interface for all objects. Is must be used everywhere. Inherit all your new classes from Class.
 #### Class::exemplar
