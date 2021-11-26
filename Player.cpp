@@ -110,7 +110,7 @@ Class *Player::atPut(Directive key, Class *arg) {
       }
       return this;
       break;
-    case Class::Directive::Character: //find clone of arg in this
+    case Class::Directive::Character: //atPut find clone of arg in this
       {
         if ((this->_init) == (arg->_init))
           return this;

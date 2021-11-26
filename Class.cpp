@@ -32,6 +32,14 @@ int Class::getFreeMemory() {
   return 0;
 }
 
+int Class::hasMoreMemory() {
+  int m = Class::getFreeMemory();
+  if (m < 300)
+    return 0;
+  else
+    return m;
+}
+
 Class::Class(Exemplar) {
   next = list;
   list = this;

@@ -388,7 +388,7 @@ void setup() {
   wall->atPut(Class::Directive::Place, wall);
 
   path = Class::exemplar.make("C1");
-  maxp = Class::exemplar.make("C8"); //TODO if <7 then bug with max_path_length = 0. Don't set < 7!
+  maxp = Class::exemplar.make("C10"); //TODO if <7 then bug with max_path_length = 0. Don't set < 7!
 
   NextScene(1);
 }
@@ -485,14 +485,15 @@ void loop() {
 
   scene->atPut(Class::Directive::Map, player);
   scene->atPut(Class::Directive::Draw, player);
-  freeMem = Class::getFreeMemory();
-  if (freeMem) {
-    if (freeMem < 256)
-      Class::exemplar.print(F("LOW"));
-    else
-      Class::exemplar.print(freeMem);
-    Class::exemplar.print(readFlashStringPointer(&enMessages[0]));
-  }
+
+  freeMem = Class::hasMoreMemory();
+  if (freeMem)
+    Class::exemplar.print(freeMem);
+  else
+    Class::exemplar.print(F("LOW"));
+
+  Class::exemplar.print(readFlashStringPointer(&enMessages[0]));
+
   scene->atPut(Class::Directive::Clear, path);
 
   Class::exemplar.print(age);

@@ -106,11 +106,11 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
       c = Class::exemplar.make(waterp); //create
       scene->atGet(Class::Directive::Cursor); //reset cursor
       while ((t = (scene->atPut(Class::Directive::Search, c)))) { //find
-        if ((owner->atPut(Class::Directive::Character, t)) == 0) { //not owner
-          if ((scene->atGet(Class::Directive::Character)) == t) { //not have owner
+        if (((scene->atPut(Class::Directive::Owner, t)) == 0) && (scene_num != 0)) { //not owner
+          if ((Class::hasMoreMemory()) != 0) {
             is_take = 1;
-            break;
           }
+          break;
         }
       }
       delete c;

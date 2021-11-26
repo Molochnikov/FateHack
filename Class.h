@@ -26,10 +26,10 @@ class Class : public Print  {
     static int8_t _textBackground;  // BLACK == 0, everything else is WHITE. Default is WHITE.
     static uint8_t _letterSpacing;  // letterSpacing controls the distance between letters. Default is 1.
     static uint8_t _lineHeight;     // lineHeight controls the height between lines breakend by \n. Default is 8.
+    static int getFreeMemory();
 #endif
   public:
     const char* _init = 0;
-    static int getFreeMemory();
     enum Directive {
       Delete,
       Up,
@@ -62,7 +62,7 @@ class Class : public Print  {
       Near,
       Cursor
     };
-    
+
 #ifdef CUSTOM_TILES
     static Arduboy2Base arduboy;
 #endif
@@ -71,7 +71,7 @@ class Class : public Print  {
 #endif
     static SpritesB sprites;
     static Class exemplar;
-    
+
     Class(Exemplar);
     Class();
     virtual ~Class();
@@ -93,4 +93,5 @@ class Class : public Print  {
 #ifdef CUSTOM_TILES
     static void printChar(const unsigned char c, const int8_t x, int8_t y);
 #endif
+    static int hasMoreMemory();
 };
