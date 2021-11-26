@@ -78,20 +78,20 @@ class Class : public Print  {
     virtual Class *atPut(Directive key, Class *arg);
     virtual Class *atGet(Directive key);
     virtual Class *clone() const;
-    virtual Class *make(const char* s); //always create all your objects using this method
+    virtual Class *make(const char* s); //always create all your objects with this method. DONT FORGET TO destroy THEM AFTER!
     virtual char* toStr();
     virtual int toInt();
     virtual char getTypeChar();
-    static byte dropDice(byte d = 2, byte n = 1);
-    static void printDebug(char* c);
+    static byte dropDice(_);
+    static void printDebug(char* c); //use this for debuging purposes with itoa
 
-    virtual size_t write(uint8_t c);
+    virtual size_t write(uint8_t c); //Print implementation
     using Print::write;
-    static void setCursor(int8_t x, int8_t y);
-    static void setTextColor(const uint8_t color);
-    static void setTextBackground(const uint8_t color);
+    static void setCursor(int8_t x, int8_t y); //Arduboy2 library analog with custom tiles
+    static void setTextColor(const uint8_t color); //Arduboy2 library analog with custom tiles
+    static void setTextBackground(const uint8_t color); //Arduboy2 library analog with custom tiles
 #ifdef CUSTOM_TILES
-    static void printChar(const unsigned char c, const int8_t x, int8_t y);
+    static void printChar(const unsigned char c, const int8_t x, int8_t y); //custom tiles printing
 #endif
     static int hasMoreMemory(); //returns free memory size or 0 if the size is under 300
 };

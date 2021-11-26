@@ -2,7 +2,7 @@
 <!--## Warning! This version uses “remove USB stack” technique. When you upload a new game, you need to hold down the DOWN button while ARDUBOY is starting up.->
 <!--### <a href="https://felipemanga.github.io/ProjectABE/?url=https://raw.githubusercontent.com/Molochnikov/FateHack/main/FateHack.ino.leonardo.hex&skin=BareFit">Play it in your browser using ProjectABE!</a>-->
 
-Roguelike game and probably tiniest roguelike engine for [Arduboy](https://arduboy.com/) or [its emulator](https://github.com/felipemanga/ProjectABE/releases/latest) influenced by NetHack and WildTangent's FATE.
+Roguelike game and probably tiniest roguelike library for [Arduboy](https://arduboy.com/) or [its emulator](https://github.com/felipemanga/ProjectABE/releases/latest) influenced by NetHack and WildTangent's FATE.
 
 ![screen](/screen.png)
 
@@ -35,7 +35,7 @@ Roguelike game and probably tiniest roguelike engine for [Arduboy](https://ardub
 * simplicity in randomness, no need to know game formulas and equations
 * YASD is hard to do (except with destroy feature)
 
-#### Programming features for using as engine for other Arduboy roguelikes:
+#### Programming features for using as library for other Arduboy roguelikes:
 * pathfinding algorithm for generating caves
 * scene builder
 * object builder
@@ -44,18 +44,18 @@ Roguelike game and probably tiniest roguelike engine for [Arduboy](https://ardub
 * master OOP pattern at the core - prototype (exemplar)
 * easy scripting for objects interactions
 
-## Roguelike engine documentation:
+## Roguelike library documentation:
 
-Engine uses dynamic memory allocation and prototype polymorphism principles.
-
+Library uses dynamic memory allocation and prototype polymorphism principles. There is no memory for smart pointers implementation so don't forget to `delete` objects when you don't need them anymore.
 ### Class::
 Base class and interface for all objects. Is must be used everywhere. Inherit all your new classes from Class.
-#### `static int hasMoreMemory() { //returns free memory size or 0 if the size is under 300`
-#### `static void setCursor(int8_t x, int8_t y);`
-#### `static void setTextColor(const uint8_t color);`
-#### `static void setTextBackground(const uint8_t color);`
 ### Class::exemplar
-Object maker instance with Print functionality.
-#### `virtual Class *make(const char* s); //always create all your objects using this method`
+Object maker instance with Print custom tiles functionality.
+#### `virtual Class *make(const char* s); //always create all your objects with this method. DONT FORGET TO destroy THEM AFTER!`
+#### `static int hasMoreMemory() { //returns free memory size or 0 if the size is under 300`
+#### `static void printDebug(char* c); //use this for debuging purposes with itoa`
+#### `static void setCursor(int8_t x, int8_t y); //Arduboy2 library analog with custom tiles`
+#### `static void setTextColor(const uint8_t color); //Arduboy2 library analog with custom tiles`
+#### `static void setTextBackground(const uint8_t color); //Arduboy2 library analog with custom tiles`
 ### Class::arduboy
 ### Class::sprites

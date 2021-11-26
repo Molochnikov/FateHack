@@ -492,7 +492,7 @@ void loop() {
   scene->atPut(Class::Directive::Map, player);
   scene->atPut(Class::Directive::Draw, player);
 
-  freeMem = Class::hasMoreMemory();
+  freeMem = Class::exemplar.hasMoreMemory();
   if (freeMem)
     Class::exemplar.print(freeMem);
   else

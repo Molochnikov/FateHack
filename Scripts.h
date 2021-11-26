@@ -107,7 +107,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
       scene->atGet(Class::Directive::Cursor); //reset cursor
       while ((t = (scene->atPut(Class::Directive::Search, c)))) { //find
         if (((scene->atPut(Class::Directive::Owner, t)) == 0) && (scene_num != 0)) { //not owner
-          if (Class::hasMoreMemory()) {
+          if (Class::exemplar.hasMoreMemory()) {
             is_take = 1;
           } else {
             Rip(t);
