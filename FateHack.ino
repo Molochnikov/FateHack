@@ -11,6 +11,7 @@
 #include "Messages.h"
 
 //ARDUBOY_NO_USB
+#define DEMO_VERSION
 
 template<typename Type, size_t arraySize> constexpr size_t size(const Type (&)[arraySize]) noexcept
 {
@@ -286,9 +287,14 @@ void NextScene(int portal, byte make_blocks = 0) {
   scene->atPut(Class::Directive::Map, desc); //set pathfinding map to downstairs
 
   if (make_blocks && (is_predefined == 0)) {
-    int r = random((max_scene_num - scene_num) / 100);
+    int r = random((max_scene_num - scene_num) / 100 * 2);
     if (r == 0) {
       scene->atPut(Class::Directive::Block, Class::exemplar.make(waterp));
+      scene->atGet(Class::Directive::Place);
+    }
+    r = random((max_scene_num - scene_num) / 100 * 2 * 2);
+    if (r == 0) {
+      scene->atPut(Class::Directive::Block, Class::exemplar.make(vein));
       scene->atGet(Class::Directive::Place);
     }
   }
