@@ -86,7 +86,17 @@ case Class::Directive::Next: //atPut clear the scene except arg and his classes
 case Class::Directive::Far: //atPut place arg on scene to be farest by path
 case Class::Directive::Close: //atPut place arg to be closest by path but may block the only path through
 case Class::Directive::Clear: //atPut clear all clones of arg in the scene
-
+case Class::Directive::Path: //atPut clone arg and set clone to be path prototype for the scene
+case Class::Directive::Block: //atPut clone arg and set clone to be block prototype for the scene
+case Class::Directive::Map: //atPut set path coordinates leading to arg
+case Class::Directive::Build: //atPut try to build the scene and bounds, then place arg there. If fail then return NULL
+case Class::Directive::Character: //atPut place arg under a cursor
+case Class::Directive::X: //atPut set x coordinate of a cursor within bounds if they exists
+case Class::Directive::Y: //atPut set y coordinate of a cursor within bounds if they exists
+case Class::Directive::Up: //atPut move arg up. Return NULL if success, class that blocks way, arg if bounds
+case Class::Directive::Down: //atPut move arg down. Return NULL if success, class that blocks way, arg if bounds
+case Class::Directive::Left: //atPut move arg left. Return NULL if success, class that blocks way, arg if bounds
+case Class::Directive::Right: //atPut move arg right. Return NULL if success, class that blocks way, arg if bounds
 }
 ```
 
