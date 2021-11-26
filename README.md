@@ -50,12 +50,12 @@ Engine uses dynamic memory allocation and prototype polymorphism principles.
 
 ### Class::
 Base class and interface for all objects. Is must be used everywhere. Inherit all your new classes from Class.
-#### static int hasMoreMemory() { //returns free memory size or 0 if the size is under 300
-#### static void setCursor(int8_t x, int8_t y);
-#### static void setTextColor(const uint8_t color);
-#### static void setTextBackground(const uint8_t color);
+#### `static int hasMoreMemory() { //returns free memory size or 0 if the size is under 300`
+#### `static void setCursor(int8_t x, int8_t y);`
+#### `static void setTextColor(const uint8_t color);`
+#### `static void setTextBackground(const uint8_t color);`
 ### Class::exemplar
 Object maker instance with Print functionality.
-virtual Class *make(const char* s); //always create all your objects using this method
+#### `virtual Class *make(const char* s); //always create all your objects using this method`
 ### Class::arduboy
 ### Class::sprites
