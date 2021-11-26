@@ -148,9 +148,11 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
         }
         delete c;
       }
+      owner->atPut(Class::Directive::Turn, 0);
+      Class::arduboy.display();
       if (t) {
         if ((scene->atPut(Class::Directive::Near, owner)) == owner) { //if in cursor near this
-          owner->atPut(Class::Directive::Turn, 0);
+          //owner->atPut(Class::Directive::Turn, 0);
           if (is_take) {
             owner->atPut(Class::Directive::Add, t);
             scene->atPut(Class::Directive::Character, 0);
@@ -158,15 +160,15 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
           } else {
             is_new_scene = (*scripts[t->toInt()]) (t, t, scene, owner);  //interact
           }
-          Class::arduboy.display();
+          //Class::arduboy.display();
           return is_new_scene;
         }
         scene->atPut(Class::Directive::Clear, path);
         scene->atPut(Class::Directive::Map, t);
         scene->atPut(Class::Directive::Move, owner);
       }
-      owner->atPut(Class::Directive::Turn, 0);
-      Class::arduboy.display();
+      //owner->atPut(Class::Directive::Turn, 0);
+      //Class::arduboy.display();
     }
     return 0;
   },
