@@ -91,8 +91,8 @@ case Class::Directive::Block: //atPut clone arg and set clone to be block protot
 case Class::Directive::Map: //atPut set path coordinates leading to arg
 case Class::Directive::Build: //atPut try to build the scene and bounds with x and y sizes already setted then place arg there. If fail then return NULL
 case Class::Directive::Character: //atPut place arg under a cursor
-case Class::Directive::X: //atPut set x coordinate of a cursor within bounds if they exists
-case Class::Directive::Y: //atPut set y coordinate of a cursor within bounds if they exists
+case Class::Directive::X: //atPut set x coordinate of a cursor within bounds if they exists. Set this to build initial scene
+case Class::Directive::Y: //atPut set y coordinate of a cursor within bounds if they exists. Set this to build initial scene
 case Class::Directive::Up: //atPut move arg. Return NULL if success, class that blocks way, arg if bounds
 case Class::Directive::Down: //atPut move arg. Return NULL if success, class that blocks way, arg if bounds
 case Class::Directive::Left: //atPut move arg. Return NULL if success, class that blocks way, arg if bounds
