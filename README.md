@@ -93,17 +93,31 @@ case Class::Directive::Build: //atPut try to build the scene and bounds, then pl
 case Class::Directive::Character: //atPut place arg under a cursor
 case Class::Directive::X: //atPut set x coordinate of a cursor within bounds if they exists
 case Class::Directive::Y: //atPut set y coordinate of a cursor within bounds if they exists
-case Class::Directive::Up: //atPut move arg up. Return NULL if success, class that blocks way, arg if bounds
-case Class::Directive::Down: //atPut move arg down. Return NULL if success, class that blocks way, arg if bounds
-case Class::Directive::Left: //atPut move arg left. Return NULL if success, class that blocks way, arg if bounds
-case Class::Directive::Right: //atPut move arg right. Return NULL if success, class that blocks way, arg if bounds
-case Class::Directive::Draw: //atPut draw scene on the screen for human player
+case Class::Directive::Up: //atPut move arg. Return NULL if success, class that blocks way, arg if bounds
+case Class::Directive::Down: //atPut move arg. Return NULL if success, class that blocks way, arg if bounds
+case Class::Directive::Left: //atPut move arg. Return NULL if success, class that blocks way, arg if bounds
+case Class::Directive::Right: //atPut move arg. Return NULL if success, class that blocks way, arg if bounds
+case Class::Directive::Draw: //atPut draw scene on the screen for arg
 }
 ```
 
 
-#### Class *Scene::atGet(Directive key) {
-
+#### Class *Scene::atGet(Directive key)
+```
+switch (key) {
+case Class::Directive::Cursor: //atGet set cursor at start of scene
+case Class::Directive::Delete: //atGet delete player under cursor from scene
+case Class::Directive::Place: //atGet place scene block to be closest by path but without blocking other paths
+case Class::Directive::Block: //atGet return block prototype of the scene
+case Class::Directive::Close: //atGet place scene block to be closest by path but with blocking other paths
+case Class::Directive::Turn: //atGet get next class who has turn
+case Class::Directive::Character: //atGet get the class under the cursor
+case Class::Directive::Up: //atGet move the cursor within bounds. Return NULL if bounds, or y path prototype if moved
+case Class::Directive::Down: //atGet move the cursor within bounds. Return NULL if bounds, or y path prototype if moved
+case Class::Directive::Left: //atGet move the cursor within bounds. Return NULL if bounds, or y path prototype if moved
+case Class::Directive::Right: //atGet move the cursor within bounds. Return NULL if bounds, or y path prototype if moved
+}
+```
 ## How to register your classes as prototypes:
 Use existing macro:
 
