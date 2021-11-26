@@ -78,7 +78,7 @@ class Class : public Print  {
     virtual Class *atPut(Directive key, Class *arg);
     virtual Class *atGet(Directive key);
     virtual Class *clone() const;
-    virtual Class *make(const char* s); //always create all your objects with this method. DONT FORGET TO destroy THEM AFTER!
+    virtual Class *make(const char* s); //always create all your objects with this method. DONT FORGET TO destroy THEM AFTER! First char is the object type.
     virtual char* toStr();
     virtual int toInt();
     virtual char getTypeChar();

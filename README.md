@@ -48,12 +48,12 @@ Roguelike game and probably tiniest roguelike library for [Arduboy](https://ardu
 
 ## Roguelike library documentation:
 Library uses dynamic memory allocation and prototype polymorphism principles. There is no memory for smart pointers implementation so don't forget to `delete` objects when you don't need them anymore.
-### Class::
+### Class
 Base class and interface for all objects. Is must be used everywhere. Inherit all your new classes from Class.
 #### Class::exemplar
 Object maker instance with Print custom tiles functionality.
 
-`virtual Class *make(const char* s); //always create all your objects with this method. DONT FORGET TO destroy THEM AFTER!`
+`virtual Class *make(const char* s); //always create all your objects with this method. DONT FORGET TO destroy THEM AFTER! First char is the object type.`
 
 `static int hasMoreMemory() { //returns free memory size or 0 if the size is under 300`
 
@@ -67,3 +67,10 @@ Object maker instance with Print custom tiles functionality.
 
 #### Class::arduboy
 #### Class::sprites
+### Screen
+Map on the screen. Dynamically allocated array of pointers to Class.
+## How to register your classes as prototypes:
+Use a macro:
+`#define REGISTER_PROTOTYPE(CLASS) static CLASS CLASS##Instance = CLASS(Exemplar())`
+Then register it:
+`REGISTER_PROTOTYPE(YourSubClass);`
