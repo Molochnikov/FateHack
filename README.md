@@ -78,6 +78,15 @@ case Class::Directive::Less: //atPut clone arg and set clone to be max path in a
 case Class::Directive::Cursor: //atPut set cursor on owner of arg or return NULL
 case Class::Directive::Near: //atPut check arg is near the cursor and return arg if true. if false then return class under cursor
 case Class::Directive::Owner: //atPut get owner of arg in the scene if it exists or return NULL
+case Class::Directive::Delete: //atPut delete arg from every other class on the scene if arg is not scene block
+case Class::Directive::Move: //atPut move arg by shortest path
+case Class::Directive::Turn: //atPut set next turn to all classes in the scene
+case Class::Directive::Search: //atPut find next position of arg copy in the scene
+case Class::Directive::Next: //atPut clear the scene except arg and his classes
+case Class::Directive::Far: //atPut place arg on scene to be farest by path
+case Class::Directive::Close: //atPut place arg to be closest by path but may block the only path through
+case Class::Directive::Clear: //atPut clear all clones of arg in the scene
+
 }
 ```
 

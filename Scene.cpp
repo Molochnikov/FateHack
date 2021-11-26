@@ -380,7 +380,7 @@ Class *Scene::atPut(Directive key, Class *arg) {
         cls = Scene::getDownThingFrom(this->atGet(Class::Directive::Character), Scene::AddClassAction::NoAction, this->atGet(Class::Directive::Character));
         if (cls == arg)
           return arg;
-        return this->atGet(Class::Directive::Character);
+        return (this->atGet(Class::Directive::Character));
       }
       break;
     case Class::Directive::Owner: //atPut get owner of arg in the scene if it exists
