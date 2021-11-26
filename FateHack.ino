@@ -510,7 +510,9 @@ void loop() {
   switch (currentState) {
     case State::Logo:
       Class::arduboy.clear();
-      Class::sprites.drawSelfMasked(0, 0, logo, 0);
+      Class::sprites.drawSelfMasked(0, 0, glove, 0);
+      Class::sprites.drawSelfMasked(80, 20, fate, 0);
+      Class::sprites.drawSelfMasked(90, 30, hack, 0);
       Class::arduboy.display();
       if (Class::arduboy.justPressed(B_BUTTON) || Class::arduboy.justPressed(A_BUTTON)) {
         currentState = State::Intro;
