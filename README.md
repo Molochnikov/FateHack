@@ -52,19 +52,14 @@ Library uses dynamic memory allocation and prototype polymorphism principles. Th
 Base class and interface for all objects. Is must be used everywhere. Inherit all your new classes from Class.
 #### Class::exemplar
 Object maker instance with Print custom tiles functionality.
-
-`virtual Class *make(const char* s); //always create all your objects with this method. DONT FORGET TO destroy THEM AFTER! First char is the object type.`
-
-`static int hasMoreMemory() { //returns free memory size or 0 if the size is under 300`
-
-`static void printDebug(char* c); //use this for debuging purposes with itoa`
-
-`static void setCursor(int8_t x, int8_t y); //Arduboy2 library analog with custom tiles`
-
-`static void setTextColor(const uint8_t color); //Arduboy2 library analog with custom tiles`
-
-`static void setTextBackground(const uint8_t color); //Arduboy2 library analog with custom tiles`
-
+```
+virtual Class *make(const char* s); //always create all your objects with this method. DONT FORGET TO destroy THEM AFTER! First char is the object type.
+static int hasMoreMemory() { //returns free memory size or 0 if the size is under 300
+static void printDebug(char* c); //use this for debuging purposes with itoa
+static void setCursor(int8_t x, int8_t y); //Arduboy2 library analog with custom tiles
+static void setTextColor(const uint8_t color); //Arduboy2 library analog with custom tiles
+static void setTextBackground(const uint8_t color); //Arduboy2 library analog with custom tiles
+```
 #### Class::arduboy
 #### Class::sprites
 ### Scene
