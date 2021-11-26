@@ -83,12 +83,8 @@ char* Class::toStr() {
   return 0;
 }
 
-byte Class::dropDice(byte d = 2, byte n = 1) {
-  int sum = 0;
-  for (int i = 0; i < n; i++) {
-    sum += random(d);
-  }
-  return sum;
+byte Class::dropDice(const __FlashStringHelper *) {
+  return 0;
 }
 
 void Class::printDebug(char* c) {

@@ -82,7 +82,7 @@ class Class : public Print  {
     virtual char* toStr();
     virtual int toInt();
     virtual char getTypeChar();
-    static byte dropDice(_);
+    static byte dropDice(const __FlashStringHelper *);
     static void printDebug(char* c); //use this for debuging purposes with itoa
 
     virtual size_t write(uint8_t c); //Print implementation

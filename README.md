@@ -97,6 +97,7 @@ case Class::Directive::Up: //atPut move arg up. Return NULL if success, class th
 case Class::Directive::Down: //atPut move arg down. Return NULL if success, class that blocks way, arg if bounds
 case Class::Directive::Left: //atPut move arg left. Return NULL if success, class that blocks way, arg if bounds
 case Class::Directive::Right: //atPut move arg right. Return NULL if success, class that blocks way, arg if bounds
+case Class::Directive::Draw: //atPut draw scene on the screen for human player
 }
 ```
 
