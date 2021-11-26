@@ -6,7 +6,7 @@ Roguelike game and probably tiniest roguelike library for [Arduboy](https://ardu
 
 ![screen](/screen.png)
 
-#### Bottom panel:
+## Bottom panel:
 * memory left in bytes `556` (if `LOW` then you better start destroying most useless objects)
 * current year `14Y`
 * current day `1D`
@@ -14,7 +14,7 @@ Roguelike game and probably tiniest roguelike library for [Arduboy](https://ardu
 * current minute `:1`
 * current negative elevation `0`
 
-#### Controls:
+## Controls:
 * <kbd>Up</kbd> , <kbd>Down</kbd> , <kbd>Left</kbd> , <kbd>Right</kbd> - move cursor
 * <kbd>A</kbd> or <kbd>Ctrl</kbd> + <kbd>Up</kbd> , <kbd>Down</kbd> , <kbd>Left</kbd> , <kbd>Right</kbd> - move player
 * <kbd>A</kbd> or <kbd>Ctrl</kbd> - select object for action or give object to the next potential owner in your possessions
@@ -22,7 +22,7 @@ Roguelike game and probably tiniest roguelike library for [Arduboy](https://ardu
 * to take something 'on this use player'
 * to drop something 'on floor `.` use this'
 
-#### Game features:
+## Game features:
 * bot
 * cursor
 * pet
@@ -35,7 +35,7 @@ Roguelike game and probably tiniest roguelike library for [Arduboy](https://ardu
 * simplicity in randomness, no need to know game formulas and equations
 * YASD is hard to do (except with destroy feature)
 
-#### Programming features for using as library for other Arduboy roguelikes:
+## Programming features for using as library for other Arduboy roguelikes:
 * pathfinding algorithm for generating caves
 * scene builder
 * object builder
@@ -44,18 +44,19 @@ Roguelike game and probably tiniest roguelike library for [Arduboy](https://ardu
 * master OOP pattern at the core - prototype (exemplar)
 * easy scripting for objects interactions
 
-## Roguelike library documentation:
+## How to build:
 
+## Roguelike library documentation:
 Library uses dynamic memory allocation and prototype polymorphism principles. There is no memory for smart pointers implementation so don't forget to `delete` objects when you don't need them anymore.
 ### Class::
 Base class and interface for all objects. Is must be used everywhere. Inherit all your new classes from Class.
-### Class::exemplar
+#### Class::exemplar
 Object maker instance with Print custom tiles functionality.
-#### `virtual Class *make(const char* s); //always create all your objects with this method. DONT FORGET TO destroy THEM AFTER!`
-#### `static int hasMoreMemory() { //returns free memory size or 0 if the size is under 300`
-#### `static void printDebug(char* c); //use this for debuging purposes with itoa`
-#### `static void setCursor(int8_t x, int8_t y); //Arduboy2 library analog with custom tiles`
-#### `static void setTextColor(const uint8_t color); //Arduboy2 library analog with custom tiles`
-#### `static void setTextBackground(const uint8_t color); //Arduboy2 library analog with custom tiles`
-### Class::arduboy
-### Class::sprites
+`virtual Class *make(const char* s); //always create all your objects with this method. DONT FORGET TO destroy THEM AFTER!`
+`static int hasMoreMemory() { //returns free memory size or 0 if the size is under 300`
+`static void printDebug(char* c); //use this for debuging purposes with itoa`
+`static void setCursor(int8_t x, int8_t y); //Arduboy2 library analog with custom tiles`
+`static void setTextColor(const uint8_t color); //Arduboy2 library analog with custom tiles`
+`static void setTextBackground(const uint8_t color); //Arduboy2 library analog with custom tiles`
+#### Class::arduboy
+#### Class::sprites
