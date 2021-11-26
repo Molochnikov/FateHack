@@ -6,7 +6,7 @@ Roguelike game and probably tiniest roguelike engine for [Arduboy](https://ardub
 
 ![screen](/screen.png)
 
-Bottom panel:
+#### Bottom panel:
 * memory left in bytes `556` (if `LOW` then you better start destroying most useless objects)
 * current year `14Y`
 * current day `1D`
@@ -14,7 +14,7 @@ Bottom panel:
 * current minute `:1`
 * current negative elevation `0`
 
-Controls:
+#### Controls:
 * <kbd>Up</kbd> , <kbd>Down</kbd> , <kbd>Left</kbd> , <kbd>Right</kbd> - move cursor
 * <kbd>A</kbd> or <kbd>Ctrl</kbd> + <kbd>Up</kbd> , <kbd>Down</kbd> , <kbd>Left</kbd> , <kbd>Right</kbd> - move player
 * <kbd>A</kbd> or <kbd>Ctrl</kbd> - select object for action or give object to the next potential owner in your possessions
@@ -22,7 +22,7 @@ Controls:
 * to take something 'on this use player'
 * to drop something 'on floor `.` use this'
 
-Game features:
+#### Game features:
 * bot
 * cursor
 * pet
@@ -35,7 +35,7 @@ Game features:
 * simplicity in randomness, no need to know game formulas and equations
 * YASD is hard to do (except with destroy feature)
 
-Programming features for using as engine for other Arduboy roguelikes:
+#### Programming features for using as engine for other Arduboy roguelikes:
 * pathfinding algorithm for generating caves
 * scene builder
 * object builder
@@ -44,3 +44,15 @@ Programming features for using as engine for other Arduboy roguelikes:
 * master OOP pattern at the core - prototype (exemplar)
 * easy scripting for objects interactions
 
+## Roguelike engine documentation:
+
+Engine uses dynamic memory allocation and prototype polymorphism principles.
+
+### Class::
+#### static int hasMoreMemory() { //returns free memory size or 0 if the size is under 300
+#### static void setCursor(int8_t x, int8_t y);
+#### static void setTextColor(const uint8_t color);
+#### static void setTextBackground(const uint8_t color);
+### Class::exemplar
+### Class::arduboy
+### Class::sprites

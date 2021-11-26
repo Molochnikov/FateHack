@@ -93,5 +93,5 @@ class Class : public Print  {
 #ifdef CUSTOM_TILES
     static void printChar(const unsigned char c, const int8_t x, int8_t y);
 #endif
-    static int hasMoreMemory();
+    static int hasMoreMemory(); //returns free memory size or 0 if the size is under 300
 };

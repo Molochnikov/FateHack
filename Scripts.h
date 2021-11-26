@@ -149,6 +149,11 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
         delete c;
       }
       owner->atPut(Class::Directive::Turn, 0);
+      scene->atGet(Class::Directive::Cursor);
+      if (t)
+        scene->atPut(Class::Directive::Search, t);
+      else
+        scene->atPut(Class::Directive::Search, owner);
       Class::arduboy.display();
       if (t) {
         if ((scene->atPut(Class::Directive::Near, owner)) == owner) { //if in cursor near this
