@@ -88,7 +88,6 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
       scene->atPut(Class::Directive::Map, owner); //create paths to this
       scene->atPut(Class::Directive::Close, c); //set npc close to this
       c->atPut(Class::Directive::Hidden, c); //reveal npc
-      //c = (c->atPut(Class::Directive::Next, Class::exemplar.make(life))); //alive
       c->atPut(Class::Directive::Add, Class::exemplar.make(life)); //alive
     } else {
       delete c;

@@ -129,8 +129,10 @@ case Class::Directive::Draw: //atGet draw scene on the screen
 ```
 ### Player
 All objects placed on the scene are Player instances and have other Player in class chain. Has 'P' type character.
-####int Player::toInt()
+#### int Player::toInt()
+
 Returns script index in _init string.
+
 #### Class *Player::atPut(Directive key, Class *arg)
 ```
 case Class::Directive::Delete: //atPut delete arg from this class chain by pointer ignoring chain owner
