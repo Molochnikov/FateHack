@@ -118,11 +118,22 @@ case Class::Directive::Left: //atGet move the cursor within bounds. Return NULL 
 case Class::Directive::Right: //atGet move the cursor within bounds. Return NULL if bounds, or y path prototype if moved
 }
 ```
-## How to register your classes as prototypes:
-Use existing macro:
+## How to add your classes:
+Inherit from Class and implement interface:
+```
+virtual ~Class();
+virtual Class *atPut(Directive key, Class *arg);
+virtual Class *atGet(Directive key);
+virtual Class *clone() const;
+virtual Class *make(const char* s);
+virtual char* toStr();
+virtual int toInt();
+virtual char getTypeChar();
+```
+Using existing macro:
 
 `#define REGISTER_PROTOTYPE(CLASS) static CLASS CLASS##Instance = CLASS(Exemplar())`
 
-Register your subclass of Class:
+register your subclass of Class before use:
 
 `REGISTER_PROTOTYPE(YourSubClass);`
