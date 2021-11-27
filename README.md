@@ -119,8 +119,14 @@ case Class::Directive::Up: //atGet move the cursor within bounds. Return NULL if
 case Class::Directive::Down: //atGet move the cursor within bounds. Return NULL if bounds, or y path prototype if moved
 case Class::Directive::Left: //atGet move the cursor within bounds. Return NULL if bounds, or y path prototype if moved
 case Class::Directive::Right: //atGet move the cursor within bounds. Return NULL if bounds, or y path prototype if moved
+case Class::Directive::X: //atGet get x coordinate of a cursor
+case Class::Directive::Y: //atGet get y coordinate of a cursor
+case Class::Directive::Build: //atGet initialize empty scene and its bounds. Set X and Y coordinates first before calling this method
+case Class::Directive::Draw: //atGet draw scene on the screen
 }
 ```
+### Player
+All objects placed on the scene are Player instances.
 ## How to add your classes:
 Inherit from Class and implement interface:
 ```

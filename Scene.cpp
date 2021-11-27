@@ -762,30 +762,6 @@ Class *Scene::atGet(Directive key) {
       _characters = new Class*[_xsize * _ysize] {};
       return this;
       break;
-    case Class::Directive::Draw: //draw scene on the screen
-      {
-        int xcur = _xcoord->toInt();
-        int ycur = _ycoord->toInt();
-        for (int y = 0; y < _ysize; y++) {
-          for (int x = 0; x < _xsize; x++) {
-            if ((x == xcur && y == ycur) ) {
-              Class::setTextColor(BLACK);
-              Class::setTextBackground(WHITE);
-            }
-            if (_characters[y * _xsize + x]) {
-              _characters[y * _xsize + x]->atGet(Class::Directive::Draw);
-            } else {
-              char c = (char) (pgm_read_byte_near(_scene + (y * _xsize + x)));
-              Class::exemplar.print(c);
-            }
-            Class::setTextColor(WHITE);
-            Class::setTextBackground(BLACK);
-          }
-          Class::exemplar.println();
-        }
-      }
-      return 0;
-      break;
     default:
       return Class::atGet(key);
       break;
