@@ -125,12 +125,12 @@ Class *Player::atPut(Directive key, Class *arg) {
       }
       return 0;
       break;
-    case Class::Directive::Next: //add class
-      {
-        this->_next = arg;
-        return arg;
-      }
-      break;
+//    case Class::Directive::Next: //add class
+//      {
+//        this->_next = arg;
+//        return arg;
+//      }
+//      break;
     case Class::Directive::Add: //add class
       {
         Class * c = this;

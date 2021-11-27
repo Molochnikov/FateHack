@@ -235,7 +235,7 @@ void NextScene(int portal, byte make_blocks = 0) {
     }
     asc = Class::exemplar.make(ascend);
     asc->atPut(Class::Directive::Place, asc);
-    asc->atPut(Class::Directive::Next, Class::exemplar.make(outside));
+    asc->atPut(Class::Directive::Add, Class::exemplar.make(outside));
 
     do {
       scene->atPut(Class::Directive::Next, player); //clear the scene and go next scene
@@ -372,16 +372,16 @@ void setup() {
   player->atPut(Class::Directive::Place, player);
 
   pcur = player;
-  pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(life)));
+  pcur = (pcur->atPut(Class::Directive::Add, Class::exemplar.make(life)));
   //pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(mnd)));
-  pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(waterp)));
+  pcur = (pcur->atPut(Class::Directive::Add, Class::exemplar.make(waterp)));
   //  pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(filter)));
 
-  pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(pet)));
+  pcur = (pcur->atPut(Class::Directive::Add, Class::exemplar.make(pet)));
   pcur->atPut(Class::Directive::Place, pcur);
   pcur->atPut(Class::Directive::Hidden, pcur);
-  pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(dog)));
-  pcur = (pcur->atPut(Class::Directive::Next, Class::exemplar.make(collar)));
+  pcur = (pcur->atPut(Class::Directive::Add, Class::exemplar.make(dog)));
+  pcur = (pcur->atPut(Class::Directive::Add, Class::exemplar.make(collar)));
 
   pcur = 0;
 

@@ -69,9 +69,11 @@ static void setTextColor(const uint8_t color); //Arduboy2 library analog with cu
 static void setTextBackground(const uint8_t color); //Arduboy2 library analog with custom tiles
 ```
 #### Class::arduboy
+Arduboy2 or Arduboy2Base class instance from Arduboy2 library.
 #### Class::sprites
+SpritesB instance from Arduboy2 library.
 ### Scene
-Map on the screen. Dynamically allocated array of pointers to Class.
+Map on the screen. Dynamically allocated array of pointers to Class. Has 'S' type character.
 #### Class *Scene::atPut(Directive key, Class *arg)
 
 ```
@@ -126,7 +128,18 @@ case Class::Directive::Draw: //atGet draw scene on the screen
 }
 ```
 ### Player
-All objects placed on the scene are Player instances.
+All objects placed on the scene are Player instances and have other Player in class chain. Has 'P' type character.
+####int Player::toInt()
+Returns script index in _init string.
+#### Class *Player::atPut(Directive key, Class *arg)
+```
+case Class::Directive::Delete: //atPut delete arg from this class chain by pointer ignoring chain owner
+case Class::Directive::Count: //atPut reset effect counter
+case Class::Directive::Block: //atPut set arg as path blocker or bind arg to owner of class chain
+case Class::Directive::Character: //atPut find clone of arg in this class chain
+case Class::Directive::Add: //atPut push arg to this class chain right after this and return arg
+
+```
 ## How to add your classes:
 Inherit from Class and implement interface:
 ```
