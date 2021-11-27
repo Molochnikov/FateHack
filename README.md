@@ -119,8 +119,8 @@ case Class::Directive::Turn: //atGet get next class who has turn
 case Class::Directive::Character: //atGet get the class under the cursor
 case Class::Directive::Up: //atGet move the cursor within bounds. Return NULL if bounds, or y path prototype if moved
 case Class::Directive::Down: //atGet move the cursor within bounds. Return NULL if bounds, or y path prototype if moved
-case Class::Directive::Left: //atGet move the cursor within bounds. Return NULL if bounds, or y path prototype if moved
-case Class::Directive::Right: //atGet move the cursor within bounds. Return NULL if bounds, or y path prototype if moved
+case Class::Directive::Left: //atGet move the cursor within bounds. Return NULL if bounds, or x path prototype if moved
+case Class::Directive::Right: //atGet move the cursor within bounds. Return NULL if bounds, or x path prototype if moved
 case Class::Directive::X: //atGet get x coordinate of a cursor
 case Class::Directive::Y: //atGet get y coordinate of a cursor
 case Class::Directive::Build: //atGet initialize empty scene and its bounds. Set X and Y coordinates first before calling this method
@@ -136,14 +136,24 @@ Returns script index in _init string.
 #### Class *Player::atPut(Directive key, Class *arg)
 ```
 case Class::Directive::Delete: //atPut delete arg from this class chain by pointer ignoring chain owner
-case Class::Directive::Count: //atPut reset effect counter
+case Class::Directive::Count: //atPut reset effect counter if arg. if NULL set effect counter to 0
 case Class::Directive::Block: //atPut set this class as path blocker or bind to owner of class chain if arg is not NULL. if arg is NULL then unset
 case Class::Directive::Character: //atPut find clone of arg in this class chain
 case Class::Directive::Next: //atPut push arg to this class destructive. Don't use this method. Use Add
 case Class::Directive::Add: //atPut push arg to this class chain right after this and return arg
 case Class::Directive::Place: //atPut set this class has to be placed on scene if arg is not NULL. if arg is NULL then unset
 case Class::Directive::Turn: //atPut set this class has turn in turn order. if arg is NULL then unset
-case Class::Directive::Hidden: //atPut set this class to be hidden on map. if arg is NULL then reveal
+case Class::Directive::Hidden: //atPut set this class to be hidden on scene. if arg is NULL then reveal
+```
+#### Class *Player::atGet(Directive key)
+```
+case Class::Directive::Next: //atGet get next class after this in class chain
+case Class::Directive::Turn: //atGet if return NULL then don't have turn
+case Class::Directive::Place: //atGet if return NULL then don't have to be placed on scene
+case Class::Directive::Count: //atGet decrease effect duration. Return this if duration not ended. If ended then return NULL and reset duration counter
+case Class::Directive::Block: //atGet if return NULL then this class don't blocker or binded
+case Class::Directive::Hidden: //atGet if return NULL then this revealed class
+case Class::Directive::Draw: //atGet draw this class symbol on screen
 ```
 ## How to add your classes:
 Inherit from Class and implement interface:
