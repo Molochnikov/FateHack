@@ -137,10 +137,13 @@ Returns script index in _init string.
 ```
 case Class::Directive::Delete: //atPut delete arg from this class chain by pointer ignoring chain owner
 case Class::Directive::Count: //atPut reset effect counter
-case Class::Directive::Block: //atPut set arg as path blocker or bind arg to owner of class chain
+case Class::Directive::Block: //atPut set this class as path blocker or bind to owner of class chain if arg is not NULL. if arg is NULL then unset
 case Class::Directive::Character: //atPut find clone of arg in this class chain
+case Class::Directive::Next: //atPut push arg to this class destructive. Don't use this method. Use Add
 case Class::Directive::Add: //atPut push arg to this class chain right after this and return arg
-
+case Class::Directive::Place: //atPut set this class has to be placed on scene if arg is not NULL. if arg is NULL then unset
+case Class::Directive::Turn: //atPut set this class has turn in turn order. if arg is NULL then unset
+case Class::Directive::Hidden: //atPut set this class to be hidden on map. if arg is NULL then reveal
 ```
 ## How to add your classes:
 Inherit from Class and implement interface:

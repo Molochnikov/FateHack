@@ -165,12 +165,6 @@ Class *Player::atPut(Directive key, Class *arg) {
         _bit_mask = Class::setBits(_bit_mask, 0, 1, 1);
       }
       break;
-    case Class::Directive::Up: //restore HP
-      return this;
-      break;
-    case Class::Directive::Scene:
-      return this;
-      break;
     default:
       return Class::atPut(key, arg);
       break;
