@@ -155,6 +155,24 @@ case Class::Directive::Block: //atGet if return NULL then this class don't block
 case Class::Directive::Hidden: //atGet if return NULL then this revealed class
 case Class::Directive::Draw: //atGet draw this class symbol on screen
 ```
+### Coordinate
+Needed to manipulate scene dimensions and class locations on the scene in polymorphic way.
+#### int Coordinate::toInt()
+Integer representation for scene dimension.
+#### char Coordinate::getTypeChar()
+'C'
+#### Class *Coordinate::atPut(Directive key, Class *arg)
+```
+case Class::Directive::Greater: //atPut return greater comparing this and arg
+case Class::Directive::Less: //atPut return less comparing this and arg
+```
+### Class *Coordinate::atGet(Directive key)
+```
+case Class::Directive::Hidden: //atGet if return NULL then this revealed class
+case Class::Directive::Draw: //atGet draw this class symbol on screen
+case Class::Directive::Up: //atGet move coordinate up
+case Class::Directive::Down: //atGet move coordinate down
+```
 ## How to add your classes:
 Inherit from Class and implement interface:
 ```
