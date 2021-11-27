@@ -45,6 +45,8 @@ Roguelike game and probably tiniest roguelike library for [Arduboy](https://ardu
 * easy scripting for objects interactions
 
 ## How to build:
+Follow instructions at link but **install 1.2.8 version to use Cathy2K bootloader** and save more sketch memory:
+https://github.com/MrBlinky/Arduboy-homemade-package
 
 ## Roguelike library documentation:
 Library uses dynamic memory allocation and parametric polymorphism principles. There is no memory for smart pointers implementation so don't forget to `delete` objects when you don't need them anymore like this:
