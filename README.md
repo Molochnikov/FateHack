@@ -125,7 +125,6 @@ case Class::Directive::Right: //atGet move the cursor within bounds. Return NULL
 case Class::Directive::X: //atGet get x coordinate of a cursor
 case Class::Directive::Y: //atGet get y coordinate of a cursor
 case Class::Directive::Build: //atGet initialize empty scene and its bounds. Set X and Y coordinates first before calling this method
-case Class::Directive::Draw: //atGet draw scene on the screen
 }
 ```
 ### Player
@@ -168,7 +167,7 @@ Integer representation for scene dimension.
 case Class::Directive::Greater: //atPut return greater comparing this and arg
 case Class::Directive::Less: //atPut return less comparing this and arg
 ```
-### Class *Coordinate::atGet(Directive key)
+#### Class *Coordinate::atGet(Directive key)
 ```
 case Class::Directive::Hidden: //atGet if return NULL then this revealed class
 case Class::Directive::Draw: //atGet draw this class symbol on screen

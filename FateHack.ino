@@ -11,7 +11,7 @@
 #include "Messages.h"
 
 //ARDUBOY_NO_USB
-#define DEMO_VERSION
+//#define DEMO_VERSION
 
 template<typename Type, size_t arraySize> constexpr size_t size(const Type (&)[arraySize]) noexcept
 {
@@ -412,11 +412,18 @@ Class * ShowInfo(Class * c, byte is_select = 0) { //you don't need to understand
     pcur = c; // owner of target aspect
     target = (pcur->atGet(Class::Directive::Next)); // target aspect
   }
-  Class::exemplar.print(F("\xEE "));
+  Class::exemplar.print(F("\xEE"));
+  Class::exemplar.print(asFlashStringHelper(enSpace));
+  pcur->atGet(Class::Directive::Draw);
+  Class::exemplar.print(asFlashStringHelper(enSpace));
   Class::exemplar.println(asFlashStringHelper(pcur->toStr()));
 
-  Class::exemplar.print(F("\x19 "));
-  if (target && ((target->atGet(Class::Directive::Place)) == 0)) {
+              
+  Class::exemplar.print(F("\x19"));
+  Class::exemplar.print(asFlashStringHelper(enSpace));
+  //if (target && ((target->atGet(Class::Directive::Place)) == 0)) {
+    target->atGet(Class::Directive::Draw);
+    Class::exemplar.print(asFlashStringHelper(enSpace));
     if (target->atGet(Class::Directive::Block)) {
       Class::exemplar.print(F("("));
       Class::exemplar.print(asFlashStringHelper(enBind));
@@ -424,9 +431,10 @@ Class * ShowInfo(Class * c, byte is_select = 0) { //you don't need to understand
       Class::exemplar.print(asFlashStringHelper(enSpace));
     }
     Class::exemplar.println(asFlashStringHelper(target->toStr()));
-  } else if (target) {
-    Class::exemplar.println(asFlashStringHelper(target->toStr()));
-  }
+  //} else if (target) {
+  //  Class::exemplar.println(asFlashStringHelper(target->toStr()));
+  //}
+
 
   if (Class::arduboy.justPressed(DOWN_BUTTON)) {
     if (target) { //more than one aspect

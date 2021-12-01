@@ -63,7 +63,7 @@ Class *Player::make(const char* s) {
 
 Class *Player::atPut(Directive key, Class *arg) {
   switch (key) {
-    case Class::Directive::Delete: //delete arg from this class chain by pointer ignoring chain owner
+    case Class::Directive::Delete: //atPut delete arg from this class chain by pointer ignoring chain owner
       {
         Class * cl = 0;
         Class * before = 0;
@@ -94,7 +94,7 @@ Class *Player::atPut(Directive key, Class *arg) {
       }
       return 0;
       break;
-    case Class::Directive::Count: //reset sleep
+    case Class::Directive::Count: //atPut reset effect counter if arg. if NULL set effect counter to 0
       if (arg) {
         _bit_mask = Class::setBits(_bit_mask, 7, 15, 4);
       } else {
@@ -102,7 +102,7 @@ Class *Player::atPut(Directive key, Class *arg) {
       }
       return this;
       break;
-    case Class::Directive::Block: //set block path or bind
+    case Class::Directive::Block: //atPut set this class as path blocker or bind to owner of class chain if arg is not NULL. if arg is NULL then unset
       if (arg) {
         _bit_mask = Class::setBits(_bit_mask, 3, 1, 1);
       } else {
@@ -110,7 +110,7 @@ Class *Player::atPut(Directive key, Class *arg) {
       }
       return this;
       break;
-    case Class::Directive::Character: //atPut find clone of arg in this
+    case Class::Directive::Character: //atPut find clone of arg in this class chain
       {
         if ((this->_init) == (arg->_init))
           return this;
@@ -125,13 +125,13 @@ Class *Player::atPut(Directive key, Class *arg) {
       }
       return 0;
       break;
-    case Class::Directive::Next: //add class
+    case Class::Directive::Next: //atPut push arg to this class destructive. Don't use this method. Use Add
       {
         this->_next = arg;
         return arg;
       }
       break;
-    case Class::Directive::Add: //add class
+    case Class::Directive::Add: //atPut push arg to this class chain right after this and return arg
       {
         Class * c = this;
         if (this->_next) {
@@ -144,21 +144,21 @@ Class *Player::atPut(Directive key, Class *arg) {
         arg->atPut(Class::Directive::Next, c);
       }
       break;
-    case Class::Directive::Place: //has to be placed
+    case Class::Directive::Place: //atPut set this class has to be placed on scene if arg is not NULL. if arg is NULL then unset
       if (arg) {
         _bit_mask = Class::setBits(_bit_mask, 2, 1, 1);
       } else {
         _bit_mask = Class::setBits(_bit_mask, 2, 0, 1);
       }
       break;
-    case Class::Directive::Turn: //has turn
+    case Class::Directive::Turn: //atPut set this class has turn in turn order. if arg is NULL then unset
       if (arg) {
         _bit_mask = Class::setBits(_bit_mask, 1, 1, 1);
       } else {
         _bit_mask = Class::setBits(_bit_mask, 1, 0, 1);
       }
       break;
-    case Class::Directive::Hidden: //hide or reveal
+    case Class::Directive::Hidden: //atPut set this class to be hidden on scene. if arg is NULL then reveals
       if (arg) {
         _bit_mask = Class::setBits(_bit_mask, 0, 0, 1);
       } else {
@@ -180,24 +180,24 @@ byte Player::replaceDrawChar(char ch) {
 
 Class *Player::atGet(Directive key) {
   switch (key) {
-    case Class::Directive::Next: //get next player in player
+    case Class::Directive::Next: //atGet get next class after this in class chain
       return this->_next;
       break;
-    case Class::Directive::Turn: //has turn
+    case Class::Directive::Turn: //atGet if return NULL then don't have turn
       if (Class::getBits(_bit_mask, 1, 1)) {
         return this;
       } else {
         return 0;
       }
       break;
-    case Class::Directive::Place: //has to be placed
+    case Class::Directive::Place: //atGet if return NULL then don't have to be placed on scene
       if (Class::getBits(_bit_mask, 2, 1)) {
         return this;
       } else {
         return 0;
       }
       break;
-    case Class::Directive::Count: //iterate and return sleep
+    case Class::Directive::Count: //atGet decrease effect duration. Return this if duration not ended. If ended then return NULL and reset duration counter
       {
         byte new_countdown = Class::getBits(_bit_mask, 7, 4) - 1;
         _bit_mask = Class::setBits(_bit_mask, 7, new_countdown, 4);
@@ -209,21 +209,21 @@ Class *Player::atGet(Directive key) {
         }
       }
       break;
-    case Class::Directive::Block: //is blocking paths or blocking aspect removal
+    case Class::Directive::Block: //atGet if return NULL then this class don't blocker or binded
       if (Class::getBits(_bit_mask, 3, 1)) {
         return this;
       } else {
         return 0;
       }
       break;
-    case Class::Directive::Hidden: //hide or reveal
+    case Class::Directive::Hidden: //atGet if return NULL then this revealed class
       if (Class::getBits(_bit_mask, 0, 1)) {
         return this;
       } else {
         return 0;
       }
       break;
-    case Class::Directive::Draw:
+    case Class::Directive::Draw: //atGet draw this class symbol on screen
 #ifdef CODE_PAGE_437
       if (replaceDrawChar('@'))
         Class::exemplar.print('\x02');
