@@ -96,12 +96,22 @@ size_t currentSelection = State::MenuMIN;
 size_t freeMem = 0;
 size_t death_reason = 0;
 
+void PrintName(Class * cl) {
+  char* ch = (cl->toStr());
+  char c;
+  do {
+    c = pgm_read_byte_near(ch);
+    ch++;
+    Class::exemplar.print(c);
+  } while ((c != '\n') && (c != '\0'));
+}
+
 void PrintMessage(Class* src = 0, size_t num = 0, Class* trg = 0) {
   for (int i = 0; i < 500; i++) {
     Class::arduboy.clear();
     Class::exemplar.setCursor(0, 0);
     if (src)
-      src->atGet(Class::Directive::Draw);
+      PrintName(src);
     else
       Class::exemplar.print(asFlashStringHelper(enScene));
     Class::exemplar.println();
@@ -418,19 +428,22 @@ Class * ShowInfo(Class * c, byte is_select = 0) { //you don't need to understand
   Class::exemplar.print(asFlashStringHelper(enSpace));
   Class::exemplar.println(asFlashStringHelper(pcur->toStr()));
 
-              
+
   Class::exemplar.print(F("\x19"));
   Class::exemplar.print(asFlashStringHelper(enSpace));
   //if (target && ((target->atGet(Class::Directive::Place)) == 0)) {
-    target->atGet(Class::Directive::Draw);
+  target->atGet(Class::Directive::Draw);
+  Class::exemplar.print(asFlashStringHelper(enSpace));
+
+  Class::exemplar.print(asFlashStringHelper(target->toStr()));
+
+  if (target->atGet(Class::Directive::Block)) {
+    Class::exemplar.print(F("("));
+    Class::exemplar.print(asFlashStringHelper(enBind));
+    Class::exemplar.print(F(")"));
     Class::exemplar.print(asFlashStringHelper(enSpace));
-    if (target->atGet(Class::Directive::Block)) {
-      Class::exemplar.print(F("("));
-      Class::exemplar.print(asFlashStringHelper(enBind));
-      Class::exemplar.print(F(")"));
-      Class::exemplar.print(asFlashStringHelper(enSpace));
-    }
-    Class::exemplar.println(asFlashStringHelper(target->toStr()));
+  }
+  Class::exemplar.println();
   //} else if (target) {
   //  Class::exemplar.println(asFlashStringHelper(target->toStr()));
   //}
