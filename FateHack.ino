@@ -326,12 +326,14 @@ byte RebuildScene(const char* s) {
     delete xcur;
   if (ycur)
     delete ycur;
-  xcur = Class::exemplar.make("C20");
+  xcur = Class::exemplar.make("C7");
   ycur = Class::exemplar.make("C7");
   scene = Class::exemplar.make(s);
   scene->atPut(Class::Directive::X, xcur);
   scene->atPut(Class::Directive::Y, ycur);
   scene->atGet(Class::Directive::Build);
+  while (scene->atGet(Class::Directive::Right)) {};
+  byte wid = xcur->toInt();
   while (scene->atGet(Class::Directive::Left)) {};
   while (scene->atGet(Class::Directive::Up)) {};
   int x = xcur->toInt();
@@ -340,7 +342,7 @@ byte RebuildScene(const char* s) {
     s++;
   do {
     do {
-      ch = (char) (pgm_read_byte_near(s + ((y * 20) + x)));
+      ch = (char) (pgm_read_byte_near(s + ((y * wid) + x)));
       if ((ch == space_tile) || (s == scene_clear)) {
       } else if (ch == pgm_read_byte_near((player->_init) + 1)) {
         scene->atPut(Class::Directive::Character, player);

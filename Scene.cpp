@@ -295,6 +295,7 @@ Class *Scene::buildPath(Class *path_proto, Class *block_proto, int is_scene_alre
       has_free = 0;
     }
     if ((count_created + count_visited) > max_instances) { //low memory, closing all paths
+      if (is_scene_already == 0) {
       for (int pos = 0; pos < (_xsize * _ysize); pos++) {
         if (_characters[pos] && (_characters[pos]->getTypeChar() == path_proto->getTypeChar())) {
           Scene::getUpThingFrom(_characters[pos], Scene::AddClassAction::CopyIfEmpty, block_proto);
@@ -302,6 +303,7 @@ Class *Scene::buildPath(Class *path_proto, Class *block_proto, int is_scene_alre
           Scene::getRightThingFrom(_characters[pos], Scene::AddClassAction::CopyIfEmpty, block_proto);
           Scene::getDownThingFrom(_characters[pos], Scene::AddClassAction::CopyIfEmpty, block_proto);
         }
+      }
       }
       has_free = 0;
     }
