@@ -18,11 +18,7 @@ int Player::toInt() {
   char* c  = _init;
   byte _script = 0;
   c += 3;
-  //return ::atoi((pgm_read_byte_near(c)));
-  while (::isdigit(pgm_read_byte_near(c))) {
-    _script = (_script * 10) + (pgm_read_byte_near(c) - '0');
-    ++c;
-  }
+  _script = (byte) Class::getDigit(c);
   return _script;
 }
 

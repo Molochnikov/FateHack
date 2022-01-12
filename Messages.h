@@ -12,7 +12,7 @@ constexpr const char *enIntro[] PROGMEM = {
 };
 
 constexpr char enDrop[] PROGMEM = "DROP";
-constexpr char enWait[] PROGMEM = "WAIT ONE MINUTE";
+constexpr char enWait[] PROGMEM = "WAIT ONE TURN";
 
 #ifdef CODE_PAGE_437
 constexpr char enInfo[] PROGMEM = "NEXT OWNER\xEE\x02 AMONG\xEE\x02";

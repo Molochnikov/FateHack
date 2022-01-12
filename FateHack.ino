@@ -409,17 +409,21 @@ void setup() {
   NextScene(1);
 }
 
-Class * ShowInfo(Class * c, byte is_select = 0) { //you don't need to understand this
+Class * ShowInfo(Class * c, byte select_type = 0) { //you don't need to understand this
   Class::arduboy.clear();
   Class::exemplar.setCursor(0, 0);
   Class::exemplar.print(F("(DOWN:NEXT"));
-  if (is_select) {
+  if (select_type == 1) {
     Class::exemplar.print(F(",A:SELECT"));
+  } else if (select_type == 2) {
+    Class::exemplar.print(F(",A:ON"));
+  } else if (select_type == 3) {
+    Class::exemplar.print(F(",A:USE"));
   } else if (player == c) {
     Class::exemplar.print(F(",A:OWNER"));
   }
   Class::exemplar.println(F(")"));
-
+  //char buff[10]; Class::printDebug(itoa(random(5), buff, 10));
   if ((pcur == 0) && (target == 0)) {
     pcur = c; // owner of target aspect
     target = (pcur->atGet(Class::Directive::Next)); // target aspect
@@ -433,19 +437,23 @@ Class * ShowInfo(Class * c, byte is_select = 0) { //you don't need to understand
 
   Class::exemplar.print(F("\x19"));
   Class::exemplar.print(asFlashStringHelper(enSpace));
-  //if (target && ((target->atGet(Class::Directive::Place)) == 0)) {
-  target->atGet(Class::Directive::Draw);
-  Class::exemplar.print(asFlashStringHelper(enSpace));
-
-  Class::exemplar.print(asFlashStringHelper(target->toStr()));
-
-  if (target->atGet(Class::Directive::Block)) {
-    Class::exemplar.print(F("("));
-    Class::exemplar.print(asFlashStringHelper(enBind));
-    Class::exemplar.print(F(")"));
+  if (target) {
+    //if (target && ((target->atGet(Class::Directive::Place)) == 0)) {
+    target->atGet(Class::Directive::Draw);
     Class::exemplar.print(asFlashStringHelper(enSpace));
+
+    Class::exemplar.print(asFlashStringHelper(target->toStr()));
+
+    if (target->atGet(Class::Directive::Block)) {
+      Class::exemplar.print(F("("));
+      Class::exemplar.print(asFlashStringHelper(enBind));
+      Class::exemplar.print(F(")"));
+      Class::exemplar.print(asFlashStringHelper(enSpace));
+    }
+    Class::exemplar.println();
+  } else {
+    target = pcur;
   }
-  Class::exemplar.println();
   //} else if (target) {
   //  Class::exemplar.println(asFlashStringHelper(target->toStr()));
   //}
@@ -468,7 +476,7 @@ Class * ShowInfo(Class * c, byte is_select = 0) { //you don't need to understand
     }
   }
   if (Class::arduboy.justPressed(A_BUTTON)) {
-    if (is_select) {
+    if (select_type != 0) {
       Class * ret = 0;
       if (target)
         ret = target;
@@ -619,13 +627,14 @@ void loop() {
         if (on == 0 && make_choice == 0) {
           Class * c = (scene->atGet(Class::Directive::Character));
           if (c && ((c->atGet(Class::Directive::Hidden)) == 0)) {
-            on = ShowInfo(c, 1);
+            //char buff[10]; Class::printDebug(itoa(random(5), buff, 10));
+            on = ShowInfo(c, 2);
           }
           if ((c == 0) || (on != 0)) {
             make_choice = 1;
           }
         } else if (use == 0) {
-          use = ShowInfo(player, 1);
+          use = ShowInfo(player, 3);
         }
         if (use && make_choice)
         {

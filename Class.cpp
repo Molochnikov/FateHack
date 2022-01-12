@@ -83,8 +83,52 @@ char* Class::toStr() {
   return 0;
 }
 
-byte Class::dropDice(const __FlashStringHelper *) {
-  return 0;
+unsigned int Class::getDigit(const char* c) {
+  unsigned int num = 0;
+  while (::isdigit(pgm_read_byte_near(c))) {
+    num = (num * 10) + (pgm_read_byte_near(c) - '0');
+    ++c;
+  }
+  return num;
+}
+
+int Class::dropDice(const char* c) {
+  unsigned int num = 0;
+  unsigned int dice = 0;
+  unsigned int constant = 0;
+  int res = 0;
+  char oper = 0;
+
+  num = Class::getDigit(c);
+  if (num == 0)
+    num = 1;
+  c++;
+  if (pgm_read_byte_near(c) == 'F') {
+    dice = 3;
+    constant = 2 * num;
+    oper = '-';
+  } else {
+    dice = Class::getDigit(c);
+    c++;
+    oper = pgm_read_byte_near(c);
+    constant = Class::getDigit(c);
+  }
+  while (num) {
+    res += random(dice) + 1;
+    num--;
+  }
+  switch (oper) {
+    case '+':
+      res = res + constant;
+      break;
+    case '-':
+      res = res - constant;
+      break;
+    case '*':
+      res = res * constant;
+      break;
+  }
+  return res;
 }
 
 void Class::printDebug(char* c) {
