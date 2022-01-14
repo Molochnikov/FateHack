@@ -34,7 +34,7 @@ int Class::getFreeMemory() {
 
 int Class::hasMoreMemory() {
   int m = Class::getFreeMemory();
-  if (m < 300)
+  if (m < 280)
     return 0;
   else
     return m;

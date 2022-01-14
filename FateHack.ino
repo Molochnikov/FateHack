@@ -224,7 +224,7 @@ void NextScene(int portal, byte make_blocks = 0) {
   if (scene)
     scene->atPut(Class::Directive::Next, player);
   if (scene_num == 0) {
-    is_predefined = RebuildScene(scene_test_memory_limit);//scene_test_memory_limit
+    is_predefined = RebuildScene(scene_minetown);//scene_test_memory_limit
   } else if (scene_num == 255) {
     is_predefined = RebuildScene(scene_home);
     PrintMessage(player, 13);
@@ -389,6 +389,7 @@ void setup() {
   pcur = player;
   pcur = (pcur->atPut(Class::Directive::Add, Class::exemplar.make(life)));
   pcur = (pcur->atPut(Class::Directive::Add, Class::exemplar.make(waterp)));
+  pcur->atPut(Class::Directive::Block, 0);
 
   pcur = (pcur->atPut(Class::Directive::Add, Class::exemplar.make(pet)));
   pcur->atPut(Class::Directive::Place, pcur);
@@ -543,6 +544,7 @@ void refreshScreen() {
   Class::exemplar.print(readFlashStringPointer(&enMessages[0]));
   Class::exemplar.print(scene_num);
   Class::exemplar.println();
+  Class::arduboy.display();
 }
 
 void loop() {
@@ -573,7 +575,7 @@ void loop() {
       Class::exemplar.println(F("FOOD | A : TAKE"));
       Class::exemplar.print(ore_stock);
       Class::exemplar.print(readFlashStringPointer(&enMessages[0]));
-      Class::exemplar.print(F("COAL | NEED"));
+      Class::exemplar.print(F("ORE | NEED"));
       Class::exemplar.print(readFlashStringPointer(&enMessages[0]));
       Class::exemplar.println(ore_need);
       Class::exemplar.print(pick_stock);
@@ -649,9 +651,16 @@ void loop() {
           if (on && (use != player)) { //use
             (*scripts[use->toInt()]) (use, player, scene, on);
           } else if (on) { //take
-            player->atPut(Class::Directive::Add, on);
-            scene->atPut(Class::Directive::Character, 0);
-            PrintMessage(player, 8, on);
+            Class * owner = on;
+            while (scene->atPut(Class::Directive::Owner, owner)) { // find global owner
+              owner = scene->atPut(Class::Directive::Owner, owner);
+            }
+            if (owner != player) {
+              on->atPut(Class::Directive::Block, 0);
+              player->atPut(Class::Directive::Add, on);
+              scene->atPut(Class::Directive::Character, 0);
+              PrintMessage(player, 8, on);
+            }
           } else { //drop
             if ((use->atGet(Class::Directive::Block)) == 0) {
               PrintMessage(player, 9, use);
@@ -745,41 +754,45 @@ void loop() {
           if (Class::arduboy.anyPressed(A_BUTTON)) {
             c = scene->atPut(Class::Directive::Up, player);
             EndTurn(player);
+            refreshScreen();
             SaveCursor();
           } else {
             scene->atGet(Class::Directive::Up);
+            refreshScreen();
           }
-          refreshScreen();
         }
         if (Class::arduboy.justPressed(DOWN_BUTTON)) {
           if (Class::arduboy.anyPressed(A_BUTTON)) {
             c = scene->atPut(Class::Directive::Down, player);
             EndTurn(player);
+            refreshScreen();
             SaveCursor();
           } else {
             scene->atGet(Class::Directive::Down);
+            refreshScreen();
           }
-          refreshScreen();
         }
         if (Class::arduboy.justPressed(LEFT_BUTTON)) {
           if (Class::arduboy.anyPressed(A_BUTTON)) {
             c = scene->atPut(Class::Directive::Left, player);
             EndTurn(player);
+            refreshScreen();
             SaveCursor();
           } else {
             scene->atGet(Class::Directive::Left);
+            refreshScreen();
           }
-          refreshScreen();
         }
         if (Class::arduboy.justPressed(RIGHT_BUTTON)) {
           if (Class::arduboy.anyPressed(A_BUTTON)) {
             c = scene->atPut(Class::Directive::Right, player);
             EndTurn(player);
+            refreshScreen();
             SaveCursor();
           } else {
             scene->atGet(Class::Directive::Right);
+            refreshScreen();
           }
-          refreshScreen();
         }
         if (Class::arduboy.justPressed(B_BUTTON)) {
           currentState = State::Menu;
@@ -787,7 +800,7 @@ void loop() {
         if (c)
           (*scripts[c->toInt()]) (c, c, scene, player);
       }
-      Class::arduboy.display();
+      //Class::arduboy.display();
       break;
     case State::OtherTurn:
       {

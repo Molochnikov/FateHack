@@ -254,7 +254,7 @@ Class *Scene::buildPath(Class *path_proto, Class *block_proto, int is_scene_alre
     min_instances = 0;
   else
     min_instances = (_min_path_proto->toInt()); //TODO if <7 then bug with max_path_length = 0
-  int chance = 3;
+  int chance = 4;
   //int last_pos;
   int count_visited = 0;
   int count_created = 0;
@@ -393,7 +393,7 @@ Class *Scene::atPut(Directive key, Class *arg) {
         return this->atGet(Class::Directive::Character);
       }
       break;
-    case Class::Directive::Owner: //atPut get owner of arg in the scene if it exists or return NULL
+    case Class::Directive::Owner: //atPut get nearest owner of arg in the scene if it exists or return NULL
       {
         Class * cl = 0;
         Class * owner = 0;
@@ -406,6 +406,8 @@ Class *Scene::atPut(Directive key, Class *arg) {
             while (cl) {
               if (arg == cl)
                 return owner;
+              if ((cl->atGet(Class::Directive::Place)) != 0) // stop on first owner
+                break;
               cl = (cl->atGet(Class::Directive::Next));
             }
           }

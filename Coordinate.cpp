@@ -89,15 +89,15 @@ Class *Coordinate::atGet(Directive key) {
       return 0;
       break;
     case Class::Directive::Hidden: //atGet if return NULL then this revealed class
-      //if (_is_hidden) {
-      //  return this;
-      //} else {
+      if (_is_hidden) {
+        return this;
+      } else {
         return 0;
-      //}
+      }
       break;
     case Class::Directive::Draw: //atGet draw this class symbol on screen
-      Class::exemplar.print(Coordinate::numChar(_value));
-      //Class::exemplar.print(_symbol);
+      //Class::exemplar.print(Coordinate::numChar(_value));
+      Class::exemplar.print(_symbol);
       return this;
       break;
     case Class::Directive::Up: //atGet move coordinate up
