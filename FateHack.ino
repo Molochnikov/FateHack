@@ -10,7 +10,7 @@
 
 #include "Messages.h"
 
-//ARDUBOY_NO_USB
+ARDUBOY_NO_USB
 //#define DEMO_VERSION
 
 template<typename Type, size_t arraySize> constexpr size_t size(const Type (&)[arraySize]) noexcept
@@ -224,7 +224,7 @@ void NextScene(int portal, byte make_blocks = 0) {
   if (scene)
     scene->atPut(Class::Directive::Next, player);
   if (scene_num == 0) {
-    is_predefined = RebuildScene(scene_minetown);
+    is_predefined = RebuildScene(scene_test_memory_limit);//scene_test_memory_limit
   } else if (scene_num == 255) {
     is_predefined = RebuildScene(scene_home);
     PrintMessage(player, 13);
@@ -243,6 +243,7 @@ void NextScene(int portal, byte make_blocks = 0) {
       desc = Class::exemplar.make(descend);
       desc->atPut(Class::Directive::Place, desc);
     }
+
     asc = Class::exemplar.make(ascend);
     asc->atPut(Class::Directive::Place, asc);
     asc->atPut(Class::Directive::Add, Class::exemplar.make(outside));
@@ -281,6 +282,7 @@ void NextScene(int portal, byte make_blocks = 0) {
 
     scene->atPut(Class::Directive::Close, player);
   } else {
+    //char buff1[10]; Class::printDebug(itoa(100, buff1, 10));
     scene->atPut(Class::Directive::Path, path); //setting paths for a scene
     scene->atPut(Class::Directive::Map, player);
   }
@@ -326,7 +328,7 @@ byte RebuildScene(const char* s) {
     delete xcur;
   if (ycur)
     delete ycur;
-  xcur = Class::exemplar.make("C7");
+  xcur = Class::exemplar.make("C6");
   ycur = Class::exemplar.make("C7");
   scene = Class::exemplar.make(s);
   scene->atPut(Class::Directive::X, xcur);
@@ -340,6 +342,7 @@ byte RebuildScene(const char* s) {
   int y = ycur->toInt();
   if (s != scene_clear)
     s++;
+  scene->atPut(Class::Directive::Block, wall);
   do {
     do {
       ch = (char) (pgm_read_byte_near(s + ((y * wid) + x)));
@@ -348,9 +351,9 @@ byte RebuildScene(const char* s) {
         scene->atPut(Class::Directive::Character, player);
         is_predefined = 1;
       } else if (ch == wall_tile) {
-        if ((scene->atGet(Class::Directive::Block)) == 0) {
-          scene->atPut(Class::Directive::Block, wall);
-        }
+        //if ((scene->atGet(Class::Directive::Block)) == 0) {
+        //scene->atPut(Class::Directive::Block, wall);
+        //}
         scene->atPut(Class::Directive::Character, (scene->atGet(Class::Directive::Block)));
       } else {
         for (unsigned int i = 0; i < size(players); i++) {
@@ -442,14 +445,15 @@ Class * ShowInfo(Class * c, byte select_type = 0) { //you don't need to understa
     target->atGet(Class::Directive::Draw);
     Class::exemplar.print(asFlashStringHelper(enSpace));
 
-    Class::exemplar.print(asFlashStringHelper(target->toStr()));
-
     if (target->atGet(Class::Directive::Block)) {
       Class::exemplar.print(F("("));
       Class::exemplar.print(asFlashStringHelper(enBind));
       Class::exemplar.print(F(")"));
       Class::exemplar.print(asFlashStringHelper(enSpace));
     }
+
+    Class::exemplar.print(asFlashStringHelper(target->toStr()));
+
     Class::exemplar.println();
   } else {
     target = pcur;
@@ -511,10 +515,7 @@ Class * ShowInfo(Class * c, byte select_type = 0) { //you don't need to understa
   return 0;
 }
 
-void loop() {
-  if (!(Class::arduboy.nextFrame()))
-    return;
-  Class::arduboy.pollButtons();
+void refreshScreen() {
   Class::arduboy.clear();
   Class::exemplar.setCursor(0, 0);
 
@@ -542,6 +543,12 @@ void loop() {
   Class::exemplar.print(readFlashStringPointer(&enMessages[0]));
   Class::exemplar.print(scene_num);
   Class::exemplar.println();
+}
+
+void loop() {
+  if (!(Class::arduboy.nextFrame()))
+    return;
+  Class::arduboy.pollButtons();
 
   switch (currentState) {
     case State::Logo:
@@ -555,6 +562,7 @@ void loop() {
       }
       break;
     case State::Bookkeeper:
+      Class::arduboy.clear();
       Class::exemplar.setCursor(0, 0);
       Class::exemplar.println(F("BOOKKEEPER:"));
       Class::exemplar.print(population_stock);
@@ -708,6 +716,7 @@ void loop() {
         }
         if (Class::arduboy.justPressed(B_BUTTON)) {
           currentState = State::Turn;
+          refreshScreen();
         }
         if (Class::arduboy.justPressed(A_BUTTON)) {
           currentState = currentSelection;
@@ -740,6 +749,7 @@ void loop() {
           } else {
             scene->atGet(Class::Directive::Up);
           }
+          refreshScreen();
         }
         if (Class::arduboy.justPressed(DOWN_BUTTON)) {
           if (Class::arduboy.anyPressed(A_BUTTON)) {
@@ -749,6 +759,7 @@ void loop() {
           } else {
             scene->atGet(Class::Directive::Down);
           }
+          refreshScreen();
         }
         if (Class::arduboy.justPressed(LEFT_BUTTON)) {
           if (Class::arduboy.anyPressed(A_BUTTON)) {
@@ -758,6 +769,7 @@ void loop() {
           } else {
             scene->atGet(Class::Directive::Left);
           }
+          refreshScreen();
         }
         if (Class::arduboy.justPressed(RIGHT_BUTTON)) {
           if (Class::arduboy.anyPressed(A_BUTTON)) {
@@ -767,6 +779,7 @@ void loop() {
           } else {
             scene->atGet(Class::Directive::Right);
           }
+          refreshScreen();
         }
         if (Class::arduboy.justPressed(B_BUTTON)) {
           currentState = State::Menu;
@@ -783,6 +796,7 @@ void loop() {
         if (pcur == 0) {
           scene->atPut(Class::Directive::Turn, 0);
         } else {
+          scene->atPut(Class::Directive::Clear, path);
           Class *owner = pcur;
           Class *scene_owner = (scene->atPut(Class::Directive::Owner, pcur));
           if (scene_owner == 0)
@@ -808,12 +822,13 @@ void loop() {
             if (player->atGet(Class::Directive::Turn)) {
               currentState = State::Turn;
               RestoreCursor();
+              refreshScreen();
             } else {
               EndTurn(player);
             }
           }
 
-          scene->atPut(Class::Directive::Clear, path);
+          //scene->atPut(Class::Directive::Clear, path);
 
           if (owner && (is_next_scene == 0))
             owner->atPut(Class::Directive::Turn, 0);
