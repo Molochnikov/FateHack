@@ -1,5 +1,5 @@
 # FateHack
-## Warning! This version uses “remove USB stack” technique. When you upload a new game, you need to hold down the DOWN button while ARDUBOY is starting up.
+## Warning! This version uses “remove USB stack” technique. When you upload a new game, you need to hold down the DOWN button while Arduboy is starting up.
 <!--### <a href="https://felipemanga.github.io/ProjectABE/?url=https://raw.githubusercontent.com/Molochnikov/FateHack/main/FateHack.ino.leonardo.hex&skin=BareFit">Play it in your browser using ProjectABE!</a>-->
 
 Roguelike game and probably tiniest roguelike library for [Arduboy](https://arduboy.com/) or [its emulator](https://github.com/felipemanga/ProjectABE/releases/latest) influenced by NetHack and WildTangent's FATE.
@@ -22,17 +22,17 @@ Roguelike game and probably tiniest roguelike library for [Arduboy](https://ardu
 * to take something 'on this use player'
 * to drop something 'on floor `.` use this'
 
-# Inventory list scheme example
+# Inventory list schematic example
 ```
-1 player1 (has to be placed on scene) <-------------------------------------------------------+
-2 -life:attribute                                                                             |
-3 friend1 (has to be placed on scene) <---------------------------------+--friend1 next owner-+
-4 -dog:type                                                             |
-5 -collar:item                                                          |
-6 friend2 (has to be placed on scene) <-----------+--friend2 next owner-+
-7 -miner:type                                     |
-8 -life:attribute                                 |
-9 -pick:item ---------------------pick next owner-+
+1 player1 (has to be placed on scene) <-friend1, friend2(second) and pick(third) next owner-+
+2 -life:attribute                                                                           |
+3 friend1 (has to be placed on scene) <-friend2 and pick(second) next owner-+---------------+
+4 -dog:type                                                                 |
+5 -collar:item                                                              |
+6 friend2 (has to be placed on scene) <-pick next owner-+-------------------+
+7 -miner:type                                           |
+8 -life:attribute                                       |
+9 -pick:item -------------------------------------------+
 ```
 
 # Game features:
