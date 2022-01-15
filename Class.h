@@ -82,7 +82,7 @@ class Class : public Print  {
     virtual char* toStr();
     virtual int toInt();
     virtual char getTypeChar();
-    static int dropDice(const char* c); //example 2dF+1 or d100*2 (number of dices or empty for one dice + 'd' + dice sides + operator character + constant number)
+    static int dropDice(const char* c); //example 4dF (fudge dices) or d100*2 (number of dices or empty for one dice + 'd' + dice sides + operator character + constant number)
     static unsigned int getDigit(const char* c); //iterate PROGMEM pointer while number
     static void printDebug(char* c); //use this for debuging purposes with itoa
 

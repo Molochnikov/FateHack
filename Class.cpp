@@ -87,7 +87,7 @@ unsigned int Class::getDigit(const char* c) {
   unsigned int num = 0;
   while (::isdigit(pgm_read_byte_near(c))) {
     num = (num * 10) + (pgm_read_byte_near(c) - '0');
-    ++c;
+    c++;
   }
   return num;
 }
@@ -102,16 +102,19 @@ int Class::dropDice(const char* c) {
   num = Class::getDigit(c);
   if (num == 0)
     num = 1;
-  c++;
+  c++; // d
   if (pgm_read_byte_near(c) == 'F') {
     dice = 3;
     constant = 2 * num;
     oper = '-';
   } else {
     dice = Class::getDigit(c);
-    c++;
-    oper = pgm_read_byte_near(c);
-    constant = Class::getDigit(c);
+    if (c) {
+      oper = pgm_read_byte_near(c);
+    }
+    if (c) {
+      constant = Class::getDigit(c);
+    }
   }
   while (num) {
     res += random(dice) + 1;
@@ -372,10 +375,10 @@ void Class::printChar(const unsigned char c, const int8_t x, int8_t y) {
     case CHAR_O:
       idx = FONT_O_INDEX;
       break;
-       case CHAR_B:
+    case CHAR_B:
       idx = FONT_B_INDEX;
       break;
-      case CHAR_H:
+    case CHAR_H:
       idx = FONT_H_INDEX;
       break;
   }

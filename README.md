@@ -63,9 +63,10 @@ Follow instructions at link but **install 1.2.8 version to use Cathy2K bootloade
 [Arduboy homemade package](https://github.com/MrBlinky/Arduboy-homemade-package)
 -->
 # Roguelike library documentation:
-Library uses dynamic memory allocation and parametric polymorphism principles. There is no memory for smart pointers implementation so don't forget to `delete` objects when you don't need them anymore like this:
+Library uses dynamic memory allocation and parametric polymorphism principles. There is no memory for smart pointers implementation so don't forget to `delete` objects if you don't need them anymore. Like this:
 ```
 Class *c = Class::exemplar.make(object_template);
+...some code...
 delete c;
 c = 0;
 ```
@@ -80,6 +81,7 @@ static void printDebug(char* c); //use this for debuging purposes with itoa
 static void setCursor(int8_t x, int8_t y); //Arduboy2 library analog with custom tiles
 static void setTextColor(const uint8_t color); //Arduboy2 library analog with custom tiles
 static void setTextBackground(const uint8_t color); //Arduboy2 library analog with custom tiles
+static int dropDice(const char* c); //example 4dF (fate dices) or d100*2 (number of dices or empty for one dice + 'd' + dice sides + operator character + constant number)
 ```
 ### Class::arduboy
 Arduboy2 or Arduboy2Base class instance from Arduboy2 library.
