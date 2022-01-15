@@ -651,15 +651,19 @@ void loop() {
           if (on && (use != player)) { //use
             (*scripts[use->toInt()]) (use, player, scene, on);
           } else if (on) { //take
-            Class * owner = on;
-            while (scene->atPut(Class::Directive::Owner, owner)) { // find global owner
-              owner = scene->atPut(Class::Directive::Owner, owner);
-            }
-            if (owner != player) {
-              //on->atPut(Class::Directive::Block, 0);
-              player->atPut(Class::Directive::Add, on);
-              scene->atPut(Class::Directive::Character, 0);
-              PrintMessage(player, 8, on);
+            if ((on->atGet(Class::Directive::Block)) == 0) {
+              Class * owner = on;
+              while (scene->atPut(Class::Directive::Owner, owner)) { // find global owner
+                owner = scene->atPut(Class::Directive::Owner, owner);
+              }
+              if (owner != player) {
+                //on->atPut(Class::Directive::Block, 0);
+                player->atPut(Class::Directive::Add, on);
+                scene->atPut(Class::Directive::Character, 0);
+                PrintMessage(player, 8, on);
+              }
+            } else {
+              PrintMessage(on, 11);
             }
           } else { //drop
             if ((use->atGet(Class::Directive::Block)) == 0) {

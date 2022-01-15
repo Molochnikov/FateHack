@@ -83,11 +83,12 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     scene->atPut(Class::Directive::Clear, path);  //clear pathes from scene
     scene->atGet(Class::Directive::Cursor);
     Class * c  = Class::exemplar.make(adventurer); //create npc
+    if (scene_num == 0)
+      c->atPut(Class::Directive::Hidden, c); //reveal npc
     if ((r == 0) && ((scene->atPut(Class::Directive::Search, c)) == 0) && ((scene->atPut(Class::Directive::Near, 0)) == 0)) {  //if scene without adventurer and near space is not blocked
-      PrintMessage(0, 8, c);
+      //PrintMessage(0, 8, c);
       scene->atPut(Class::Directive::Map, owner); //create paths to this
       scene->atPut(Class::Directive::Close, c); //set npc close to this
-      c->atPut(Class::Directive::Hidden, c); //reveal npc
       c->atPut(Class::Directive::Add, Class::exemplar.make(life)); //alive
     } else {
       delete c;

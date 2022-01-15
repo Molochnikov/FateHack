@@ -211,7 +211,11 @@ enum {
   CHAR_QUESTION = 63,
   CHAR_ARROW = 26,
   CHAR_DOWN_ARROW = 25,
-  CHAR_F = 102
+  CHAR_F = 102,
+  CHAR_D = 100,
+  CHAR_O = 111,
+  CHAR_B = 98,
+  CHAR_H = 104
 };
 
 enum {
@@ -237,7 +241,11 @@ enum {
   FONT_QUESTION_INDEX,
   FONT_ARROW_INDEX,
   FONT_DOWN_ARROW_INDEX,
-  FONT_F_INDEX
+  FONT_F_INDEX,
+  FONT_D_INDEX,
+  FONT_O_INDEX,
+  FONT_B_INDEX,
+  FONT_H_INDEX = FONT_B_INDEX
 };
 
 const uint8_t PROGMEM font_images[] = {
@@ -256,7 +264,10 @@ const uint8_t PROGMEM font_images[] = {
   0x02,  0x29, 0x05, 0x02,  //?
   0x08,  0x2A, 0x1C, 0x08, //\x26 ->
   0x30,  0x7E, 0x30, 0x10, //\x25 down arrow
-  0x02,  0x6C, 0x3C, 0x62 //f
+  0x0E,  0x1E, 0x3C, 0x1E, //f
+  0x02,  0x6C, 0x3C, 0x62, //d
+  0x20,  0x66, 0x7F, 0x66, //o
+  0x74,  0x56, 0x57, 0x76 //b
 };
 
 const uint8_t PROGMEM fill[] = {
@@ -354,6 +365,18 @@ void Class::printChar(const unsigned char c, const int8_t x, int8_t y) {
       break;
     case CHAR_F:
       idx = FONT_F_INDEX;
+      break;
+    case CHAR_D:
+      idx = FONT_D_INDEX;
+      break;
+    case CHAR_O:
+      idx = FONT_O_INDEX;
+      break;
+       case CHAR_B:
+      idx = FONT_B_INDEX;
+      break;
+      case CHAR_H:
+      idx = FONT_H_INDEX;
       break;
   }
 
