@@ -22,10 +22,10 @@ constexpr char enInfo[] PROGMEM = "NEXT OWNER\xEE@ AMONG\xEE@";
 #endif
 
 #ifdef CODE_PAGE_437
-constexpr char enUseOn[] PROGMEM = "SHOW\xEE\xDB OR ON\xEE\xDBUSE\xEE\x02";
+constexpr char enUseOn[] PROGMEM = "ON\xEE\xDBUSE\xEE\x02 OR SHOW\xEE\xDB";
 #endif
 #ifndef CODE_PAGE_437
-constexpr char enUseOn[] PROGMEM = "SHOW\xEE\xDB OR ON\xEE\xDBUSE\xEE@";
+constexpr char enUseOn[] PROGMEM = "ON\xEE\xDBUSE\xEE@ OR SHOW\xEE\xDB";
 #endif
 
 constexpr char enDestroy[] PROGMEM = "DESTROY\xEE\xDB IF LOW MEM";

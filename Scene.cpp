@@ -393,7 +393,7 @@ Class *Scene::atPut(Directive key, Class *arg) {
         return this->atGet(Class::Directive::Character);
       }
       break;
-    case Class::Directive::Owner: //atPut get nearest owner of arg in the scene if it exists or return NULL
+    case Class::Directive::Owner: //atPut get next nearest owner of arg in the scene if it exists or return NULL
       {
         Class * cl = 0;
         Class * owner = 0;

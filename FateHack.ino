@@ -656,7 +656,7 @@ void loop() {
               owner = scene->atPut(Class::Directive::Owner, owner);
             }
             if (owner != player) {
-              on->atPut(Class::Directive::Block, 0);
+              //on->atPut(Class::Directive::Block, 0);
               player->atPut(Class::Directive::Add, on);
               scene->atPut(Class::Directive::Character, 0);
               PrintMessage(player, 8, on);
