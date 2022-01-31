@@ -54,16 +54,34 @@ Class *Scene::addClassToScene(Class *arg, int pos, int newpos, Scene::AddClassAc
         _characters[newpos] = 0;
       }
       _characters[newpos] = clone->clone();
-      _characters[newpos]->atGet(Class::Directive::Up); //for coords movement or restoring hp of clone
+      _characters[newpos]->atGet(Class::Directive::Up); //for coords movement
       return 0;
       break;
-    case Scene::AddClassAction::CloneIfEmpty:
-      if (_characters[newpos]) {
-        return _characters[newpos];
-      } else {
-        _characters[newpos] = clone->clone();
-        _characters[newpos]->atGet(Class::Directive::Up); //for coords movement or restoring hp of clone
-        return 0;
+    case Scene::AddClassAction::CloneIfCoordinate:
+      {
+        Class* c = 0;
+        if (clone->getTypeChar() == _path_proto->getTypeChar()) {
+          c = clone->clone();
+          c->atGet(Class::Directive::Up); //for coords movement
+        } else if ((clone->atGet(Class::Directive::Next))->getTypeChar() == _path_proto->getTypeChar()) {
+          c = (clone->atGet(Class::Directive::Next))->clone();
+          c->atGet(Class::Directive::Up); //for coords movement
+        }
+        if (_characters[newpos] && (_characters[newpos]->atGet(Class::Directive::Block))) {
+          if (c)
+            delete c;
+          return _characters[newpos];
+        } else if (_characters[newpos] && (_characters[newpos]->atPut(Class::Directive::Character, _path_proto) == 0)) { //not contains coord
+          _characters[newpos]->atPut(Class::Directive::Add, c);
+          return 0;
+        } else if (_characters[newpos]) {
+          if (c)
+            delete c;
+          return _characters[newpos];
+        } else {
+          _characters[newpos] = c;
+          return 0;
+        }
       }
       break;
     case Scene::AddClassAction::CopyIfEmpty:
@@ -259,7 +277,7 @@ Class *Scene::buildPath(Class *path_proto, Class *block_proto, int is_scene_alre
   int count_visited = 0;
   int count_created = 0;
   //int iter = random(5);
-
+  //char buff2[10]; Class::printDebug(itoa((random(10)+10), buff2, 10));
   while (has_free) {
     count_created = 0;
     count_visited = 0;
@@ -267,34 +285,37 @@ Class *Scene::buildPath(Class *path_proto, Class *block_proto, int is_scene_alre
     for (int pos = 0; pos < (_xsize * _ysize); pos++) {
       //if ((count_created + count_visited) > max_instances)
       //break;
-      if (_characters[pos] && (_characters[pos]->getTypeChar() == path_proto->getTypeChar())) {
+      if (_characters[pos] && (_characters[pos]->atPut(Class::Directive::Character, path_proto))) {//(_characters[pos]->getTypeChar() == path_proto->getTypeChar())) {
         count_visited++;
         //last_pos = pos;
         if ((((count_created + count_visited) < max_instances) && random(chance)) || is_scene_already) {
-          if (Scene::getUpThingFrom(_characters[pos], Scene::AddClassAction::CloneIfEmpty, _characters[pos]) == 0)
+          if (Scene::getUpThingFrom(_characters[pos], Scene::AddClassAction::CloneIfCoordinate, _characters[pos]) == 0)
             count_created++;
         } else {
           Scene::getUpThingFrom(_characters[pos], Scene::AddClassAction::CopyIfEmpty, block_proto);
         }
         if ((((count_created + count_visited) < max_instances) && random(chance)) || is_scene_already) {
-          if (Scene::getDownThingFrom(_characters[pos], Scene::AddClassAction::CloneIfEmpty, _characters[pos]) == 0)
+          if (Scene::getDownThingFrom(_characters[pos], Scene::AddClassAction::CloneIfCoordinate, _characters[pos]) == 0)
             count_created++;
         } else {
           Scene::getDownThingFrom(_characters[pos], Scene::AddClassAction::CopyIfEmpty, block_proto);
         }
         if ((((count_created + count_visited) < max_instances) && random(chance)) || is_scene_already) {
-          if (Scene::getLeftThingFrom(_characters[pos], Scene::AddClassAction::CloneIfEmpty, _characters[pos]) == 0)
+          if (Scene::getLeftThingFrom(_characters[pos], Scene::AddClassAction::CloneIfCoordinate, _characters[pos]) == 0)
             count_created++;
         } else {
           Scene::getLeftThingFrom(_characters[pos], Scene::AddClassAction::CopyIfEmpty, block_proto);
         }
         if ((((count_created + count_visited) < max_instances) && random(chance)) || is_scene_already) {
-          if (Scene::getRightThingFrom(_characters[pos], Scene::AddClassAction::CloneIfEmpty, _characters[pos]) == 0)
+          if (Scene::getRightThingFrom(_characters[pos], Scene::AddClassAction::CloneIfCoordinate, _characters[pos]) == 0)
             count_created++;
         } else {
           Scene::getRightThingFrom(_characters[pos], Scene::AddClassAction::CopyIfEmpty, block_proto);
         }
+        //char buff1[10]; Class::printDebug(itoa(pos, buff1, 10));
+        //char buff2[10]; Class::printDebug(itoa(count_created, buff2, 10));
       }
+
     }
     if ((count_created == 0) && (count_visited < min_instances) && (is_scene_already == 0)) { //fail
       return 0;
@@ -321,6 +342,7 @@ Class *Scene::buildPath(Class *path_proto, Class *block_proto, int is_scene_alre
     //  Class::printDebug(itoa(iter, buff, 10));
     //}
   }
+
   return this;
 }
 

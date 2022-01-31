@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Class.h"
+#include "Coordinates.h"
 #include <Arduino.h>
 
 class Coordinate : public Class {
@@ -21,6 +22,10 @@ class Coordinate : public Class {
     static const char _typeChar = 'C';
     int _value = 0;
     static const char _symbol = '.';
-    int _is_hidden = 1;
+    union _is_hidden_or_next {
+      int is_hidden = 1;
+      Class* next;
+    };
+    _is_hidden_or_next _union; //saving memory for coordinates in class chains
     char numChar(int number);
 };

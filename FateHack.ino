@@ -1,6 +1,7 @@
 #include "Logo.h"
 
 #include "Players.h"
+#include "Coordinates.h"
 #include "Scenes.h"
 
 #include "Class.h"
@@ -328,8 +329,8 @@ byte RebuildScene(const char* s) {
     delete xcur;
   if (ycur)
     delete ycur;
-  xcur = Class::exemplar.make("C6");
-  ycur = Class::exemplar.make("C7");
+  xcur = Class::exemplar.make(coord6);
+  ycur = Class::exemplar.make(coord7);
   scene = Class::exemplar.make(s);
   scene->atPut(Class::Directive::X, xcur);
   scene->atPut(Class::Directive::Y, ycur);
@@ -407,9 +408,10 @@ void setup() {
   wall = Class::exemplar.make(wl);
   wall->atPut(Class::Directive::Place, wall);
 
-  path = Class::exemplar.make("C1");
-  maxp = Class::exemplar.make("C10"); //TODO if <7 then bug with max_path_length = 0. Don't set < 7!
+  path = Class::exemplar.make(default_coord);
+  maxp = Class::exemplar.make(coord10); //TODO if <7 then bug with max_path_length = 0. Don't set < 7!
 
+  PrintMessage(0, 8, player);
   NextScene(1);
 }
 

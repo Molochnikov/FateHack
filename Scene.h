@@ -15,7 +15,7 @@ class Scene : public Class {
     ~Scene();
   private:
     enum AddClassAction {
-      NoAction, CloneDestroy, CloneIfEmpty, MoveIfEmpty, MoveDestroy, CopyIfEmpty
+      NoAction, CloneDestroy, CloneIfCoordinate, MoveIfEmpty, MoveDestroy, CopyIfEmpty
     };
     //static Scene *_exemplar;
     Class *make(const char* s);
