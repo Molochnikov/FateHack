@@ -218,7 +218,8 @@ enum {
   CHAR_D = 100,
   CHAR_O = 111,
   CHAR_B = 98,
-  CHAR_H = 104
+  CHAR_H = 104,
+  CHAR_R = 114
 };
 
 enum {
@@ -248,7 +249,8 @@ enum {
   FONT_D_INDEX,
   FONT_O_INDEX,
   FONT_B_INDEX,
-  FONT_H_INDEX = FONT_B_INDEX
+  FONT_H_INDEX = FONT_B_INDEX,
+  FONT_R_INDEX
 };
 
 const uint8_t PROGMEM font_images[] = {
@@ -270,7 +272,8 @@ const uint8_t PROGMEM font_images[] = {
   0x0E,  0x1E, 0x3C, 0x1E, //f
   0x02,  0x6C, 0x3C, 0x62, //d
   0x20,  0x66, 0x7F, 0x66, //o
-  0x74, 0x16, 0x77, 0x76 //b
+  0x74, 0x16, 0x77, 0x76, //b
+  0x7F,  0x49, 0x41, 0x7F //r
 };
 
 const uint8_t PROGMEM fill[] = {
@@ -380,6 +383,9 @@ void Class::printChar(const unsigned char c, const int8_t x, int8_t y) {
       break;
     case CHAR_H:
       idx = FONT_H_INDEX;
+      break;
+    case CHAR_R:
+      idx = FONT_R_INDEX;
       break;
   }
 

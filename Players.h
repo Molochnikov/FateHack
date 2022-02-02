@@ -12,6 +12,7 @@ const char plr[] PROGMEM = "P@b7PLAYER";
 const char descend[] PROGMEM = "P>B3DESCEND";
 const char ascend[] PROGMEM = "P<B4ASCEND";
 const char wl[] PROGMEM = "P B0WALL";
+const char exi[] PROGMEM = "PrB14EXIT";
 const char door[] PROGMEM = "P+b0DOOR";
 //const char water[] PROGMEM = "P~b0RAW WATER";
 const char life[] PROGMEM = "P B2LIFE\nLIVING THING.\nLIFE CAUSES HUNGER,\nTHIRST, SLEEP, WASTE.\nYOU CAN LOST IT.";
@@ -79,6 +80,7 @@ const char * const players[] PROGMEM = {
   ascend,
   wl,
   door,
+  exi,
   //  water,
   vein,
   life,
