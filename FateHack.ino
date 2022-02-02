@@ -199,14 +199,16 @@ void SaveCursor() {
 }
 
 void RestoreCursor() {
+  byte l = left;
+  byte u = up;
   scene->atGet(Class::Directive::Cursor);
-  while (left) {
+  while (l) {
     scene->atGet(Class::Directive::Right);
-    left--;
+    l--;
   }
-  while (up) {
+  while (u) {
     scene->atGet(Class::Directive::Down);
-    up--;
+    u--;
   }
 }
 
@@ -224,8 +226,8 @@ void NextScene(int portal, byte make_blocks = 0) {
   if (scene)
     scene->atPut(Class::Directive::Next, player);
   if (scene_num == 0) {
-    //is_predefined = RebuildScene(scene_minetown);
-    is_predefined = RebuildScene(scene_test_memory_limit);
+    is_predefined = RebuildScene(scene_minetown);
+    //is_predefined = RebuildScene(scene_test_memory_limit);
   } else if (scene_num == 255) {
     is_predefined = RebuildScene(scene_home);
     PrintMessage(player, 13);
@@ -410,7 +412,7 @@ void setup() {
   path = Class::exemplar.make(default_coord);
   maxp = Class::exemplar.make(coord10); //TODO if <7 then bug with max_path_length = 0. Don't set < 7!
 
-  PrintMessage(0, 8, player);
+  //PrintMessage(0, 8, player);
   NextScene(1);
 }
 
@@ -523,7 +525,7 @@ void refreshScreen() {
 
   scene->atPut(Class::Directive::Clear, path);
   scene->atPut(Class::Directive::Map, player);
- RestoreCursor();
+  RestoreCursor();
   scene->atPut(Class::Directive::Draw, player);
 
   freeMem = Class::exemplar.hasMoreMemory();
@@ -534,7 +536,8 @@ void refreshScreen() {
 
   Class::exemplar.print(readFlashStringPointer(&enMessages[0]));
 
-  //scene->atPut(Class::Directive::Clear, path);
+  scene->atPut(Class::Directive::Clear, path); //comment this to see coordinates
+RestoreCursor();
 
   Class::exemplar.print(age);
   Class::exemplar.print(F("Y"));
@@ -680,7 +683,7 @@ void loop() {
           use = 0;
           on = 0;
           make_choice = 0;
-          SaveCursor();
+          //SaveCursor();
           EndTurn(player);
         }
       }
@@ -703,7 +706,7 @@ void loop() {
       Class::arduboy.display();
       break;
     case State::Wait:
-      SaveCursor();
+      //SaveCursor();
       EndTurn(player);
       Class::arduboy.display();
       break;
@@ -755,46 +758,51 @@ void loop() {
       break;
     case State::Turn:
       {
+        Class::arduboy.idle();
         target = 0;
         Class* c = 0;
         if (Class::arduboy.justPressed(UP_BUTTON)) {
           if (Class::arduboy.anyPressed(A_BUTTON)) {
             c = scene->atPut(Class::Directive::Up, player);
             EndTurn(player);
+            refreshScreen();
           } else {
             scene->atGet(Class::Directive::Up);
-        SaveCursor();
-              refreshScreen();
+            SaveCursor();
+            refreshScreen();
           }
         }
         if (Class::arduboy.justPressed(DOWN_BUTTON)) {
           if (Class::arduboy.anyPressed(A_BUTTON)) {
             c = scene->atPut(Class::Directive::Down, player);
             EndTurn(player);
+            refreshScreen();
           } else {
             scene->atGet(Class::Directive::Down);
-        SaveCursor();
-              refreshScreen();
+            SaveCursor();
+            refreshScreen();
           }
         }
         if (Class::arduboy.justPressed(LEFT_BUTTON)) {
           if (Class::arduboy.anyPressed(A_BUTTON)) {
             c = scene->atPut(Class::Directive::Left, player);
             EndTurn(player);
+            refreshScreen();
           } else {
             scene->atGet(Class::Directive::Left);
-        SaveCursor();
-              refreshScreen();
+            SaveCursor();
+            refreshScreen();
           }
         }
         if (Class::arduboy.justPressed(RIGHT_BUTTON)) {
           if (Class::arduboy.anyPressed(A_BUTTON)) {
             c = scene->atPut(Class::Directive::Right, player);
             EndTurn(player);
+            refreshScreen();
           } else {
             scene->atGet(Class::Directive::Right);
-        SaveCursor();
-              refreshScreen();
+            SaveCursor();
+            refreshScreen();
           }
         }
         if (Class::arduboy.justPressed(B_BUTTON)) {

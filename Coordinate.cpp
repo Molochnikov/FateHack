@@ -114,8 +114,10 @@ Class *Coordinate::atGet(Directive key) {
         return this;
       break;
     case Class::Directive::Draw: //atGet draw this class symbol on screen
-      Class::exemplar.print(Coordinate::numChar(_value));
-      //Class::exemplar.print(_symbol);
+      if (_value == 2)
+        Class::exemplar.print(_symbol);
+      else
+        Class::exemplar.print(Coordinate::numChar(_value));
       return this;
       break;
     case Class::Directive::Up: //atGet move coordinate up
