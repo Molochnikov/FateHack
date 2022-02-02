@@ -38,7 +38,7 @@ class Scene : public Class {
     void clearClasses(Class *arg);
     Class *closest(Class *arg, byte farest = 0, byte is_block = 0, byte is_not_block = 0);
     void recursiveDeleteClass(Class* arg);
-    byte checkPath(Class *cls, byte min_path, byte where, int r);
+    byte checkPath(Class *cls, byte min_path);
     Class* _max_path_proto = 0;
     Class* _min_path_proto = 0;
 };

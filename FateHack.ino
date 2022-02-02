@@ -199,7 +199,7 @@ void SaveCursor() {
 }
 
 void RestoreCursor() {
- scene->atGet(Class::Directive::Cursor);
+  scene->atGet(Class::Directive::Cursor);
   while (left) {
     scene->atGet(Class::Directive::Right);
     left--;
@@ -523,7 +523,7 @@ void refreshScreen() {
 
   scene->atPut(Class::Directive::Clear, path);
   scene->atPut(Class::Directive::Map, player);
-  RestoreCursor();
+ RestoreCursor();
   scene->atPut(Class::Directive::Draw, player);
 
   freeMem = Class::exemplar.hasMoreMemory();
@@ -755,7 +755,6 @@ void loop() {
       break;
     case State::Turn:
       {
-        refreshScreen();
         target = 0;
         Class* c = 0;
         if (Class::arduboy.justPressed(UP_BUTTON)) {
@@ -764,7 +763,8 @@ void loop() {
             EndTurn(player);
           } else {
             scene->atGet(Class::Directive::Up);
-            SaveCursor();
+        SaveCursor();
+              refreshScreen();
           }
         }
         if (Class::arduboy.justPressed(DOWN_BUTTON)) {
@@ -773,7 +773,8 @@ void loop() {
             EndTurn(player);
           } else {
             scene->atGet(Class::Directive::Down);
-            SaveCursor();
+        SaveCursor();
+              refreshScreen();
           }
         }
         if (Class::arduboy.justPressed(LEFT_BUTTON)) {
@@ -782,7 +783,8 @@ void loop() {
             EndTurn(player);
           } else {
             scene->atGet(Class::Directive::Left);
-            SaveCursor();
+        SaveCursor();
+              refreshScreen();
           }
         }
         if (Class::arduboy.justPressed(RIGHT_BUTTON)) {
@@ -791,7 +793,8 @@ void loop() {
             EndTurn(player);
           } else {
             scene->atGet(Class::Directive::Right);
-            SaveCursor();
+        SaveCursor();
+              refreshScreen();
           }
         }
         if (Class::arduboy.justPressed(B_BUTTON)) {

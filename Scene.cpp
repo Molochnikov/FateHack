@@ -369,16 +369,14 @@ void Scene::recursiveDeleteClass(Class * arg) {
   }
 }
 
-byte Scene::checkPath(Class * cls, byte min_path, byte where, int r) {
+byte Scene::checkPath(Class * cls, byte min_path) {
   Class * c = cls;
   if (c && (c->getTypeChar() == _path_proto->getTypeChar())) {
-    if (c->toInt() < min_path)
-      return 1;
+    return c->toInt();
   } else {
     c = c->atGet(Class::Directive::Next);
     if (c && (c->getTypeChar() == _path_proto->getTypeChar())) {
-      if (c->toInt() < min_path)
-        return 1;
+      return c->toInt();
     }
   }
   return 0;
@@ -472,30 +470,52 @@ Class *Scene::atPut(Directive key, Class * arg) {
     case Class::Directive::Move: //atPut move arg by shortest path
       {
         byte min_path = INT8_MAX;
+        byte new_min_path = 0;
         Class * cls = 0;
         byte where = 0;
+        byte is_rand = 0;
         cls = Scene::getUpThingFrom(arg, Scene::AddClassAction::NoAction, arg);
-        if (checkPath(cls, min_path, where, 1)) {
-          min_path = cls->toInt();
+        new_min_path = checkPath(cls, min_path);
+        if (new_min_path < min_path) {
+          min_path = new_min_path;
           where = 1;
+          is_rand = 0;
+        } else if (new_min_path == min_path) {
+          if (random(2))
+            is_rand = 1;
         }
         cls = Scene::getDownThingFrom(arg, Scene::AddClassAction::NoAction, arg);
-        if (checkPath(cls, min_path, where, 2)) {
-          min_path = cls->toInt();
+        new_min_path = checkPath(cls, min_path);
+        if (new_min_path < min_path) {
+          min_path = new_min_path;
           where = 2;
+          is_rand = 0;
+        } else if (new_min_path == min_path) {
+          if (random(2))
+            is_rand = 2;
         }
         cls = Scene::getLeftThingFrom(arg, Scene::AddClassAction::NoAction, arg);
-        if (checkPath(cls, min_path, where, 3)) {
-          min_path = cls->toInt();
+        new_min_path = checkPath(cls, min_path);
+        if (new_min_path < min_path) {
+          min_path = new_min_path;
           where = 3;
+          is_rand = 0;
+        } else if (new_min_path == min_path) {
+          if (random(2))
+            is_rand = 3;
         }
         cls = Scene::getRightThingFrom(arg, Scene::AddClassAction::NoAction, arg);
-        if (checkPath(cls, min_path, where, 4)) {
-          min_path = cls->toInt();
+        new_min_path = checkPath(cls, min_path);
+        if (new_min_path < min_path) {
+          min_path = new_min_path;
           where = 4;
+          is_rand = 0;
+        } else if (new_min_path == min_path) {
+          if (random(2))
+            is_rand = 4;
         }
-        if (where == 0)
-          where = random(5);
+        if (is_rand)
+          where = is_rand;
         switch (where) {
           case 1:
             Scene::getUpThingFrom(arg, Scene::AddClassAction::MoveIfEmpty, arg);
