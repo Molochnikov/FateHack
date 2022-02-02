@@ -8,8 +8,6 @@
    name - name and description
 */
 
-const char coordinate_as_player[] PROGMEM = "P1";
-
 const char plr[] PROGMEM = "P@b7PLAYER";
 const char descend[] PROGMEM = "P>B3DESCEND";
 const char ascend[] PROGMEM = "P<B4ASCEND";

@@ -27,7 +27,7 @@ Coordinate::Coordinate(Exemplar a): Class(a) {
 }
 
 Class *Coordinate::clone() const {
-  Class *retval = Class::exemplar.make(default_coord);
+  Class *retval = Class::exemplar.make(this->_init);
   for (int i = 1; i < _value; i++) {
     retval->atGet(Class::Directive::Up);
   }
@@ -114,8 +114,8 @@ Class *Coordinate::atGet(Directive key) {
         return this;
       break;
     case Class::Directive::Draw: //atGet draw this class symbol on screen
-      //Class::exemplar.print(Coordinate::numChar(_value));
-      Class::exemplar.print(_symbol);
+      Class::exemplar.print(Coordinate::numChar(_value));
+      //Class::exemplar.print(_symbol);
       return this;
       break;
     case Class::Directive::Up: //atGet move coordinate up
@@ -130,7 +130,6 @@ Class *Coordinate::atGet(Directive key) {
       return Class::atGet(key);
       break;
   }
-  return 0;
 }
 
 Coordinate::~Coordinate() {

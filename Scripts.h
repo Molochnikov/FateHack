@@ -5,7 +5,6 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     return 0;
   },
   [](Class * cls, Class * owner, Class * scene, Class *) -> byte { //1
-    scene->atPut(Class::Directive::Clear, path);
     scene->atPut(Class::Directive::Map, owner);
     scene->atPut(Class::Directive::Move, cls);
     return 0;

@@ -199,8 +199,7 @@ void SaveCursor() {
 }
 
 void RestoreCursor() {
-  while (scene->atGet(Class::Directive::Left)) {};
-  while (scene->atGet(Class::Directive::Up)) {};
+ scene->atGet(Class::Directive::Cursor);
   while (left) {
     scene->atGet(Class::Directive::Right);
     left--;
@@ -225,7 +224,8 @@ void NextScene(int portal, byte make_blocks = 0) {
   if (scene)
     scene->atPut(Class::Directive::Next, player);
   if (scene_num == 0) {
-    is_predefined = RebuildScene(scene_minetown);//scene_test_memory_limit
+    //is_predefined = RebuildScene(scene_minetown);
+    is_predefined = RebuildScene(scene_test_memory_limit);
   } else if (scene_num == 255) {
     is_predefined = RebuildScene(scene_home);
     PrintMessage(player, 13);
@@ -337,8 +337,7 @@ byte RebuildScene(const char* s) {
   scene->atGet(Class::Directive::Build);
   while (scene->atGet(Class::Directive::Right)) {};
   byte wid = xcur->toInt();
-  while (scene->atGet(Class::Directive::Left)) {};
-  while (scene->atGet(Class::Directive::Up)) {};
+  scene->atGet(Class::Directive::Cursor);
   int x = xcur->toInt();
   int y = ycur->toInt();
   if (s != scene_clear)
@@ -522,7 +521,9 @@ void refreshScreen() {
   Class::arduboy.clear();
   Class::exemplar.setCursor(0, 0);
 
+  scene->atPut(Class::Directive::Clear, path);
   scene->atPut(Class::Directive::Map, player);
+  RestoreCursor();
   scene->atPut(Class::Directive::Draw, player);
 
   freeMem = Class::exemplar.hasMoreMemory();
@@ -533,7 +534,7 @@ void refreshScreen() {
 
   Class::exemplar.print(readFlashStringPointer(&enMessages[0]));
 
-  scene->atPut(Class::Directive::Clear, path);
+  //scene->atPut(Class::Directive::Clear, path);
 
   Class::exemplar.print(age);
   Class::exemplar.print(F("Y"));
@@ -754,50 +755,43 @@ void loop() {
       break;
     case State::Turn:
       {
+        refreshScreen();
         target = 0;
         Class* c = 0;
         if (Class::arduboy.justPressed(UP_BUTTON)) {
           if (Class::arduboy.anyPressed(A_BUTTON)) {
             c = scene->atPut(Class::Directive::Up, player);
             EndTurn(player);
-            refreshScreen();
-            SaveCursor();
           } else {
             scene->atGet(Class::Directive::Up);
-            refreshScreen();
+            SaveCursor();
           }
         }
         if (Class::arduboy.justPressed(DOWN_BUTTON)) {
           if (Class::arduboy.anyPressed(A_BUTTON)) {
             c = scene->atPut(Class::Directive::Down, player);
             EndTurn(player);
-            refreshScreen();
-            SaveCursor();
           } else {
             scene->atGet(Class::Directive::Down);
-            refreshScreen();
+            SaveCursor();
           }
         }
         if (Class::arduboy.justPressed(LEFT_BUTTON)) {
           if (Class::arduboy.anyPressed(A_BUTTON)) {
             c = scene->atPut(Class::Directive::Left, player);
             EndTurn(player);
-            refreshScreen();
-            SaveCursor();
           } else {
             scene->atGet(Class::Directive::Left);
-            refreshScreen();
+            SaveCursor();
           }
         }
         if (Class::arduboy.justPressed(RIGHT_BUTTON)) {
           if (Class::arduboy.anyPressed(A_BUTTON)) {
             c = scene->atPut(Class::Directive::Right, player);
             EndTurn(player);
-            refreshScreen();
-            SaveCursor();
           } else {
             scene->atGet(Class::Directive::Right);
-            refreshScreen();
+            SaveCursor();
           }
         }
         if (Class::arduboy.justPressed(B_BUTTON)) {
@@ -806,7 +800,6 @@ void loop() {
         if (c)
           (*scripts[c->toInt()]) (c, c, scene, player);
       }
-      //Class::arduboy.display();
       break;
     case State::OtherTurn:
       {
@@ -840,7 +833,7 @@ void loop() {
           if (owner && (owner == player)) {
             if (player->atGet(Class::Directive::Turn)) {
               currentState = State::Turn;
-              RestoreCursor();
+              //RestoreCursor();
               refreshScreen();
             } else {
               EndTurn(player);
