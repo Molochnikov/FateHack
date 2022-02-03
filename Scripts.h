@@ -105,7 +105,8 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
       byte is_new_scene = 0;
       c = Class::exemplar.make(waterp); //create
       scene->atGet(Class::Directive::Cursor); //reset cursor
-      while ((t = (scene->atPut(Class::Directive::Search, c)))) { //find
+      while ((t = (scene->atPut(Class::Directive::Search, c)))) { //find clone
+        //char buff2[10]; Class::printDebug(itoa(random(5), buff2, 10));
         if (((scene->atPut(Class::Directive::Owner, t)) == 0) && (scene_num != 0)) { //not owner
           if (Class::exemplar.hasMoreMemory()) {
             is_take = 1;
@@ -119,9 +120,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
       }
       delete c;
       c = Class::exemplar.make(toilet); //create
-      if ((owner->atPut(Class::Directive::Character, c))) { //find in owner
-        is_take = 0;
-      }
+      scene->atPut(Class::Directive::Delete, (owner->atPut(Class::Directive::Character, c))); //destroy clone in owner
       delete c;
       if (t == 0) { // no target
         c = Class::exemplar.make(thirst); //create
@@ -154,10 +153,9 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
         scene->atPut(Class::Directive::Search, t);
       else
         scene->atPut(Class::Directive::Search, owner);
-      Class::arduboy.display();
+      //Class::arduboy.display();
       if (t) {
         if ((scene->atPut(Class::Directive::Near, owner)) == owner) { //if in cursor near this
-          //owner->atPut(Class::Directive::Turn, 0);
           if (is_take) {
             owner->atPut(Class::Directive::Add, t);
             scene->atPut(Class::Directive::Character, 0);
@@ -165,15 +163,12 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
           } else {
             is_new_scene = (*scripts[t->toInt()]) (t, t, scene, owner);  //interact
           }
-          //Class::arduboy.display();
           return is_new_scene;
         }
         scene->atPut(Class::Directive::Clear, path);
         scene->atPut(Class::Directive::Map, t);
         scene->atPut(Class::Directive::Move, owner);
       }
-      //owner->atPut(Class::Directive::Turn, 0);
-      //Class::arduboy.display();
     }
     return 0;
   },

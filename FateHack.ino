@@ -842,10 +842,9 @@ void loop() {
             is_next_scene = (*scripts[owner->toInt()]) (owner, scene_owner, scene, target);
 
           if (owner && (owner == player)) {
+            refreshScreen();
             if (player->atGet(Class::Directive::Turn)) {
               currentState = State::Turn;
-              //RestoreCursor();
-              refreshScreen();
             } else {
               EndTurn(player);
             }

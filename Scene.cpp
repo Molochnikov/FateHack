@@ -550,6 +550,12 @@ Class *Scene::atPut(Directive key, Class * arg) {
       break;
     case Class::Directive::Search: //atPut find next position of clone of arg in the scene and moves cursor. Use atGet ::Cursor to start search again
       {
+        if ((_ycoord->toInt()) || (_xcoord->toInt())) { //move cursor if not at start
+          if ((this->atGet(Class::Directive::Right)) == 0) {
+            this->atGet(Class::Directive::Down);
+            while (this->atGet(Class::Directive::Left)) {};
+          }
+        }
         Class * cls = 0;
         do {
           do {
