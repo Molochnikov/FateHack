@@ -379,7 +379,7 @@ byte Scene::checkPath(Class * cls, byte min_path) {
       return c->toInt();
     }
   }
-  return 0;
+  return INT8_MAX;
 }
 
 Class *Scene::atPut(Directive key, Class * arg) {
@@ -548,7 +548,7 @@ Class *Scene::atPut(Directive key, Class * arg) {
         return 0;
       }
       break;
-    case Class::Directive::Search: //atPut find next position of arg copy in the scene
+    case Class::Directive::Search: //atPut find next position of clone of arg in the scene and moves cursor. Use atGet ::Cursor to start search again
       {
         Class * cls = 0;
         do {
@@ -556,8 +556,6 @@ Class *Scene::atPut(Directive key, Class * arg) {
             cls = this->atGet(Class::Directive::Character);
             while (cls) {
               if ((cls->_init) == (arg->_init)) {
-                //return (this->atGet(Class::Directive::Character));
-                //char buff[10];   Class::printDebug(itoa(random(5), buff, 10));
                 return cls;
               }
               cls = (cls->atGet(Class::Directive::Next));
@@ -729,14 +727,6 @@ Class *Scene::atPut(Directive key, Class * arg) {
 
 Class *Scene::atGet(Directive key) {
   switch (key) {
-    /*case Class::Directive::Search: //atGet move cursor to scene start
-      if ((_ycoord->toInt()) || (_xcoord->toInt())) { //move cursor if not at start
-        if ((this->atGet(Class::Directive::Right)) == 0) {
-          this->atGet(Class::Directive::Down);
-          while (this->atGet(Class::Directive::Left)) {};
-        }
-      }
-      break;*/
     case Class::Directive::Cursor: //atGet set cursor at start of scene
       while (this->atGet(Class::Directive::Left)) {};
       while (this->atGet(Class::Directive::Up)) {};

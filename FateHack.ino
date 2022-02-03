@@ -537,7 +537,7 @@ void refreshScreen() {
   Class::exemplar.print(readFlashStringPointer(&enMessages[0]));
 
   scene->atPut(Class::Directive::Clear, path); //comment this to see coordinates
-RestoreCursor();
+  RestoreCursor();
 
   Class::exemplar.print(age);
   Class::exemplar.print(F("Y"));
