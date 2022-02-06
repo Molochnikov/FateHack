@@ -4,12 +4,12 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
   [](Class *, Class *, Class *, Class *) -> byte { //0
     return 0;
   },
-  [](Class * cls, Class * owner, Class * scene, Class *) -> byte { //1
+  [](Class * cls, Class * owner, Class * scene, Class *) -> byte { //1 friend
     scene->atPut(Class::Directive::Map, owner);
     scene->atPut(Class::Directive::Move, cls);
     return 0;
   },
-  [](Class *, Class * owner, Class * scene, Class *) -> byte { //2
+  [](Class *, Class * owner, Class * scene, Class *) -> byte { //2 life
     Class * hgr = Class::exemplar.make(hunger);
     if ((hour == 5) && (minute == 0) && ((owner->atPut(Class::Directive::Character, hgr)) == 0))  {
       owner->atPut(Class::Directive::Add, hgr);
@@ -55,7 +55,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     }
     return 0;
   },
-  [](Class *, Class *, Class * scene, Class * target_of) -> byte { //3
+  [](Class *, Class *, Class * scene, Class * target_of) -> byte { //3 descend
     if (target_of == player) {
       NextScene(1, 1);
       return 1;
@@ -66,7 +66,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     }
     return 0;
   },
-  [](Class *, Class *, Class * scene, Class * target_of) -> byte { //4
+  [](Class *, Class *, Class * scene, Class * target_of) -> byte { //4 ascend
     if (target_of == player) {
       NextScene(-1, 1);
       return 1;
@@ -77,35 +77,36 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     }
     return 0;
   },
-  [](Class *, Class * owner, Class * scene, Class *) -> byte { //5
-    int r = random(scene_num + 5);
-    scene->atPut(Class::Directive::Clear, path);  //clear pathes from scene
-    scene->atGet(Class::Directive::Cursor);
-    Class * c  = Class::exemplar.make(adventurer); //create npc
-    if (scene_num == 0)
+  [](Class *, Class * owner, Class * scene, Class *) -> byte { //5 outside
+    /*int r = random(scene_num + 5);
+      scene->atPut(Class::Directive::Clear, path);  //clear pathes from scene
+      scene->atGet(Class::Directive::Cursor);
+      Class * c  = Class::exemplar.make(adventurer); //create npc
+      if (scene_num == 0)
       c->atPut(Class::Directive::Hidden, c); //reveal npc
-    if ((r == 0) && ((scene->atPut(Class::Directive::Search, c)) == 0) && ((scene->atPut(Class::Directive::Near, 0)) == 0)) {  //if scene without adventurer and near space is not blocked
+      if ((r == 0) && ((scene->atPut(Class::Directive::Search, c)) == 0) && ((scene->atPut(Class::Directive::Near, 0)) == 0)) {  //if scene without adventurer and near space is not blocked
       //PrintMessage(0, 8, c);
       scene->atPut(Class::Directive::Map, owner); //create paths to this
       scene->atPut(Class::Directive::Close, c); //set npc close to this
       c->atPut(Class::Directive::Add, Class::exemplar.make(life)); //alive
-    } else {
+      } else {
       delete c;
-    }
+      }*/
     return 0;
   },
   [](Class *, Class *, Class *, Class *) -> byte { //6
     return 0;
   },
-  [](Class * cls, Class * owner, Class * scene, Class *) -> byte { //7
+  [](Class * cls, Class * owner, Class * scene, Class *) -> byte { //7 player
     if (((cls == player) && isBotMode) || (cls != player)) {
       Class *c = 0; //check
       Class *t = 0; //target
       byte is_take = 0;
       byte is_new_scene = 0;
-      c = Class::exemplar.make(waterp); //create
-      scene->atGet(Class::Directive::Cursor); //reset cursor
-      while ((t = (scene->atPut(Class::Directive::Search, c)))) { //find clone
+      /*
+        c = Class::exemplar.make(waterp); //create
+        scene->atGet(Class::Directive::Cursor); //reset cursor
+        while ((t = (scene->atPut(Class::Directive::Search, c)))) { //find clone
         //char buff2[10]; Class::printDebug(itoa(random(5), buff2, 10));
         if (((scene->atPut(Class::Directive::Owner, t)) == 0) && (scene_num != 0)) { //not owner
           if (Class::exemplar.hasMoreMemory()) {
@@ -117,8 +118,9 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
           }
           break;
         }
-      }
-      delete c;
+        }
+        delete c;
+      */
       c = Class::exemplar.make(toilet); //create
       scene->atPut(Class::Directive::Delete, (owner->atPut(Class::Directive::Character, c))); //destroy clone in owner
       delete c;
@@ -153,7 +155,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
         scene->atPut(Class::Directive::Search, t);
       else
         scene->atPut(Class::Directive::Search, owner);
-      //Class::arduboy.display();
+      //Class::arduboy.display();adventurer
       if (t) {
         if ((scene->atPut(Class::Directive::Near, owner)) == owner) { //if in cursor near this
           if (is_take) {
@@ -172,7 +174,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     }
     return 0;
   },
-  [](Class *, Class *, Class *, Class * target_of) -> byte { //8
+  [](Class *, Class *, Class *, Class * target_of) -> byte { //8 bookkeeper
     if (target_of) {
       Class * pck = Class::exemplar.make(pick);
       if ((target_of->atPut(Class::Directive::Character, pck)) == 0) {
@@ -187,7 +189,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     }
     return 0;
   },
-  [](Class * cls, Class * owner, Class *, Class *) -> byte { //9
+  [](Class * cls, Class * owner, Class *, Class *) -> byte { //9 sleep
     if (owner->atGet(Class::Directive::Count)) { //sleep active
       PrintMessage(owner, 10);
       owner->atPut(Class::Directive::Turn, 0); //no turn for owner
@@ -203,7 +205,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     }
     return 0;
   },
-  [](Class * cls, Class *, Class * scene, Class * target_of) -> byte { //10
+  [](Class * cls, Class *, Class * scene, Class * target_of) -> byte { //10 food
     if (target_of) {
       Class* hngr = Class::exemplar.make(hunger); //create
       Class* a = (target_of->atPut(Class::Directive::Character, hngr)); //find
@@ -217,8 +219,8 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     }
     return 0;
   },
-  [](Class * cls, Class *, Class * scene, Class * target_of) -> byte { //11
-    if (target_of) {
+  [](Class * cls, Class *, Class * scene, Class * target_of) -> byte { //11 water
+    /*if (target_of) {
       Class* c = 0;
       Class *a = 0;
       byte is_delete = 0;
@@ -231,26 +233,26 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
         //Rip(cls); //print message
         //scene->atPut(Class::Directive::Delete, cls); //delete this
         is_delete = 1;
-      } else {
-        c = Class::exemplar.make(toilet); //create
-        a = target_of->atPut(Class::Directive::Character, c); //find
-        delete c; //free object
-        if (a) {
-          Rip(a);
-          scene->atPut(Class::Directive::Delete, a); //if has then delete
-          //Rip(cls); //print message
-          //scene->atPut(Class::Directive::Delete, cls); //delete this
-          is_delete = 1;
-        }
       }
       if (is_delete) {
+        Rip(cls); //print message
+        scene->atPut(Class::Directive::Delete, cls); //delete this
+      }
+      }*/
+    if (target_of) {
+      Class* t = Class::exemplar.make(thirst); //create
+      Class* a = (target_of->atPut(Class::Directive::Character, t)); //find
+      delete t; //free object
+      if (a) {
+        Rip(a);
+        scene->atPut(Class::Directive::Delete, a); //if has then delete
         Rip(cls); //print message
         scene->atPut(Class::Directive::Delete, cls); //delete this
       }
     }
     return 0;
   },
-  [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //12
+  [](Class * cls, Class * owner, Class * scene, Class * target_of) -> byte { //12 drowsy
     if (target_of && (owner == player)) {
       scene->atPut(Class::Directive::Delete, cls); // delete this
       Rip(cls);
@@ -260,11 +262,9 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     return 0;
   },
   [](Class *, Class *, Class * , Class * target_of) -> byte { //13
-    if (target_of) {
-    }
     return 0;
   },
-  [](Class *, Class *, Class *, Class * target_of) -> byte { //14
+  [](Class *, Class *, Class *, Class * target_of) -> byte { //14 exit
     if (target_of == player) {
       if (scene_num == 0)
         NextScene(-1);

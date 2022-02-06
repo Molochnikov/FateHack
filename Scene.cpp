@@ -179,7 +179,7 @@ void Scene::clearClasses(Class *arg) {
   }
 }
 
-Class *Scene::buildScene(Class * player, Class * path_proto, Class * block_proto, int is_scene_already = 0) {
+Class *Scene::buildScene(Class * player, Class * path_proto, Class * block_proto, int is_scene_already) {
   //  if (is_scene_already == 0) {
   //    char buff[10];
   //    Class::printDebug(itoa(random(5), buff, 10));
@@ -266,7 +266,14 @@ Class *Scene::closest(Class * arg, byte farest, byte is_block, byte is_not_block
   return 0;
 }
 
-Class *Scene::buildPath(Class * path_proto, Class * block_proto, int is_scene_already = 0) {
+byte Scene::isPath(byte count_created, byte count_visited, byte max_instances, byte chance, byte is_scene_already) {
+  if ((((count_created + count_visited) < max_instances) && random(chance)) || is_scene_already)
+    return 1;
+  else
+    return 0;
+}
+
+Class *Scene::buildPath(Class * path_proto, Class * block_proto, int is_scene_already) {
   int has_free = 1;
   int min_instances;
   int max_instances;
@@ -291,28 +298,28 @@ Class *Scene::buildPath(Class * path_proto, Class * block_proto, int is_scene_al
     for (int pos = 0; pos < (_xsize * _ysize); pos++) {
       //if ((count_created + count_visited) > max_instances)
       //break;
-      if (_characters[pos] && (_characters[pos]->atPut(Class::Directive::Character, path_proto))) {//(_characters[pos]->getTypeChar() == path_proto->getTypeChar())) {
+      if (_characters[pos] && (_characters[pos]->atPut(Class::Directive::Character, path_proto))) {
         count_visited++;
         //last_pos = pos;
-        if ((((count_created + count_visited) < max_instances) && random(chance)) || is_scene_already) {
+        if (isPath(count_created, count_visited, max_instances, chance, is_scene_already)) {
           if (Scene::getUpThingFrom(_characters[pos], Scene::AddClassAction::CloneIfCoordinate, _characters[pos]) == 0)
             count_created++;
         } else {
           Scene::getUpThingFrom(_characters[pos], Scene::AddClassAction::CopyIfEmpty, block_proto);
         }
-        if ((((count_created + count_visited) < max_instances) && random(chance)) || is_scene_already) {
+        if (isPath(count_created, count_visited, max_instances, chance, is_scene_already)) {
           if (Scene::getDownThingFrom(_characters[pos], Scene::AddClassAction::CloneIfCoordinate, _characters[pos]) == 0)
             count_created++;
         } else {
           Scene::getDownThingFrom(_characters[pos], Scene::AddClassAction::CopyIfEmpty, block_proto);
         }
-        if ((((count_created + count_visited) < max_instances) && random(chance)) || is_scene_already) {
+        if (isPath(count_created, count_visited, max_instances, chance, is_scene_already)) {
           if (Scene::getLeftThingFrom(_characters[pos], Scene::AddClassAction::CloneIfCoordinate, _characters[pos]) == 0)
             count_created++;
         } else {
           Scene::getLeftThingFrom(_characters[pos], Scene::AddClassAction::CopyIfEmpty, block_proto);
         }
-        if ((((count_created + count_visited) < max_instances) && random(chance)) || is_scene_already) {
+        if (isPath(count_created, count_visited, max_instances, chance, is_scene_already)) {
           if (Scene::getRightThingFrom(_characters[pos], Scene::AddClassAction::CloneIfCoordinate, _characters[pos]) == 0)
             count_created++;
         } else {
@@ -380,6 +387,19 @@ byte Scene::checkPath(Class * cls, byte min_path) {
     }
   }
   return INT8_MAX;
+}
+
+void Scene::updatePath(Class* cls, byte* min_path, byte *new_min_path, byte *where, byte *is_rand, byte *dir) {
+  *dir = *dir + 1;
+  *new_min_path = checkPath(cls, *min_path);
+  if (*new_min_path < *min_path) {
+    *min_path = *new_min_path;
+    *where = *dir;
+    *is_rand = 0;
+  } else if (*new_min_path == *min_path) {
+    if (random(2))
+      *is_rand = *dir;
+  }
 }
 
 Class *Scene::atPut(Directive key, Class * arg) {
@@ -474,46 +494,23 @@ Class *Scene::atPut(Directive key, Class * arg) {
         Class * cls = 0;
         byte where = 0;
         byte is_rand = 0;
+        byte dir = 0;
         cls = Scene::getUpThingFrom(arg, Scene::AddClassAction::NoAction, arg);
-        new_min_path = checkPath(cls, min_path);
-        if (new_min_path < min_path) {
+        updatePath(cls, &min_path, &new_min_path, &where, &is_rand, &dir);
+        /*if (new_min_path < min_path) {
           min_path = new_min_path;
           where = 1;
           is_rand = 0;
-        } else if (new_min_path == min_path) {
+          } else if (new_min_path == min_path) {
           if (random(2))
             is_rand = 1;
-        }
+          }*/
         cls = Scene::getDownThingFrom(arg, Scene::AddClassAction::NoAction, arg);
-        new_min_path = checkPath(cls, min_path);
-        if (new_min_path < min_path) {
-          min_path = new_min_path;
-          where = 2;
-          is_rand = 0;
-        } else if (new_min_path == min_path) {
-          if (random(2))
-            is_rand = 2;
-        }
+        updatePath(cls, &min_path, &new_min_path, &where, &is_rand, &dir);
         cls = Scene::getLeftThingFrom(arg, Scene::AddClassAction::NoAction, arg);
-        new_min_path = checkPath(cls, min_path);
-        if (new_min_path < min_path) {
-          min_path = new_min_path;
-          where = 3;
-          is_rand = 0;
-        } else if (new_min_path == min_path) {
-          if (random(2))
-            is_rand = 3;
-        }
+        updatePath(cls, &min_path, &new_min_path, &where, &is_rand, &dir);
         cls = Scene::getRightThingFrom(arg, Scene::AddClassAction::NoAction, arg);
-        new_min_path = checkPath(cls, min_path);
-        if (new_min_path < min_path) {
-          min_path = new_min_path;
-          where = 4;
-          is_rand = 0;
-        } else if (new_min_path == min_path) {
-          if (random(2))
-            is_rand = 4;
-        }
+        updatePath(cls, &min_path, &new_min_path, &where, &is_rand, &dir);
         if (is_rand)
           where = is_rand;
         switch (where) {

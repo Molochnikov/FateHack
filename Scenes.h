@@ -13,8 +13,8 @@ const char scene_minetown[] PROGMEM = "S"
 "==~~~="
 "==~o~="
 "=h   h"
-"=b @ h"
-"=h   h"
+"=b   h"
+"=h @ h"
 "===>=="
 "======";
 
