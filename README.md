@@ -179,11 +179,14 @@ Integer representation for scene dimension.
 `C`
 ### Class *Coordinate::atPut(Directive key, Class *arg)
 ```
+case Class::Directive::Character: //atPut find clone of arg in first element of class chain
+case Class::Directive::Next: //atPut push arg to this class destructive
 case Class::Directive::Greater: //atPut return greater comparing this and arg
 case Class::Directive::Less: //atPut return less comparing this and arg
 ```
 ### Class *Coordinate::atGet(Directive key)
 ```
+case Class::Directive::Next: //atGet get next class after this in class chain
 case Class::Directive::Hidden: //atGet if return NULL then this revealed class
 case Class::Directive::Draw: //atGet draw this class symbol on screen
 case Class::Directive::Up: //atGet move coordinate up

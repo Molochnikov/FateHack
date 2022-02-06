@@ -59,13 +59,13 @@ Class *Coordinate::make(const char* s) {
 
 Class *Coordinate::atPut(Directive key, Class *arg) {
   switch (key) {
-    case Class::Directive::Character: //atPut find clone of arg in this class chain
+    case Class::Directive::Character: //atPut find clone of arg in first element of class chain
       if ((this->_init) == (arg->_init))
         return this;
       else
         return 0;
       break;
-    case Class::Directive::Next: //atPut push arg to this class destructive. Don't use this method. Use Add
+    case Class::Directive::Next: //atPut push arg to this class destructive
       this->_union.next = arg;
       return arg;
       break;
@@ -101,12 +101,6 @@ Class *Coordinate::atGet(Directive key) {
       else
         return this->_union.next;
       break;
-    case Class::Directive::Place:
-      return 0;
-      break;
-    case Class::Directive::Block:
-      return 0;
-      break;
     case Class::Directive::Hidden: //atGet if return NULL then this revealed class
       if (_union.is_hidden == 0)
         return 0;
@@ -129,7 +123,7 @@ Class *Coordinate::atGet(Directive key) {
       return this;
       break;
     default:
-      return Class::atGet(key);
+      return 0;
       break;
   }
 }
