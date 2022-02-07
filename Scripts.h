@@ -103,73 +103,63 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
       Class *t = 0; //target
       byte is_take = 0;
       byte is_new_scene = 0;
-      /*
-        c = Class::exemplar.make(waterp); //create
-        scene->atGet(Class::Directive::Cursor); //reset cursor
-        while ((t = (scene->atPut(Class::Directive::Search, c)))) { //find clone
-        //char buff2[10]; Class::printDebug(itoa(random(5), buff2, 10));
-        if (((scene->atPut(Class::Directive::Owner, t)) == 0) && (scene_num != 0)) { //not owner
-          if (Class::exemplar.hasMoreMemory()) {
-            is_take = 1;
-          } else {
-            Rip(t);
-            scene->atPut(Class::Directive::Delete, t);
-            t = 0;
-          }
-          break;
-        }
-        }
-        delete c;
-      */
+
       c = Class::exemplar.make(toilet); //create
-      scene->atPut(Class::Directive::Delete, (owner->atPut(Class::Directive::Character, c))); //destroy clone in owner
+      if ((t = (owner->atPut(Class::Directive::Character, c)))) { //find clone in owner
+        Rip(t);
+        scene->atPut(Class::Directive::Delete, t); //destroy
+        t = 0;
+      }
       delete c;
-      if (t == 0) { // no target
+      if (t == 0) { //if no target
         c = Class::exemplar.make(thirst); //create
-        if ((t = (owner->atPut(Class::Directive::Character, c)))) { //find in owner
-          delete c;
-          c = Class::exemplar.make(waterp); //create
-          if ((t = (owner->atPut(Class::Directive::Character, c)))) { //find in owner
-            (*scripts[t->toInt()]) (t, owner, scene, owner); //interact
-            delete c;
-            c = Class::exemplar.make(descend);
-            scene->atGet(Class::Directive::Cursor);
-            t = (scene->atPut(Class::Directive::Search, c));
-          } else {
+        if (t = (owner->atPut(Class::Directive::Character, c))) { //find clone in owner
+          /*delete c;
+            c = Class::exemplar.make(waterp); //create
+            scene->atGet(Class::Directive::Cursor); //start search
+            while (t = (scene->atPut(Class::Directive::Search, c))) {
+            scene->atPut(Class::Directive::Clear, path);
+            if (scene->atPut(Class::Directive::Map, t)) {
+              break;
+            }
+            }*/
+          if (t == 0) { //ascend town for water
             delete c;
             c = Class::exemplar.make(ascend);
-            scene->atGet(Class::Directive::Cursor);
-            t = (scene->atPut(Class::Directive::Search, c));
+            scene->atGet(Class::Directive::Cursor); //start search
+            while (t = (scene->atPut(Class::Directive::Search, c))) {
+              scene->atPut(Class::Directive::Clear, path);
+              if (scene->atPut(Class::Directive::Map, t)) {
+                break;
+              }
+            }
           }
-        } else {
+        } else { //descend
           delete c;
           c = Class::exemplar.make(descend);
-          scene->atGet(Class::Directive::Cursor);
-          t = (scene->atPut(Class::Directive::Search, c));
+          scene->atGet(Class::Directive::Cursor); //start search
+          while (t = (scene->atPut(Class::Directive::Search, c))) {
+            scene->atPut(Class::Directive::Clear, path);
+            if (scene->atPut(Class::Directive::Map, t)) {
+              break;
+            }
+          }
         }
         delete c;
       }
-      owner->atPut(Class::Directive::Turn, 0);
-      scene->atGet(Class::Directive::Cursor);
-      if (t)
-        scene->atPut(Class::Directive::Search, t);
-      else
-        scene->atPut(Class::Directive::Search, owner);
-      //Class::arduboy.display();adventurer
+      owner->atPut(Class::Directive::Turn, 0); //turn end
       if (t) {
-        if ((scene->atPut(Class::Directive::Near, owner)) == owner) { //if in cursor near this
+        if ((scene->atPut(Class::Directive::Near, owner)) == owner) { //if cursor near owner
           if (is_take) {
-            owner->atPut(Class::Directive::Add, t);
-            scene->atPut(Class::Directive::Character, 0);
-            PrintMessage(player, 8, t);
+            owner->atPut(Class::Directive::Add, t); //take target
+            scene->atPut(Class::Directive::Character, 0); //clear floor
           } else {
-            is_new_scene = (*scripts[t->toInt()]) (t, t, scene, owner);  //interact
+            is_new_scene = (*scripts[t->toInt()]) (t, t, scene, owner);  //interact target
           }
           return is_new_scene;
+        } else {
+          scene->atPut(Class::Directive::Move, owner);
         }
-        scene->atPut(Class::Directive::Clear, path);
-        scene->atPut(Class::Directive::Map, t);
-        scene->atPut(Class::Directive::Move, owner);
       }
     }
     return 0;
@@ -240,14 +230,12 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
       }
       }*/
     if (target_of) {
-      Class* t = Class::exemplar.make(thirst); //create
-      Class* a = (target_of->atPut(Class::Directive::Character, t)); //find
-      delete t; //free object
+      Class *c = Class::exemplar.make(thirst); //create
+      Class *a = target_of->atPut(Class::Directive::Character, c); //find
+      delete c; //free object
       if (a) {
         Rip(a);
         scene->atPut(Class::Directive::Delete, a); //if has then delete
-        Rip(cls); //print message
-        scene->atPut(Class::Directive::Delete, cls); //delete this
       }
     }
     return 0;

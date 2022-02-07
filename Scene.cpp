@@ -205,7 +205,7 @@ Class *Scene::buildScene(Class * player, Class * path_proto, Class * block_proto
   return c;
 }
 
-Class *Scene::closest(Class * arg, byte farest, byte is_block, byte is_not_block) {
+Class *Scene::closest(Class * arg, byte farest, byte is_block) {
   int closest_pos = -1;
   int num = 0;
   int max_path_length = 0;
@@ -250,10 +250,6 @@ Class *Scene::closest(Class * arg, byte farest, byte is_block, byte is_not_block
     } else if ((is_block) && (num == 1)) {
       delete _characters[closest_pos];
       _characters[closest_pos] = _block_proto->clone();
-      return _characters[closest_pos];
-    } else if ((is_not_block) && (num > 1)) {
-      delete _characters[closest_pos];
-      _characters[closest_pos] = arg;
       return _characters[closest_pos];
     }
     num = 0;
@@ -628,6 +624,8 @@ Class *Scene::atPut(Directive key, Class * arg) {
       return this;
       break;
     case Class::Directive::Block: //atPut clone arg and set clone to be block prototype for the scene
+      if (_block_proto)
+        delete _block_proto;
       _block_proto = arg->clone();
       return this;
       break;
@@ -750,7 +748,7 @@ Class *Scene::atGet(Directive key) {
       }
       break;
     case Class::Directive::Place: //atGet place scene block to be closest by path but without blocking other paths
-      return Scene::closest(this->atGet(Class::Directive::Block), 0, 1, 1);
+      return Scene::closest(this->atGet(Class::Directive::Block), 0, 1);
       break;
     case Class::Directive::Block: //atGet return block prototype of the scene
       return _block_proto;

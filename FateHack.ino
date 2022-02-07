@@ -301,18 +301,20 @@ void NextScene(int portal, byte make_blocks = 0) {
   scene->atPut(Class::Directive::Clear, path);
   scene->atPut(Class::Directive::Map, desc); //set pathfinding map to downstairs
 
-  /*if (make_blocks && (is_predefined == 0)) {
+  if (make_blocks && (is_predefined == 0)) {
     int r = random((max_scene_num - scene_num) / 100 * 2);
-    if (r == 0) {
-      scene->atPut(Class::Directive::Block, Class::exemplar.make(waterp));
+    /*if (r == 0) {
+      Class* c = Class::exemplar.make(waterp);
+      scene->atPut(Class::Directive::Block, c);
+      delete c;
       scene->atGet(Class::Directive::Place);
-    }
-    r = random((max_scene_num - scene_num) / 100 * 2 * 2);
-    if (r == 0) {
+    }*/
+    /*r = random((max_scene_num - scene_num) / 100 * 2 * 2);
+      if (r == 0) {
       scene->atPut(Class::Directive::Block, Class::exemplar.make(vein));
       scene->atGet(Class::Directive::Place);
-    }
-  }*/
+      }*/
+  }
 
   scene->atPut(Class::Directive::Clear, path);
   scene->atPut(Class::Directive::Block, wall); //setting blocks for a scene
@@ -389,8 +391,7 @@ void setup() {
   player->atPut(Class::Directive::Place, player);
 
   pcur = player;
-  //pcur = (pcur->atPut(Class::Directive::Add, Class::exemplar.make(life)));
-  pcur = (pcur->atPut(Class::Directive::Add, Class::exemplar.make(waterp)));
+  pcur = (pcur->atPut(Class::Directive::Add, Class::exemplar.make(life)));
   pcur->atPut(Class::Directive::Block, 0);
 
   pcur = (pcur->atPut(Class::Directive::Add, Class::exemplar.make(pet)));
@@ -683,7 +684,6 @@ void loop() {
           use = 0;
           on = 0;
           make_choice = 0;
-          //SaveCursor();
           EndTurn(player);
         }
       }

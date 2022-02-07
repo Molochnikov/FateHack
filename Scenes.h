@@ -7,7 +7,7 @@ const char scene_test_memory_limit[] PROGMEM = "S"
 "      "
 "      "
 "      "
-"@~    ";
+"@c    ";
 
 const char scene_minetown[] PROGMEM = "S"
 "==~~~="
