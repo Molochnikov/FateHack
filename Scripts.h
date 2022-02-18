@@ -114,36 +114,18 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
       if (t == 0) { //if no target
         c = Class::exemplar.make(thirst); //create
         if (t = (owner->atPut(Class::Directive::Character, c))) { //find clone in owner
-          /*delete c;
-            c = Class::exemplar.make(waterp); //create
-            scene->atGet(Class::Directive::Cursor); //start search
-            while (t = (scene->atPut(Class::Directive::Search, c))) {
-            scene->atPut(Class::Directive::Clear, path);
-            if (scene->atPut(Class::Directive::Map, t)) {
-              break;
-            }
-            }*/
+          delete c;
+          c = Class::exemplar.make(waterp); //create
+          FindPath(owner,scene,t,c);
           if (t == 0) { //ascend town for water
             delete c;
             c = Class::exemplar.make(ascend);
-            scene->atGet(Class::Directive::Cursor); //start search
-            while (t = (scene->atPut(Class::Directive::Search, c))) {
-              scene->atPut(Class::Directive::Clear, path);
-              if (scene->atPut(Class::Directive::Map, t)) {
-                break;
-              }
-            }
+            FindPath(owner,scene,t,c);
           }
         } else { //descend
           delete c;
           c = Class::exemplar.make(descend);
-          scene->atGet(Class::Directive::Cursor); //start search
-          while (t = (scene->atPut(Class::Directive::Search, c))) {
-            scene->atPut(Class::Directive::Clear, path);
-            if (scene->atPut(Class::Directive::Map, t)) {
-              break;
-            }
-          }
+          FindPath(owner,scene,t,c);
         }
         delete c;
       }
@@ -159,6 +141,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
           return is_new_scene;
         } else {
           scene->atPut(Class::Directive::Move, owner);
+          //char buff2[10]; Class::printDebug(itoa((random(10)+10), buff2, 10));
         }
       }
     }

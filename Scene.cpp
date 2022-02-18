@@ -165,18 +165,27 @@ Class *Scene::getRightThingFrom(Class *arg, Scene::AddClassAction action, Class 
 }
 
 void Scene::clearClasses(Class *arg) {
-  /*for (int pos = 0; pos < (_xsize * _ysize); pos++) {
+  Class* c = 0;
+  for (int pos = 0; pos < (_xsize * _ysize); pos++) {
     if (_characters[pos] && (_characters[pos]->getTypeChar() == arg->getTypeChar())) {
-     delete _characters[pos];
-     _characters[pos] = 0;
+      c = _characters[pos];
+      while (c) {
+        if ((c->_init) == (arg->_init))
+        {
+          this->atPut(Class::Directive::Delete, c);
+          pos = 0; //if more clones in this cell
+          break;
+        }
+        c = c->atGet(Class::Directive::Next);
+      }
     }
-    }*/
-  Class * t = 0;
-  this->atGet(Class::Directive::Cursor);
-  while ((t = (this->atPut(Class::Directive::Search, arg)))) {
+  }
+  /*Class * t = 0;
+    this->atGet(Class::Directive::Cursor);
+    while ((t = (this->atPut(Class::Directive::Search, arg)))) {
     //char buff[10];   Class::printDebug(itoa(random(5), buff, 10));
     this->atPut(Class::Directive::Delete, t);
-  }
+    }*/
 }
 
 Class *Scene::buildScene(Class * player, Class * path_proto, Class * block_proto, int is_scene_already) {
@@ -376,12 +385,13 @@ byte Scene::checkPath(Class * cls, byte min_path) {
   Class * c = cls;
   if (c && (c->getTypeChar() == _path_proto->getTypeChar())) {
     return c->toInt();
-  } else {
+  } else if (c) {
     c = c->atGet(Class::Directive::Next);
     if (c && (c->getTypeChar() == _path_proto->getTypeChar())) {
       return c->toInt();
     }
   }
+  //char buff2[10]; Class::printDebug(itoa((random(10)+10), buff2, 10));
   return INT8_MAX;
 }
 
@@ -442,6 +452,25 @@ Class *Scene::atPut(Directive key, Class * arg) {
         return this->atGet(Class::Directive::Character);
       }
       break;
+    case Class::Directive::Free: //atPut check coordindate proto is near the arg and return arg if true. if false then return 0
+      {
+        Class * cls = 0;
+        cls = Scene::getUpThingFrom(arg, Scene::AddClassAction::NoAction, arg);
+        if (cls && (cls->getTypeChar() == _path_proto->getTypeChar()))
+          return arg;
+        cls = Scene::getLeftThingFrom(arg, Scene::AddClassAction::NoAction, arg);
+        if (cls && (cls->getTypeChar() == _path_proto->getTypeChar()))
+          return arg;
+        cls = Scene::getRightThingFrom(arg, Scene::AddClassAction::NoAction, arg);
+        if (cls && (cls->getTypeChar() == _path_proto->getTypeChar()))
+          return arg;
+        cls = Scene::getDownThingFrom(arg, Scene::AddClassAction::NoAction, arg);
+        if (cls && (cls->getTypeChar() == _path_proto->getTypeChar()))
+          return arg;
+        //char buff2[10]; Class::printDebug(itoa((random(10)+10), buff2, 10));
+        return 0;
+      }
+      break;
     case Class::Directive::Owner: //atPut get next nearest owner of arg in the scene if it exists or return NULL
       {
         Class * cl = 0;
@@ -493,22 +522,16 @@ Class *Scene::atPut(Directive key, Class * arg) {
         byte dir = 0;
         cls = Scene::getUpThingFrom(arg, Scene::AddClassAction::NoAction, arg);
         updatePath(cls, &min_path, &new_min_path, &where, &is_rand, &dir);
-        /*if (new_min_path < min_path) {
-          min_path = new_min_path;
-          where = 1;
-          is_rand = 0;
-          } else if (new_min_path == min_path) {
-          if (random(2))
-            is_rand = 1;
-          }*/
         cls = Scene::getDownThingFrom(arg, Scene::AddClassAction::NoAction, arg);
         updatePath(cls, &min_path, &new_min_path, &where, &is_rand, &dir);
         cls = Scene::getLeftThingFrom(arg, Scene::AddClassAction::NoAction, arg);
         updatePath(cls, &min_path, &new_min_path, &where, &is_rand, &dir);
         cls = Scene::getRightThingFrom(arg, Scene::AddClassAction::NoAction, arg);
         updatePath(cls, &min_path, &new_min_path, &where, &is_rand, &dir);
-        if (is_rand)
+        if (is_rand) {
+
           where = is_rand;
+        }
         switch (where) {
           case 1:
             Scene::getUpThingFrom(arg, Scene::AddClassAction::MoveIfEmpty, arg);
@@ -523,6 +546,8 @@ Class *Scene::atPut(Directive key, Class * arg) {
             Scene::getRightThingFrom(arg, Scene::AddClassAction::MoveIfEmpty, arg);
             break;
         }
+        //char buff2[10]; Class::printDebug(itoa(where, buff2, 10));
+        return 0;
       }
       break;
     case Class::Directive::Turn: //atPut set next turn to all classes in the scene
@@ -543,10 +568,11 @@ Class *Scene::atPut(Directive key, Class * arg) {
       break;
     case Class::Directive::Search: //atPut find next position of clone of arg in the scene and moves cursor. Use atGet ::Cursor to start search again
       {
-        if ((_ycoord->toInt()) || (_xcoord->toInt())) { //move cursor if not at start
-          if ((this->atGet(Class::Directive::Right)) == 0) {
-            this->atGet(Class::Directive::Down);
-            while (this->atGet(Class::Directive::Left)) {};
+        if ((_ycoord->toInt()) || (_xcoord->toInt())) { //if not first search
+          if ((this->atGet(Class::Directive::Right)) == 0) { //move cursor next
+            if (this->atGet(Class::Directive::Down)) {
+              while (this->atGet(Class::Directive::Left)) {};
+            }
           }
         }
         Class * cls = 0;

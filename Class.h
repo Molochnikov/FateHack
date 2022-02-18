@@ -42,6 +42,7 @@ class Class : public Print  {
       Far,
       Close,
       Clear,
+      Free,
       Build,
       X,
       Y,
