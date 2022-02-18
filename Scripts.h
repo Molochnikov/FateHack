@@ -21,20 +21,20 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
       delete hgr;
     }
     Class * thrst = Class::exemplar.make(thirst);
-    if ((hour == 3) && (minute == 0) && ((owner->atPut(Class::Directive::Character, thrst)) == 0)) {
+    if ((hour == 0) && (minute == 0) && ((owner->atPut(Class::Directive::Character, thrst)) == 0)) {
       owner->atPut(Class::Directive::Add, thrst);
       PrintMessage(owner, 8, thrst);
-    } else if ((hour == 3) && (minute == 0) && ((owner->atPut(Class::Directive::Character, thrst)))) {
+    } else if ((hour == 0) && (minute == 0) && ((owner->atPut(Class::Directive::Character, thrst)))) {
       Rip(owner, 3);
       scene->atPut(Class::Directive::Delete, owner); //dissapear
     } else {
       delete thrst;
     }
     Class * drws = Class::exemplar.make(drowsy);
-    if ((hour == 0) && (minute == 0) && ((owner->atPut(Class::Directive::Character, drws)) == 0)) { //new day
+    if ((hour == 3) && (minute == 0) && ((owner->atPut(Class::Directive::Character, drws)) == 0)) { //new day
       owner->atPut(Class::Directive::Add, drws);
       PrintMessage(owner, 8, drws);
-    } else if ((hour == 0) && (minute == 0) && (owner->atPut(Class::Directive::Character, drws))) {
+    } else if ((hour == 3) && (minute == 0) && (owner->atPut(Class::Directive::Character, drws))) {
       scene->atPut(Class::Directive::Delete, (owner->atPut(Class::Directive::Character, drws))); //if has then delete
       Rip(drws);
       Class * slp = Class::exemplar.make(sleep);
@@ -136,7 +136,6 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
             owner->atPut(Class::Directive::Add, t); //take target
             scene->atPut(Class::Directive::Character, 0); //clear floor
           } else {
-            PrintMessage(t, 8, owner);
             is_new_scene = (*scripts[t->toInt()]) (t, t, scene, owner);  //interact target
           }
           return is_new_scene;
@@ -213,7 +212,6 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
       }
       }*/
     if (target_of) {
-      //PrintMessage(target_of, 8);
       Class *c = Class::exemplar.make(thirst); //create
       Class *a = target_of->atPut(Class::Directive::Character, c); //find
       delete c; //free object
