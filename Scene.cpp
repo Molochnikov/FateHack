@@ -57,6 +57,14 @@ Class *Scene::addClassToScene(Class *arg, int pos, int newpos, Scene::AddClassAc
       _characters[newpos]->atGet(Class::Directive::Up); //for coords movement
       return 0;
       break;
+      case Scene::AddClassAction::CloneIfEmpty:
+        if (_characters[newpos]) {
+        return _characters[newpos];
+      } else {
+        _characters[newpos] = clone->clone();
+        return 0;
+      }
+      break;
     case Scene::AddClassAction::CloneIfCoordinate:
       {
         Class* c = 0;
@@ -167,7 +175,7 @@ Class *Scene::getRightThingFrom(Class *arg, Scene::AddClassAction action, Class 
 void Scene::clearClasses(Class *arg) {
   Class* c = 0;
   for (int pos = 0; pos < (_xsize * _ysize); pos++) {
-    if (_characters[pos] && (_characters[pos]->getTypeChar() == arg->getTypeChar())) {
+    if (_characters[pos]) {
       c = _characters[pos];
       while (c) {
         if ((c->_init) == (arg->_init))
@@ -295,8 +303,9 @@ Class *Scene::buildPath(Class * path_proto, Class * block_proto, int is_scene_al
   int count_visited = 0;
   int count_created = 0;
   //int iter = random(5);
-  //char buff2[10]; Class::printDebug(itoa((random(10)+10), buff2, 10));
+   //char buff2[10]; Class::printDebug(itoa((random(10)+10), buff2, 10));
   while (has_free) {
+   //Class::refreshScreen(this, 0);
     count_created = 0;
     count_visited = 0;
     //last_pos = -1;

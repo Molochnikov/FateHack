@@ -13,6 +13,7 @@
 
 class Class : public Print  {
   protected:
+  static void refreshScreen(Class* scene, Class* spectator);
     static Class *list;
     Class *next;
     static char errFlag;

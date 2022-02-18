@@ -116,16 +116,16 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
         if (t = (owner->atPut(Class::Directive::Character, c))) { //find clone in owner
           delete c;
           c = Class::exemplar.make(waterp); //create
-          FindPath(owner,scene,t,c);
+          t = FindPath(owner,scene,t,c);
           if (t == 0) { //ascend town for water
             delete c;
             c = Class::exemplar.make(ascend);
-            FindPath(owner,scene,t,c);
+            t = FindPath(owner,scene,t,c);
           }
         } else { //descend
           delete c;
           c = Class::exemplar.make(descend);
-          FindPath(owner,scene,t,c);
+          t = FindPath(owner,scene,t,c);
         }
         delete c;
       }
@@ -136,12 +136,12 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
             owner->atPut(Class::Directive::Add, t); //take target
             scene->atPut(Class::Directive::Character, 0); //clear floor
           } else {
+            PrintMessage(t, 8, owner);
             is_new_scene = (*scripts[t->toInt()]) (t, t, scene, owner);  //interact target
           }
           return is_new_scene;
         } else {
           scene->atPut(Class::Directive::Move, owner);
-          //char buff2[10]; Class::printDebug(itoa((random(10)+10), buff2, 10));
         }
       }
     }
@@ -213,6 +213,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
       }
       }*/
     if (target_of) {
+      //PrintMessage(target_of, 8);
       Class *c = Class::exemplar.make(thirst); //create
       Class *a = target_of->atPut(Class::Directive::Character, c); //find
       delete c; //free object

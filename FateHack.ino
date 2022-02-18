@@ -355,9 +355,7 @@ byte RebuildScene(const char* s) {
         scene->atPut(Class::Directive::Character, player);
         is_predefined = 1;
       } else if (ch == wall_tile) {
-        //if ((scene->atGet(Class::Directive::Block)) == 0) {
-        //scene->atPut(Class::Directive::Block, wall);
-        //}
+        //scene->atPut(Class::Directive::Character, (scene->atGet(Class::Directive::Block))->clone());
         scene->atPut(Class::Directive::Character, (scene->atGet(Class::Directive::Block)));
       } else {
         for (unsigned int i = 0; i < size(players); i++) {
@@ -377,26 +375,14 @@ byte RebuildScene(const char* s) {
   return is_predefined;
 }
 
-void FindPath (Class *owner, Class *scene, Class* t, Class* c) {
+Class* FindPath (Class *owner, Class *scene, Class* t, Class* c) {
   scene->atGet(Class::Directive::Cursor); //start search
-  
-  //char buff2[10];
-  while ((t = scene->atPut(Class::Directive::Search, c))) { //set cursor on searched object
-
-
-    refreshScreen();
-    refreshScreen();
-    refreshScreen();
-    refreshScreen();
-    refreshScreen();
-    refreshScreen();
-    refreshScreen();
-         //Class::printDebug(itoa(t, buff2, 10));
+  while ((t = (scene->atPut(Class::Directive::Search, c)))) { //set cursor on searched object
     scene->atPut(Class::Directive::Clear, path);
     scene->atPut(Class::Directive::Map, t);
-    //if (scene->atPut(Class::Directive::Free, owner)) { //find path near owner
-     // break;
-    //}
+    if (scene->atPut(Class::Directive::Free, owner)) { //find path near owner
+      return t;
+    }
   }
 }
 
@@ -427,7 +413,7 @@ void setup() {
 
   //player->atPut(Class::Directive::Add, Class::exemplar.make(drowsy)); //debug drowsy
   //player->atPut(Class::Directive::Add, Class::exemplar.make(sleep)); //debug sleep
-  player->atPut(Class::Directive::Add, Class::exemplar.make(thirst)); //debug thirst
+  //player->atPut(Class::Directive::Add, Class::exemplar.make(thirst)); //debug thirst
   //player->atPut(Class::Directive::Add, Class::exemplar.make(hunger)); //debug hunger
 
   wall = Class::exemplar.make(wl);
@@ -547,9 +533,10 @@ void refreshScreen() {
   Class::arduboy.clear();
   Class::exemplar.setCursor(0, 0);
 
-  //scene->atPut(Class::Directive::Clear, path);
-  //scene->atPut(Class::Directive::Map, player);
-  //RestoreCursor();
+  scene->atPut(Class::Directive::Clear, path);
+  scene->atPut(Class::Directive::Map, player);
+  RestoreCursor();
+  
   scene->atPut(Class::Directive::Draw, player);
 
   freeMem = Class::exemplar.hasMoreMemory();
@@ -560,8 +547,8 @@ void refreshScreen() {
 
   Class::exemplar.print(readFlashStringPointer(&enMessages[0]));
 
-  //scene->atPut(Class::Directive::Clear, path); //comment this to see coordinates
-  //RestoreCursor();
+  scene->atPut(Class::Directive::Clear, path); //comment this to see coordinates
+  RestoreCursor();
 
   Class::exemplar.print(age);
   Class::exemplar.print(F("Y"));
