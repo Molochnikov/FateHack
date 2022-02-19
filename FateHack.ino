@@ -530,7 +530,7 @@ Class * ShowInfo(Class * c, byte select_type = 0) { //you don't need to understa
 }
 
 void refreshScreen() {
-  Class::arduboy.clear();
+  /*Class::arduboy.clear();
   Class::exemplar.setCursor(0, 0);
 
   scene->atPut(Class::Directive::Clear, path);
@@ -545,11 +545,12 @@ void refreshScreen() {
   else
     Class::exemplar.print(F("LOW"));
 
-  Class::exemplar.print(readFlashStringPointer(&enMessages[0]));
-
   scene->atPut(Class::Directive::Clear, path); //comment this to see coordinates
-  RestoreCursor();
+  RestoreCursor();*/
 
+  Class::exemplar.refreshScreen(scene, player);
+
+  Class::exemplar.print(readFlashStringPointer(&enMessages[0]));
   Class::exemplar.print(age);
   Class::exemplar.print(F("Y"));
   Class::exemplar.print(day);

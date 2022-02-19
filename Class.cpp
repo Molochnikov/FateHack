@@ -40,10 +40,14 @@ int Class::hasMoreMemory() {
     return m;
 }
 
-void Class::refreshScreen(Class* scene, Class * spectator) {
-  for (int i = 0; i < 200; i++) {
+void Class::refreshScreen(Class* scene, Class* spectator) {
   Class::arduboy.clear();
   Class::exemplar.setCursor(0, 0);
+
+  scene->atPut(Class::Directive::Clear, (scene->atGet(Class::Directive::Path)));
+  scene->atPut(Class::Directive::Map, spectator);
+  //RestoreCursor();
+  
   scene->atPut(Class::Directive::Draw, spectator);
 
   int freeMem = Class::exemplar.hasMoreMemory();
@@ -51,8 +55,9 @@ void Class::refreshScreen(Class* scene, Class * spectator) {
     Class::exemplar.print(freeMem);
   else
     Class::exemplar.print(F("LOW"));
-  Class::arduboy.display();
-  }
+
+  scene->atPut(Class::Directive::Clear, (scene->atGet(Class::Directive::Path))); //comment this to see coordinates
+  //RestoreCursor();
 }
 
 

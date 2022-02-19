@@ -461,7 +461,7 @@ Class *Scene::atPut(Directive key, Class * arg) {
         return this->atGet(Class::Directive::Character);
       }
       break;
-    case Class::Directive::Free: //atPut check coordindate proto is near the arg and return arg if true. if false then return 0
+    case Class::Directive::Free: //atPut check path proto is near the arg and return arg if true. if false then return 0
       {
         Class * cls = 0;
         cls = Scene::getUpThingFrom(arg, Scene::AddClassAction::NoAction, arg);
@@ -787,6 +787,9 @@ Class *Scene::atGet(Directive key) {
       break;
     case Class::Directive::Block: //atGet return block prototype of the scene
       return _block_proto;
+      break;
+    case Class::Directive::Path: //atGet return block prototype of the scene
+      return _path_proto;
       break;
     case Class::Directive::Close: //atGet place scene block to be closest by path but with blocking other paths
       return Scene::closest(0, 0, 1);

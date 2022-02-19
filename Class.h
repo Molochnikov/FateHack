@@ -13,7 +13,6 @@
 
 class Class : public Print  {
   protected:
-  static void refreshScreen(Class* scene, Class* spectator);
     static Class *list;
     Class *next;
     static char errFlag;
@@ -30,7 +29,8 @@ class Class : public Print  {
     static int getFreeMemory();
 #endif
   public:
-    const char* _init = 0;
+    static void refreshScreen(Class* scene, Class* spectator); //show scene on screen for spectator
+    char* _init = 0;
     enum Directive {
       Delete,
       Up,
