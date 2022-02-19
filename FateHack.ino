@@ -60,8 +60,6 @@ byte hour = 1;
 byte minute = 1;
 unsigned long turn = 1;
 byte age = 14;
-byte left = 0;
-byte up = 0;
 byte make_choice = 0;
 byte isBotMode = 1;
 
@@ -189,29 +187,6 @@ void EndTurn(Class* pl) {
   }
 }
 
-void SaveCursor() {
-  left = 0;
-  up = 0;
-  while (scene->atGet(Class::Directive::Left))
-    left++;
-  while (scene->atGet(Class::Directive::Up))
-    up++;
-}
-
-void RestoreCursor() {
-  byte l = left;
-  byte u = up;
-  scene->atGet(Class::Directive::Cursor);
-  while (l) {
-    scene->atGet(Class::Directive::Right);
-    l--;
-  }
-  while (u) {
-    scene->atGet(Class::Directive::Down);
-    u--;
-  }
-}
-
 void NextScene(int portal, byte make_blocks = 0) {
   int is_down = 0;
   byte is_predefined = 0;
@@ -320,7 +295,7 @@ void NextScene(int portal, byte make_blocks = 0) {
   scene->atPut(Class::Directive::Block, wall); //setting blocks for a scene
   scene->atGet(Class::Directive::Cursor);
   scene->atPut(Class::Directive::Search, player);
-  SaveCursor();
+  scene->atGet(Class::Directive::Save);
 }
 
 byte RebuildScene(const char* s) {
@@ -778,7 +753,7 @@ void loop() {
             refreshScreen();
           } else {
             scene->atGet(Class::Directive::Up);
-            SaveCursor();
+            scene->atGet(Class::Directive::Save);
             refreshScreen();
           }
         }
@@ -789,7 +764,7 @@ void loop() {
             refreshScreen();
           } else {
             scene->atGet(Class::Directive::Down);
-            SaveCursor();
+            scene->atGet(Class::Directive::Save);
             refreshScreen();
           }
         }
@@ -800,7 +775,7 @@ void loop() {
             refreshScreen();
           } else {
             scene->atGet(Class::Directive::Left);
-            SaveCursor();
+            scene->atGet(Class::Directive::Save);
             refreshScreen();
           }
         }
@@ -811,7 +786,7 @@ void loop() {
             refreshScreen();
           } else {
             scene->atGet(Class::Directive::Right);
-            SaveCursor();
+            scene->atGet(Class::Directive::Save);
             refreshScreen();
           }
         }

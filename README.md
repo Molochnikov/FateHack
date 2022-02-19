@@ -128,6 +128,8 @@ case Class::Directive::Draw: //atPut draw scene on the screen for arg
 ### Class *Scene::atGet(Directive key)
 ```
 switch (key) {
+case Class::Directive::Save: //atGet save cursor position
+case Class::Directive::Load: //atGet load cursor position
 case Class::Directive::Cursor: //atGet set cursor at start of scene
 case Class::Directive::Delete: //atGet delete player under cursor from scene
 case Class::Directive::Place: //atGet place scene block to be closest by path but without blocking other paths

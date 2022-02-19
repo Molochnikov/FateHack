@@ -43,4 +43,6 @@ class Scene : public Class {
     byte isPath(byte count_created, byte count_visited, byte max_instances, byte chance, byte is_scene_already);
     Class* _max_path_proto = 0;
     Class* _min_path_proto = 0;
+    int _saved_x = 0; //saved cursor x
+    int _saved_y = 0; //saved cursor y
 };

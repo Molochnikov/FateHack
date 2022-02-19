@@ -57,8 +57,8 @@ Class *Scene::addClassToScene(Class *arg, int pos, int newpos, Scene::AddClassAc
       _characters[newpos]->atGet(Class::Directive::Up); //for coords movement
       return 0;
       break;
-      case Scene::AddClassAction::CloneIfEmpty:
-        if (_characters[newpos]) {
+    case Scene::AddClassAction::CloneIfEmpty:
+      if (_characters[newpos]) {
         return _characters[newpos];
       } else {
         _characters[newpos] = clone->clone();
@@ -303,9 +303,9 @@ Class *Scene::buildPath(Class * path_proto, Class * block_proto, int is_scene_al
   int count_visited = 0;
   int count_created = 0;
   //int iter = random(5);
-   //char buff2[10]; Class::printDebug(itoa((random(10)+10), buff2, 10));
+  //char buff2[10]; Class::printDebug(itoa((random(10)+10), buff2, 10));
   while (has_free) {
-   //Class::refreshScreen(this, 0);
+    //Class::refreshScreen(this, 0);
     count_created = 0;
     count_visited = 0;
     //last_pos = -1;
@@ -787,6 +787,31 @@ Class *Scene::atGet(Directive key) {
       break;
     case Class::Directive::Block: //atGet return block prototype of the scene
       return _block_proto;
+      break;
+    case Class::Directive::Save: //atGet save cursor position
+      {
+        _saved_x = 0;
+        _saved_y = 0;
+        while (this->atGet(Class::Directive::Left))
+          _saved_x++;
+        while (this->atGet(Class::Directive::Up))
+          _saved_y++;
+      }
+      break;
+    case Class::Directive::Load: //atGet load cursor position
+      {
+        int l = _saved_x;
+        int u = _saved_y;
+        this->atGet(Class::Directive::Cursor);
+        while (l) {
+          this->atGet(Class::Directive::Right);
+          l--;
+        }
+        while (u) {
+          this->atGet(Class::Directive::Down);
+          u--;
+        }
+      }
       break;
     case Class::Directive::Path: //atGet return block prototype of the scene
       return _path_proto;

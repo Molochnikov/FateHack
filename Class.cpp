@@ -46,7 +46,7 @@ void Class::refreshScreen(Class* scene, Class* spectator) {
 
   scene->atPut(Class::Directive::Clear, (scene->atGet(Class::Directive::Path)));
   scene->atPut(Class::Directive::Map, spectator);
-  //RestoreCursor();
+  scene->atGet(Class::Directive::Load);
   
   scene->atPut(Class::Directive::Draw, spectator);
 
@@ -57,7 +57,7 @@ void Class::refreshScreen(Class* scene, Class* spectator) {
     Class::exemplar.print(F("LOW"));
 
   scene->atPut(Class::Directive::Clear, (scene->atGet(Class::Directive::Path))); //comment this to see coordinates
-  //RestoreCursor();
+  scene->atGet(Class::Directive::Load);
 }
 
 

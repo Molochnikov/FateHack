@@ -62,7 +62,9 @@ class Class : public Print  {
       Owner,
       Count,
       Near,
-      Cursor
+      Cursor,
+      Save,
+      Load
     };
 
 #ifdef CUSTOM_TILES
