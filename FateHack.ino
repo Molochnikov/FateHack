@@ -352,12 +352,11 @@ byte RebuildScene(const char* s) {
 
 Class* FindPath (Class *owner, Class *scene, Class* t, Class* c) {
   scene->atGet(Class::Directive::Cursor); //start search
-  while ((t = (scene->atPut(Class::Directive::Search, c)))) { //set cursor on searched object
+  while ((t = (scene->atPut(Class::Directive::Search, c)))) { //set cursor on next searched target
     scene->atPut(Class::Directive::Clear, path);
     scene->atPut(Class::Directive::Map, t);
-    if (scene->atPut(Class::Directive::Free, owner)) { //find path near owner
+    if ((scene->atPut(Class::Directive::Free, owner)) || (scene->atPut(Class::Directive::Near, owner))) //check path to target or target itself near owner
       return t;
-    }
   }
 }
 

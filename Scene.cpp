@@ -404,10 +404,10 @@ byte Scene::checkPath(Class * cls, byte min_path) {
   return INT8_MAX;
 }
 
-void Scene::updatePath(Class* cls, byte* min_path, byte *new_min_path, byte *where, byte *is_rand, byte *dir) {
+void Scene::updatePath(Class* cls, Class* arg, byte* min_path, byte *new_min_path, byte *where, byte *is_rand, byte *dir) {
   *dir = *dir + 1;
   *new_min_path = checkPath(cls, *min_path);
-  if (*new_min_path < *min_path) {
+  if ((*new_min_path < *min_path) && (arg != cls)) { //not border of map
     *min_path = *new_min_path;
     *where = *dir;
     *is_rand = 0;
@@ -443,7 +443,7 @@ Class *Scene::atPut(Directive key, Class * arg) {
         return 0;
       }
       break;
-    case Class::Directive::Near: //atPut check arg is near the cursor and return arg if true. if false then return class under cursor
+    case Class::Directive::Near: //atPut check arg is near the cursor and return arg if true. if false then return 0
       {
         Class * cls = 0;
         cls = Scene::getUpThingFrom(this->atGet(Class::Directive::Character), Scene::AddClassAction::NoAction, this->atGet(Class::Directive::Character));
@@ -458,7 +458,7 @@ Class *Scene::atPut(Directive key, Class * arg) {
         cls = Scene::getDownThingFrom(this->atGet(Class::Directive::Character), Scene::AddClassAction::NoAction, this->atGet(Class::Directive::Character));
         if (cls == arg)
           return arg;
-        return this->atGet(Class::Directive::Character);
+        return 0;//this->atGet(Class::Directive::Character);
       }
       break;
     case Class::Directive::Free: //atPut check path proto is near the arg and return arg if true. if false then return 0
@@ -530,15 +530,15 @@ Class *Scene::atPut(Directive key, Class * arg) {
         byte is_rand = 0;
         byte dir = 0;
         cls = Scene::getUpThingFrom(arg, Scene::AddClassAction::NoAction, arg);
-        updatePath(cls, &min_path, &new_min_path, &where, &is_rand, &dir);
+        updatePath(cls, arg, &min_path, &new_min_path, &where, &is_rand, &dir);
         cls = Scene::getDownThingFrom(arg, Scene::AddClassAction::NoAction, arg);
-        updatePath(cls, &min_path, &new_min_path, &where, &is_rand, &dir);
+        updatePath(cls, arg, &min_path, &new_min_path, &where, &is_rand, &dir);
         cls = Scene::getLeftThingFrom(arg, Scene::AddClassAction::NoAction, arg);
-        updatePath(cls, &min_path, &new_min_path, &where, &is_rand, &dir);
+        updatePath(cls, arg, &min_path, &new_min_path, &where, &is_rand, &dir);
         cls = Scene::getRightThingFrom(arg, Scene::AddClassAction::NoAction, arg);
-        updatePath(cls, &min_path, &new_min_path, &where, &is_rand, &dir);
+        updatePath(cls, arg, &min_path, &new_min_path, &where, &is_rand, &dir);
         if (is_rand) {
-
+          //char buff2[10]; Class::printDebug(itoa(where, buff2, 10));
           where = is_rand;
         }
         switch (where) {
@@ -555,7 +555,6 @@ Class *Scene::atPut(Directive key, Class * arg) {
             Scene::getRightThingFrom(arg, Scene::AddClassAction::MoveIfEmpty, arg);
             break;
         }
-        //char buff2[10]; Class::printDebug(itoa(where, buff2, 10));
         return 0;
       }
       break;

@@ -39,7 +39,7 @@ class Scene : public Class {
     Class *closest(Class *arg, byte farest = 0, byte is_block = 0);
     void recursiveDeleteClass(Class* arg);
     byte checkPath(Class *cls, byte min_path);
-    void updatePath(Class* cls, byte* min_path, byte *new_min_path, byte *where, byte *is_rand,byte *dir);
+    void updatePath(Class* cls,Class* arg,  byte* min_path, byte *new_min_path, byte *where, byte *is_rand,byte *dir);
     byte isPath(byte count_created, byte count_visited, byte max_instances, byte chance, byte is_scene_already);
     Class* _max_path_proto = 0;
     Class* _min_path_proto = 0;

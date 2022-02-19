@@ -133,7 +133,7 @@ case Class::Directive::Load: //atGet load cursor position
 case Class::Directive::Cursor: //atGet set cursor at start of scene
 case Class::Directive::Delete: //atGet delete player under cursor from scene
 case Class::Directive::Place: //atGet place scene block to be closest by path but without blocking other paths
-case Class::Directive::Path: //atGet return block prototype of the scene
+case Class::Directive::Path: //atGet return path prototype of the scene
 case Class::Directive::Block: //atGet return block prototype of the scene
 case Class::Directive::Close: //atGet place scene block to be closest by path but with blocking other paths
 case Class::Directive::Turn: //atGet get next class who has turn
@@ -160,7 +160,7 @@ case Class::Directive::Delete: //atPut delete arg from this class chain by point
 case Class::Directive::Count: //atPut reset effect counter if arg. if NULL set effect counter to 0
 case Class::Directive::Block: //atPut set this class as path blocker or bind to owner of class chain if arg is not NULL. if arg is NULL then unset
 case Class::Directive::Character: //atPut find clone of arg in this class chain
-case Class::Directive::Next: //atPut push arg to this class destructive. Don't use this method. Use Add
+case Class::Directive::Next: //atPut push arg to this class chain destructive. Don't use this method. Use Add
 case Class::Directive::Add: //atPut push arg to this class chain right after this and return arg
 case Class::Directive::Place: //atPut set this class has to be placed on scene if arg is not NULL. if arg is NULL then unset
 case Class::Directive::Turn: //atPut set this class has turn in turn order. if arg is NULL then unset

@@ -131,7 +131,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
       }
       owner->atPut(Class::Directive::Turn, 0); //turn end
       if (t) {
-        if ((scene->atPut(Class::Directive::Near, owner)) == owner) { //if cursor near owner
+        if (scene->atPut(Class::Directive::Near, owner)) { //if cursor near owner
           if (is_take) {
             owner->atPut(Class::Directive::Add, t); //take target
             scene->atPut(Class::Directive::Character, 0); //clear floor

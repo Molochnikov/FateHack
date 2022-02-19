@@ -121,7 +121,7 @@ Class *Player::atPut(Directive key, Class *arg) {
       }
       return 0;
       break;
-    case Class::Directive::Next: //atPut push arg to this class destructive. Don't use this method. Use Add
+    case Class::Directive::Next: //atPut push arg to this class chain destructive. Don't use this method. Use Add
       {
         this->_next = arg;
         return arg;
