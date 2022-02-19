@@ -505,25 +505,7 @@ Class * ShowInfo(Class * c, byte select_type = 0) { //you don't need to understa
 }
 
 void refreshScreen() {
-  /*Class::arduboy.clear();
-  Class::exemplar.setCursor(0, 0);
-
-  scene->atPut(Class::Directive::Clear, path);
-  scene->atPut(Class::Directive::Map, player);
-  RestoreCursor();
-  
-  scene->atPut(Class::Directive::Draw, player);
-
-  freeMem = Class::exemplar.hasMoreMemory();
-  if (freeMem)
-    Class::exemplar.print(freeMem);
-  else
-    Class::exemplar.print(F("LOW"));
-
-  scene->atPut(Class::Directive::Clear, path); //comment this to see coordinates
-  RestoreCursor();*/
-
-  Class::exemplar.refreshScreen(scene, player);
+  scene->atPut(Class::Directive::Show, player);
 
   Class::exemplar.print(readFlashStringPointer(&enMessages[0]));
   Class::exemplar.print(age);

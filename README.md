@@ -75,7 +75,6 @@ Base class and interface for all objects. Is must be used everywhere. Inherit al
 ### Class::exemplar
 Object maker instance with Print custom tiles functionality.
 ```
-static void refreshScreen(Class* scene, Class* spectator); //show scene on screen for spectator
 virtual Class *make(const char* s); //always create all your objects with this method. DONT FORGET TO destroy THEM AFTER! First char is the object type.
 static int hasMoreMemory() { //returns free memory size or 0 if the size is under 300
 static void printDebug(char* c); //use this for debuging purposes with itoa
@@ -121,6 +120,7 @@ case Class::Directive::Down: //atPut move arg. Return NULL if success, class tha
 case Class::Directive::Left: //atPut move arg. Return NULL if success, class that blocks way, arg if bounds
 case Class::Directive::Right: //atPut move arg. Return NULL if success, class that blocks way, arg if bounds
 case Class::Directive::Draw: //atPut draw scene on the screen for arg
+case Class::Directive::Show: //show scene on screen for spectator arg
 }
 ```
 

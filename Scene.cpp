@@ -716,6 +716,27 @@ Class *Scene::atPut(Directive key, Class * arg) {
         return Scene::getRightThingFrom(arg, Scene::AddClassAction::MoveIfEmpty, arg);
       }
       break;
+    case Class::Directive::Show: //show scene on screen for spectator arg
+      {
+        Class::arduboy.clear();
+        Class::exemplar.setCursor(0, 0);
+
+        this->atPut(Class::Directive::Clear, (this->atGet(Class::Directive::Path)));
+        this->atPut(Class::Directive::Map, arg);
+        this->atGet(Class::Directive::Load);
+
+        this->atPut(Class::Directive::Draw, arg);
+
+        int freeMem = Class::exemplar.hasMoreMemory();
+        if (freeMem)
+          Class::exemplar.print(freeMem);
+        else
+          Class::exemplar.print(F("LOW"));
+
+        this->atPut(Class::Directive::Clear, (this->atGet(Class::Directive::Path))); //comment this to see coordinates
+        this->atGet(Class::Directive::Load);
+      }
+      break;
     case Class::Directive::Draw: //atPut draw scene on the screen for arg
       {
         int xcur = _xcoord->toInt();

@@ -29,7 +29,6 @@ class Class : public Print  {
     static int getFreeMemory();
 #endif
   public:
-    static void refreshScreen(Class* scene, Class* spectator); //show scene on screen for spectator
     char* _init = 0;
     enum Directive {
       Delete,
@@ -64,7 +63,8 @@ class Class : public Print  {
       Near,
       Cursor,
       Save,
-      Load
+      Load,
+      Show
     };
 
 #ifdef CUSTOM_TILES

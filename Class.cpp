@@ -40,26 +40,6 @@ int Class::hasMoreMemory() {
     return m;
 }
 
-void Class::refreshScreen(Class* scene, Class* spectator) {
-  Class::arduboy.clear();
-  Class::exemplar.setCursor(0, 0);
-
-  scene->atPut(Class::Directive::Clear, (scene->atGet(Class::Directive::Path)));
-  scene->atPut(Class::Directive::Map, spectator);
-  scene->atGet(Class::Directive::Load);
-  
-  scene->atPut(Class::Directive::Draw, spectator);
-
-  int freeMem = Class::exemplar.hasMoreMemory();
-  if (freeMem)
-    Class::exemplar.print(freeMem);
-  else
-    Class::exemplar.print(F("LOW"));
-
-  scene->atPut(Class::Directive::Clear, (scene->atGet(Class::Directive::Path))); //comment this to see coordinates
-  scene->atGet(Class::Directive::Load);
-}
-
 
 Class::Class(Exemplar) {
   next = list;
