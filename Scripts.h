@@ -79,32 +79,32 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
   },
   [](Class *, Class * owner, Class * scene, Class *) -> byte { //5 outside
     /*int r = random(scene_num + 5);
-      scene->atPut(Class::Directive::Clear, path);  //clear pathes from scene
-      scene->atGet(Class::Directive::Cursor);
-      Class * c  = Class::exemplar.make(adventurer); //create npc
-      if (scene_num == 0)
+    scene->atPut(Class::Directive::Clear, path);  //clear pathes from scene
+    scene->atGet(Class::Directive::Cursor);
+    Class * c  = Class::exemplar.make(adventurer); //create npc
+    if (scene_num == 0)
       c->atPut(Class::Directive::Hidden, c); //reveal npc
-      if ((r == 0) && ((scene->atPut(Class::Directive::Search, c)) == 0) && ((scene->atPut(Class::Directive::Near, 0)) == 0)) {  //if scene without adventurer and near space is not blocked
+    if ((r == 0) && ((scene->atPut(Class::Directive::Search, c)) == 0) && ((scene->atPut(Class::Directive::Near, 0)) == 0)) {  //if scene without adventurer and near space is not blocked
       //PrintMessage(0, 8, c);
       scene->atPut(Class::Directive::Map, owner); //create paths to this
       scene->atPut(Class::Directive::Close, c); //set npc close to this
       c->atPut(Class::Directive::Add, Class::exemplar.make(life)); //alive
-      } else {
+    } else {
       delete c;
-      }*/
+    }*/
     return 0;
   },
   [](Class *, Class *, Class *, Class *) -> byte { //6
     return 0;
   },
   [](Class * cls, Class * owner, Class * scene, Class *) -> byte { //7 player
-    if (((cls == player) && isBotMode) || (cls != player)) {
+    if ((((cls == player) && isBotMode) || (cls != player)) && (scene_num != 254)) {
       Class *c = 0; //check
       Class *t = 0; //target
       byte is_take = 0;
       byte is_new_scene = 0;
 
-      c = Class::exemplar.make(toilet); //create
+      /*c = Class::exemplar.make(toilet); //create
       if ((t = (owner->atPut(Class::Directive::Character, c)))) { //find clone in owner
         Rip(t);
         scene->atPut(Class::Directive::Delete, t); //destroy
@@ -116,19 +116,28 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
         if (t = (owner->atPut(Class::Directive::Character, c))) { //find clone in owner
           delete c;
           c = Class::exemplar.make(waterp); //create
-          t = FindPath(owner,scene,t,c);
+          t = FindPath(owner, scene, t, c);
           if (t == 0) { //ascend town for water
             delete c;
             c = Class::exemplar.make(ascend);
-            t = FindPath(owner,scene,t,c);
+            t = FindPath(owner, scene, t, c);
           }
         } else { //descend
-          delete c;
+          delete c;*/
+          //if (scene_num < 9 )
           c = Class::exemplar.make(descend);
-          t = FindPath(owner,scene,t,c);
+          //else if (scene_num == 9 )
+          //c = Class::exemplar.make(ascend);
+          //if (scene_num != 40) 
+          t = FindPath(owner, scene, t, c);/*
+        }
+        if (t == 0) { //ascend town
+            delete c;
+            c = Class::exemplar.make(ascend);
+            t = FindPath(owner, scene, t, c);
         }
         delete c;
-      }
+      }*/delete c;
       owner->atPut(Class::Directive::Turn, 0); //turn end
       if (t) {
         if (scene->atPut(Class::Directive::Near, owner)) { //if cursor near owner

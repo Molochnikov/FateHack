@@ -34,7 +34,7 @@ class Scene : public Class {
     Class *getLeftThingFrom(Class *arg, Scene::AddClassAction action, Class *clone);
     Class *getRightThingFrom(Class *arg, Scene::AddClassAction action, Class *clone);
     Class *buildScene(Class *player, Class *path_proto, Class *wall_proto, int is_scene_already = 0);
-    Class *buildPath(Class *path_proto, Class *block_proto, int is_scene_already = 0);
+    Class *buildPath(Class *player,Class *path_proto, Class *block_proto, int is_scene_already = 0);
     void clearClasses(Class *arg);
     Class *closest(Class *arg, byte farest = 0, byte is_block = 0);
     void recursiveDeleteClass(Class* arg);

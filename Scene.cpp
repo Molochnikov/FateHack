@@ -211,10 +211,17 @@ Class *Scene::buildScene(Class * player, Class * path_proto, Class * block_proto
     }
   } else {
     plrpos = random(_xsize * _ysize);
+    /*if ((plrpos == 0) || (plrpos == (_xsize - 1)) || (plrpos == (_xsize * _ysize - _xsize))) //not on angles. need space for pet
+      plrpos++;
+    else if (plrpos == (_xsize * _ysize - 1))
+      plrpos--;*/
   }
   _characters[plrpos] = path_proto->clone();
   block_proto->atPut(Class::Directive::Hidden, block_proto);
-  c = Scene::buildPath(path_proto, block_proto, is_scene_already);
+  c = Scene::buildPath(player, path_proto, block_proto, is_scene_already);
+  /*if (c && is_scene_already == 0) {
+    char buff2[10];Class::printDebug(itoa(plrpos, buff2, 10));
+    }*/
   if (player) {
     delete _characters[plrpos];
     _characters[plrpos] = player;
@@ -225,9 +232,9 @@ Class *Scene::buildScene(Class * player, Class * path_proto, Class * block_proto
 Class *Scene::closest(Class * arg, byte farest, byte is_block) {
   int closest_pos = -1;
   int num = 0;
-  int max_path_length = 0;
-  int path_length = 0;
-  int end_path_length = 0;
+  byte max_path_length = 0;
+  byte path_length = 0;
+  byte end_path_length = 0;
 
   for (int pos = 0; pos < (_xsize * _ysize); pos++) { //get max path
     if (_characters[pos] && (_characters[pos]->getTypeChar() == _path_proto->getTypeChar())) {
@@ -235,48 +242,67 @@ Class *Scene::closest(Class * arg, byte farest, byte is_block) {
         max_path_length = _characters[pos]->toInt();
     }
   }
+  if (max_path_length == 0)
+    max_path_length = 2;
 
   if (farest) {
     path_length = max_path_length;
     end_path_length = 2;
+    //char buff2[10]; Class::printDebug(itoa(path_length, buff2, 10));
   } else {
-    path_length = 0;
+    path_length = 2;
     end_path_length = max_path_length;
+    //char buff2[10]; Class::printDebug(itoa(max_path_length, buff2, 10));
   }
   //char buff1[10]; Class::printDebug(itoa(path_length, buff1, 10));
   //char buff2[10]; Class::printDebug(itoa(end_path_length, buff2, 10));
 
-  while (path_length != end_path_length) {
-    //char buff2[10]; Class::printDebug(itoa(path_length + 10, buff2, 10));
+  if (path_length == end_path_length) {
+
     for (int pos = 0; pos < (_xsize * _ysize); pos++) {
       if (_characters[pos] && (_characters[pos]->getTypeChar() == _path_proto->getTypeChar())) {
-        if (_characters[pos]->toInt() == path_length) {
-          num++;
-          if (random(num) == 0) {
-            closest_pos = pos;
-          }
-          //char buff4[10]; Class::printDebug(itoa(num, buff4, 10));
-        }
+        closest_pos = pos;
+        delete _characters[closest_pos];
+        _characters[closest_pos] = arg;
+        return _characters[closest_pos];
       }
     }
-    //char buff4[10]; Class::printDebug(itoa(num, buff4, 10));
-    if ((!is_block) && (num > 0)) {
-      delete _characters[closest_pos];
-      _characters[closest_pos] = arg;
-      return _characters[closest_pos];
-    } else if ((is_block) && (num == 1)) {
-      delete _characters[closest_pos];
-      _characters[closest_pos] = _block_proto->clone();
-      return _characters[closest_pos];
+  } else {
+
+    while (path_length != end_path_length) {
+      //char buff2[10]; Class::printDebug(itoa(path_length + 10, buff2, 10));
+      for (int pos = 0; pos < (_xsize * _ysize); pos++) {
+        if (_characters[pos] && (_characters[pos]->getTypeChar() == _path_proto->getTypeChar())) {
+          if (_characters[pos]->toInt() == path_length) {
+            num++;
+            if (random(num) == 0) {
+              closest_pos = pos;
+            }
+          }
+        }
+      }
+
+      //char buff4[10]; Class::printDebug(itoa(path_length, buff4, 10));
+      //char buff4[10]; Class::printDebug(itoa(num, buff4, 10));
+      if ((!is_block) && (num > 0)) {
+        delete _characters[closest_pos];
+        _characters[closest_pos] = arg;
+        return _characters[closest_pos];
+      } else if ((is_block) && (num == 1)) {
+        delete _characters[closest_pos];
+        _characters[closest_pos] = _block_proto->clone();
+        return _characters[closest_pos];
+      }
+      num = 0;
+      if (farest) {
+        path_length++;
+      } else {
+        path_length--;
+      }
     }
-    num = 0;
-    if (farest) {
-      path_length--;
-    } else {
-      path_length++;
-    }
+
+    return 0;
   }
-  return 0;
 }
 
 byte Scene::isPath(byte count_created, byte count_visited, byte max_instances, byte chance, byte is_scene_already) {
@@ -286,8 +312,9 @@ byte Scene::isPath(byte count_created, byte count_visited, byte max_instances, b
     return 0;
 }
 
-Class *Scene::buildPath(Class * path_proto, Class * block_proto, int is_scene_already) {
+Class *Scene::buildPath(Class * player, Class * path_proto, Class * block_proto, int is_scene_already) {
   int has_free = 1;
+  byte first = 1;
   int min_instances;
   int max_instances;
   if (is_scene_already)
@@ -297,15 +324,16 @@ Class *Scene::buildPath(Class * path_proto, Class * block_proto, int is_scene_al
   if (is_scene_already)
     min_instances = 0;
   else
-    min_instances = (_min_path_proto->toInt()); //TODO if <7 then bug with max_path_length = 0
+    min_instances = (_min_path_proto->toInt()); //TODO if <3 then bug with max_path_length = 0
   int chance = 4;
   //int last_pos;
   int count_visited = 0;
   int count_created = 0;
-  //int iter = random(5);
-  //char buff2[10]; Class::printDebug(itoa((random(10)+10), buff2, 10));
+  Class::arduboy.clear();
+  Class::exemplar.setCursor(0, 0);
   while (has_free) {
-    //Class::refreshScreen(this, 0);
+    //char buff2[10];Class::printDebug(itoa((random(10)+10), buff2, 10));
+    //for (int i = 0; i < 2; i++) { this->atPut(Class::Directive::Show, player); } //show map generation
     count_created = 0;
     count_visited = 0;
     //last_pos = -1;
@@ -313,36 +341,49 @@ Class *Scene::buildPath(Class * path_proto, Class * block_proto, int is_scene_al
       //if ((count_created + count_visited) > max_instances)
       //break;
       if (_characters[pos] && (_characters[pos]->atPut(Class::Directive::Character, path_proto))) {
-        count_visited++;
-        //last_pos = pos;
-        if (isPath(count_created, count_visited, max_instances, chance, is_scene_already)) {
+        if (first) {
           if (Scene::getUpThingFrom(_characters[pos], Scene::AddClassAction::CloneIfCoordinate, _characters[pos]) == 0)
             count_created++;
-        } else {
-          Scene::getUpThingFrom(_characters[pos], Scene::AddClassAction::CopyIfEmpty, block_proto);
-        }
-        if (isPath(count_created, count_visited, max_instances, chance, is_scene_already)) {
           if (Scene::getDownThingFrom(_characters[pos], Scene::AddClassAction::CloneIfCoordinate, _characters[pos]) == 0)
             count_created++;
-        } else {
-          Scene::getDownThingFrom(_characters[pos], Scene::AddClassAction::CopyIfEmpty, block_proto);
-        }
-        if (isPath(count_created, count_visited, max_instances, chance, is_scene_already)) {
           if (Scene::getLeftThingFrom(_characters[pos], Scene::AddClassAction::CloneIfCoordinate, _characters[pos]) == 0)
             count_created++;
-        } else {
-          Scene::getLeftThingFrom(_characters[pos], Scene::AddClassAction::CopyIfEmpty, block_proto);
-        }
-        if (isPath(count_created, count_visited, max_instances, chance, is_scene_already)) {
           if (Scene::getRightThingFrom(_characters[pos], Scene::AddClassAction::CloneIfCoordinate, _characters[pos]) == 0)
             count_created++;
+          first = 0;
         } else {
-          Scene::getRightThingFrom(_characters[pos], Scene::AddClassAction::CopyIfEmpty, block_proto);
+          count_visited++;
+          //char buff2[10];Class::printDebug(itoa(count_visited, buff2, 10));
+          //char buff1[10];Class::printDebug(itoa(count_created, buff1, 10));
+          //last_pos = pos;
+          if (isPath(count_created, count_visited, max_instances, chance, is_scene_already)) {
+            if (Scene::getUpThingFrom(_characters[pos], Scene::AddClassAction::CloneIfCoordinate, _characters[pos]) == 0)
+              count_created++;
+          } else {
+            Scene::getUpThingFrom(_characters[pos], Scene::AddClassAction::CopyIfEmpty, block_proto);
+          }
+          if (isPath(count_created, count_visited, max_instances, chance, is_scene_already)) {
+            if (Scene::getDownThingFrom(_characters[pos], Scene::AddClassAction::CloneIfCoordinate, _characters[pos]) == 0)
+              count_created++;
+          } else {
+            Scene::getDownThingFrom(_characters[pos], Scene::AddClassAction::CopyIfEmpty, block_proto);
+          }
+          if (isPath(count_created, count_visited, max_instances, chance, is_scene_already)) {
+            if (Scene::getLeftThingFrom(_characters[pos], Scene::AddClassAction::CloneIfCoordinate, _characters[pos]) == 0)
+              count_created++;
+          } else {
+            Scene::getLeftThingFrom(_characters[pos], Scene::AddClassAction::CopyIfEmpty, block_proto);
+          }
+          if (isPath(count_created, count_visited, max_instances, chance, is_scene_already)) {
+            if (Scene::getRightThingFrom(_characters[pos], Scene::AddClassAction::CloneIfCoordinate, _characters[pos]) == 0)
+              count_created++;
+          } else {
+            Scene::getRightThingFrom(_characters[pos], Scene::AddClassAction::CopyIfEmpty, block_proto);
+          }
+          //char buff1[10]; Class::printDebug(itoa(pos, buff1, 10));
+          //char buff2[10]; Class::printDebug(itoa(count_created, buff2, 10));
         }
-        //char buff1[10]; Class::printDebug(itoa(pos, buff1, 10));
-        //char buff2[10]; Class::printDebug(itoa(count_created, buff2, 10));
       }
-
     }
     if ((count_created == 0) && (count_visited < min_instances) && (is_scene_already == 0)) { //fail
       return 0;
@@ -363,13 +404,7 @@ Class *Scene::buildPath(Class * path_proto, Class * block_proto, int is_scene_al
       }
       has_free = 0;
     }
-    //if (is_scene_already == 0) {
-    //  char buff[10];
-    //  iter++;
-    //  Class::printDebug(itoa(iter, buff, 10));
-    //}
   }
-
   return this;
 }
 
@@ -465,16 +500,16 @@ Class *Scene::atPut(Directive key, Class * arg) {
       {
         Class * cls = 0;
         cls = Scene::getUpThingFrom(arg, Scene::AddClassAction::NoAction, arg);
-        if (cls && (cls->getTypeChar() == _path_proto->getTypeChar()))
+        if (cls && (cls->atPut(Class::Directive::Character, _path_proto)))
           return arg;
         cls = Scene::getLeftThingFrom(arg, Scene::AddClassAction::NoAction, arg);
-        if (cls && (cls->getTypeChar() == _path_proto->getTypeChar()))
+        if (cls && (cls->atPut(Class::Directive::Character, _path_proto)))
           return arg;
         cls = Scene::getRightThingFrom(arg, Scene::AddClassAction::NoAction, arg);
-        if (cls && (cls->getTypeChar() == _path_proto->getTypeChar()))
+        if (cls && (cls->atPut(Class::Directive::Character, _path_proto)))
           return arg;
         cls = Scene::getDownThingFrom(arg, Scene::AddClassAction::NoAction, arg);
-        if (cls && (cls->getTypeChar() == _path_proto->getTypeChar()))
+        if (cls && (cls->atPut(Class::Directive::Character, _path_proto)))
           return arg;
         //char buff2[10]; Class::printDebug(itoa((random(10)+10), buff2, 10));
         return 0;
@@ -647,7 +682,7 @@ Class *Scene::atPut(Directive key, Class * arg) {
       return Scene::closest(arg, 1);
       break;
     case Class::Directive::Close: //atPut place arg to be closest by path but may block the only path through
-      return Scene::closest(arg);
+      return Scene::closest(arg, 0);
       break;
     case Class::Directive::Clear: //atPut clear all clones of arg in the scene
       Scene::clearClasses(arg);
@@ -732,7 +767,7 @@ Class *Scene::atPut(Directive key, Class * arg) {
         else
           Class::exemplar.print(F("LOW"));
 
-        this->atPut(Class::Directive::Clear, (this->atGet(Class::Directive::Path))); //comment this to see coordinates
+        //this->atPut(Class::Directive::Clear, (this->atGet(Class::Directive::Path))); //comment this to see coordinates
         this->atGet(Class::Directive::Load);
       }
       break;

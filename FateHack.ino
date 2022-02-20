@@ -52,6 +52,7 @@ static Class* wall = 0; //wall
 static Class* xcur = 0; //cursor x
 static Class* ycur = 0; //cursor y
 static Class* maxp = 0; //max path length
+static Class* minp = 0; //min path length
 static Class* path = 0; //pathfinding distance
 
 byte scene_num = 255;
@@ -106,7 +107,7 @@ void PrintName(Class * cl) {
 }
 
 void PrintMessage(Class* src = 0, size_t num = 0, Class* trg = 0) {
-  for (int i = 0; i < 500; i++) {
+  for (int i = 0; i < 200; i++) {
     Class::arduboy.clear();
     Class::exemplar.setCursor(0, 0);
     if (src)
@@ -188,6 +189,7 @@ void EndTurn(Class* pl) {
 }
 
 void NextScene(int portal, byte make_blocks = 0) {
+  //PrintMessage(0, 8, player);
   int is_down = 0;
   byte is_predefined = 0;
 
@@ -213,8 +215,8 @@ void NextScene(int portal, byte make_blocks = 0) {
   Class * asc = 0;
   Class * desc = 0;
 
-  scene->atPut(Class::Directive::Greater, maxp); //or equal min path
-  scene->atPut(Class::Directive::Less, maxp); //or equal max path
+  scene->atPut(Class::Directive::Greater, minp); //or equal max path
+  scene->atPut(Class::Directive::Less, maxp); //or equal min path
 
   if (is_predefined == 0) {
     if (scene_num != max_scene_num) {
@@ -230,15 +232,14 @@ void NextScene(int portal, byte make_blocks = 0) {
       scene->atPut(Class::Directive::Next, player); //clear the scene and go next scene
       scene->atPut(Class::Directive::Path, path); //setting paths for a scene
       scene->atPut(Class::Directive::Block, wall); //setting blocks for a scene
-      scene->atPut(Class::Directive::Greater, maxp); //or equal min path
+      scene->atPut(Class::Directive::Greater, minp); //or equal min path
       scene->atPut(Class::Directive::Less, maxp); //or equal max path
-      //PrintMessage(0, 8, player);
-    }
-    while ((scene->atPut(Class::Directive::Build, 0)) == 0); //generate scene
+    } while ((scene->atPut(Class::Directive::Build, player)) == 0); //generate scene
 
     if (scene_num != max_scene_num) {
       if (is_down) {
         scene->atPut(Class::Directive::Far, desc); //setting downstairs
+        //PrintMessage(0, 8, player);
         scene->atPut(Class::Directive::Clear, path);
         scene->atPut(Class::Directive::Map, desc); //set pathfinding map to downstairs
       } else {
@@ -250,6 +251,7 @@ void NextScene(int portal, byte make_blocks = 0) {
 
     if (is_down) {
       scene->atPut(Class::Directive::Far, asc);  //setting upstairs far from downstairs
+      //PrintMessage(0, 6, player);
       scene->atPut(Class::Directive::Clear, path);
       scene->atPut(Class::Directive::Map, asc); //set pathfinding map to upstairs
     } else {
@@ -258,17 +260,20 @@ void NextScene(int portal, byte make_blocks = 0) {
       scene->atPut(Class::Directive::Map, desc); //set pathfinding map to upstairs
     }
 
-    scene->atPut(Class::Directive::Close, player);
+    //scene->atPut(Class::Directive::Close, player);
   } else {
     //char buff1[10]; Class::printDebug(itoa(100, buff1, 10));
     scene->atPut(Class::Directive::Path, path); //setting paths for a scene
     scene->atPut(Class::Directive::Map, player);
   }
-
+  //PrintMessage(0, 7, player);
+       scene->atPut(Class::Directive::Clear, path);
+      scene->atPut(Class::Directive::Map, player); //set pathfinding map to upstairs
   pcur = (player->atGet(Class::Directive::Next));
   while (pcur) {
-    if (pcur->atGet(Class::Directive::Place))
+    if (pcur->atGet(Class::Directive::Place)) {
       scene->atPut(Class::Directive::Close, pcur);
+    }
     pcur = (pcur->atGet(Class::Directive::Next));
   }
   pcur = 0;
@@ -277,8 +282,8 @@ void NextScene(int portal, byte make_blocks = 0) {
   scene->atPut(Class::Directive::Map, desc); //set pathfinding map to downstairs
 
   if (make_blocks && (is_predefined == 0)) {
-    int r = random((max_scene_num - scene_num) / 100 * 2);
-    /*if (r == 0) {
+    /*int r = random((max_scene_num - scene_num) / 100 * 2);
+      if (r == 0) {
       Class* c = Class::exemplar.make(waterp);
       scene->atPut(Class::Directive::Block, c);
       delete c;
@@ -289,13 +294,16 @@ void NextScene(int portal, byte make_blocks = 0) {
       scene->atPut(Class::Directive::Block, Class::exemplar.make(vein));
       scene->atGet(Class::Directive::Place);
       }*/
+    //scene->atPut(Class::Directive::Block, wall); //setting blocks for a scene
   }
+  //PrintMessage(0, 6, player);
+  //scene->atPut(Class::Directive::Clear, path);
 
-  scene->atPut(Class::Directive::Clear, path);
-  scene->atPut(Class::Directive::Block, wall); //setting blocks for a scene
   scene->atGet(Class::Directive::Cursor);
   scene->atPut(Class::Directive::Search, player);
   scene->atGet(Class::Directive::Save);
+  
+  //PrintMessage(0, 5, player);
 }
 
 byte RebuildScene(const char* s) {
@@ -355,8 +363,12 @@ Class* FindPath (Class *owner, Class *scene, Class* t, Class* c) {
   while ((t = (scene->atPut(Class::Directive::Search, c)))) { //set cursor on next searched target
     scene->atPut(Class::Directive::Clear, path);
     scene->atPut(Class::Directive::Map, t);
+    //PrintMessage(0, 5, player);
     if ((scene->atPut(Class::Directive::Free, owner)) || (scene->atPut(Class::Directive::Near, owner))) //check path to target or target itself near owner
+    {
+      
       return t;
+    }
   }
 }
 
@@ -368,14 +380,12 @@ void setup() {
   Class::arduboy.display();
   Class::arduboy.flashlight();
   Class::arduboy.setFrameRate(15);
-  Class::arduboy.initRandomSeed();
+  //Class::arduboy.initRandomSeed();
 
   player = Class::exemplar.make(plr);
   player->atPut(Class::Directive::Place, player);
 
   pcur = player;
-  pcur = (pcur->atPut(Class::Directive::Add, Class::exemplar.make(life)));
-  pcur->atPut(Class::Directive::Block, 0);
 
   pcur = (pcur->atPut(Class::Directive::Add, Class::exemplar.make(pet)));
   pcur->atPut(Class::Directive::Place, pcur);
@@ -385,6 +395,7 @@ void setup() {
 
   pcur = 0;
 
+  //player->atPut(Class::Directive::Add, Class::exemplar.make(life)); //debug life
   //player->atPut(Class::Directive::Add, Class::exemplar.make(drowsy)); //debug drowsy
   //player->atPut(Class::Directive::Add, Class::exemplar.make(sleep)); //debug sleep
   //player->atPut(Class::Directive::Add, Class::exemplar.make(thirst)); //debug thirst
@@ -394,7 +405,8 @@ void setup() {
   wall->atPut(Class::Directive::Place, wall);
 
   path = Class::exemplar.make(default_coord);
-  maxp = Class::exemplar.make(coord10); //TODO if <7 then bug with max_path_length = 0. Don't set < 7!
+  maxp = Class::exemplar.make(coord10);
+  minp = Class::exemplar.make(coord9);
 
   //PrintMessage(0, 8, player);
   NextScene(1);
