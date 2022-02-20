@@ -767,7 +767,7 @@ Class *Scene::atPut(Directive key, Class * arg) {
         else
           Class::exemplar.print(F("LOW"));
 
-        //this->atPut(Class::Directive::Clear, (this->atGet(Class::Directive::Path))); //comment this to see coordinates
+        this->atPut(Class::Directive::Clear, (this->atGet(Class::Directive::Path))); //comment this to see coordinates
         this->atGet(Class::Directive::Load);
       }
       break;

@@ -23,7 +23,7 @@ class Coordinate : public Class {
     int _value = 0;
     static const char _symbol = '.';
     union _is_hidden_or_next {
-      int is_hidden = 0; //see/hide coordinates on map
+      int is_hidden = 1; //see/hide coordinates on map
       Class* next;
     };
     _is_hidden_or_next _union; //saving memory for coordinates in class chains

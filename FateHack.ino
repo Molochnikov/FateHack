@@ -363,10 +363,8 @@ Class* FindPath (Class *owner, Class *scene, Class* t, Class* c) {
   while ((t = (scene->atPut(Class::Directive::Search, c)))) { //set cursor on next searched target
     scene->atPut(Class::Directive::Clear, path);
     scene->atPut(Class::Directive::Map, t);
-    //PrintMessage(0, 5, player);
     if ((scene->atPut(Class::Directive::Free, owner)) || (scene->atPut(Class::Directive::Near, owner))) //check path to target or target itself near owner
     {
-      
       return t;
     }
   }
@@ -380,7 +378,7 @@ void setup() {
   Class::arduboy.display();
   Class::arduboy.flashlight();
   Class::arduboy.setFrameRate(15);
-  //Class::arduboy.initRandomSeed();
+  Class::arduboy.initRandomSeed();
 
   player = Class::exemplar.make(plr);
   player->atPut(Class::Directive::Place, player);
@@ -395,7 +393,7 @@ void setup() {
 
   pcur = 0;
 
-  //player->atPut(Class::Directive::Add, Class::exemplar.make(life)); //debug life
+  player->atPut(Class::Directive::Add, Class::exemplar.make(life)); //debug life
   //player->atPut(Class::Directive::Add, Class::exemplar.make(drowsy)); //debug drowsy
   //player->atPut(Class::Directive::Add, Class::exemplar.make(sleep)); //debug sleep
   //player->atPut(Class::Directive::Add, Class::exemplar.make(thirst)); //debug thirst
