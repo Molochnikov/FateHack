@@ -98,7 +98,7 @@ byte (*scripts[]) (Class* cls, Class* owner, Class* scene, Class* target_of) = {
     return 0;
   },
   [](Class * cls, Class * owner, Class * scene, Class *) -> byte { //7 player
-    if ((((cls == player) && isBotMode) || (cls != player)) && (scene_num != 254)) {
+    if ((((cls == player) && isBotMode) || (cls != player)) && (scene_num != 254) && (owner->atGet(Class::Directive::Turn))) {
       Class *c = 0; //check
       Class *t = 0; //target
       byte is_take = 0;

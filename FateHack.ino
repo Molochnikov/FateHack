@@ -395,7 +395,7 @@ void setup() {
 
   player->atPut(Class::Directive::Add, Class::exemplar.make(life)); //debug life
   //player->atPut(Class::Directive::Add, Class::exemplar.make(drowsy)); //debug drowsy
-  //player->atPut(Class::Directive::Add, Class::exemplar.make(sleep)); //debug sleep
+  player->atPut(Class::Directive::Add, Class::exemplar.make(sleep)); //debug sleep
   //player->atPut(Class::Directive::Add, Class::exemplar.make(thirst)); //debug thirst
   //player->atPut(Class::Directive::Add, Class::exemplar.make(hunger)); //debug hunger
 
